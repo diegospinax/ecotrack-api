@@ -16,5 +16,5 @@ describe("User Password Test", () => {
   test("password is valid", () => {
     const userPassword = new UserPassword("Juan123$");
     expect(userPassword.getValue()).toBe("Juan123$");
-  })
+  });
 });

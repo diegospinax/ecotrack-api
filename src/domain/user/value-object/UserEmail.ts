@@ -15,4 +15,8 @@ export default class UserEmail {
       throw new UserValidationError("Invalid email provided.");
     }
   }
+
+  getValue() {
+    return this.value;
+  }
 }
