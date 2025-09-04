@@ -1,11 +1,13 @@
-import UserEmail from "./value-object/UserEmail";
-import UserPassword from "./value-object/UserPassword";
-import UserRole from "./value-object/UserRole";
+import UserActive from "./value-objects/UserActive";
+import UserEmail from "./value-objects/UserEmail";
+import UserId from "./value-objects/UserId";
+import UserPassword from "./value-objects/UserPassword";
+import UserRole from "./value-objects/UserRole";
 
 export interface User {
-  id?: number;
+  id: UserId;
   email: UserEmail;
   password: UserPassword;
   role: UserRole;
-  active: boolean;
+  active: UserActive;
 }
