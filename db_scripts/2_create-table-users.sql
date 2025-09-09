@@ -1,3 +1,4 @@
+CREATE TYPE user_role AS ENUM ('ADMIN','USER');
 create table users (
   id BIGSERIAL NOT NULL PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,

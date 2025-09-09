@@ -1,6 +1,6 @@
-import UserEmail from '../value-objects/UserEmail';
-import UserId from '../value-objects/UserId';
-import { User } from './../User';
+import UserEmail from "../value-objects/UserEmail";
+import UserId from "../value-objects/UserId";
+import { User } from "./../User";
 
 export interface UserRepository {
   createUser(user: User): Promise<User>;
