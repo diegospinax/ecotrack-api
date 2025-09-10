@@ -1,4 +1,4 @@
-import { Lesson } from '../lesson';
+import { Lesson } from '../Lesson';
 import LessonId from '../value-objects/LessonId';
 
 export interface LessonRepository{
@@ -6,4 +6,4 @@ export interface LessonRepository{
     findById(lessonId : LessonId):Promise<Lesson>;
     updateLesson(lesson: Lesson): Promise<void>;
     deleteLesson(lessonId :LessonId):Promise<void>;
-}
+} 
