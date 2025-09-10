@@ -5,4 +5,4 @@ export interface ChallengeRepository {
   findById(challengeId: ChallengeId): Promise<Challenge>;
   updateChallenge(challenge: Challenge): Promise<void>;
   deleteChallenge(challengeId: ChallengeId): Promise<void>;
-}
+} 

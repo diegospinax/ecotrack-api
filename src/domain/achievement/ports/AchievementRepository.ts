@@ -1,4 +1,4 @@
-import { Achievement } from "../achievement";
+import { Achievement } from "../Achievement";
 import AchievementId from "../value-objects/AchievementId";
 
 export interface AchievementRepository {

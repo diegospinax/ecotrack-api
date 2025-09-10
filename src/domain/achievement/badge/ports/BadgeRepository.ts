@@ -6,4 +6,4 @@ export interface BadgeRepository{
     findById(badgeId: BadgeId):Promise<Badge>;
     updateBadge(badge: Badge):Promise<void>;
     deleteBadge(badgeId: BadgeId):Promise<void>;
-}
+}  
