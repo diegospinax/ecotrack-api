@@ -4,7 +4,7 @@ import UserId from "@/domain/user/value-objects/UserId";
 export class DeleteUser {
   constructor(private repository: UserRepository) {}
 
-  async run(id: number): Promise<void> {
-    await this.repository.deleteUser(new UserId(id));
+  async run(userid: UserId): Promise<void> {
+    await this.repository.deleteUser(userid);
   }
 }

@@ -9,18 +9,7 @@ import LessonType from "@/domain/course/lesson/value-objects/LessonType";
 export class CreateLesson {
   constructor(private repository: LessonRepository) {}
 
-  async run(
-    id: number,
-    title: string,
-    description: string,
-    type: Type
-  ): Promise<Lesson> {
-    const lesson: Lesson = {
-      id: new LessonId(id),
-      title: new LessonTitle(title),
-      description: new LessonDescription(description),
-      type: new LessonType(type),
-    };
-    return this.repository.createLesson(lesson);
+  async run(lesson: Lesson): Promise<Lesson> {
+    return await this.repository.createLesson(lesson);
   }
 }

@@ -5,7 +5,7 @@ import UserEmail from "@/domain/user/value-objects/UserEmail";
 export class UserFindByEmail {
   constructor(private repository: UserRepository) {}
 
-  async run(email: string): Promise<User> {
-    return this.repository.findByEmail(new UserEmail(email));
+  async run(userEmail: UserEmail): Promise<User> {
+    return await this.repository.findByEmail(userEmail);
   }
 }

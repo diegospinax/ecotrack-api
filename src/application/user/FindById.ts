@@ -5,7 +5,7 @@ import UserId from "@/domain/user/value-objects/UserId";
 export class UserFindByID {
   constructor(private repository: UserRepository) {}
 
-  async run(id: number): Promise<User> {
-    return this.repository.findById(new UserId(id));
+  async run(userId: UserId): Promise<User> {
+    return await this.repository.findById(userId);
   }
 }

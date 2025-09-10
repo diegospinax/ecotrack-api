@@ -11,22 +11,7 @@ import UserId from "@/domain/user/value-objects/UserId";
 export class UpdatePerson {
   constructor(private repository: PersonRepository) {}
 
-  async run(
-    id: number,
-    name: string,
-    lastName: string,
-    area: Area,
-    profilePicture: string,
-    userId: number
-  ): Promise<void> {
-    const person: Person = {
-      id: new PersonId(id),
-      name: new PersonName(name),
-      lastName: new PersonLastName(lastName),
-      area: new PersonArea(area),
-      profilePicture: new PersonProfilePicture(profilePicture),
-      userId: new UserId(userId),
-    };
-    return this.repository.updatePerson(person);
+  async run(person: Person): Promise<void> {
+    return await this.repository.updatePerson(person);
   }
 }

@@ -2,10 +2,10 @@ import { LessonRepository } from "@/domain/course/lesson/ports/lessonRepository"
 import { Lesson } from "./../../../domain/course/lesson/Lesson";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 
-export class LessonFindById {
+export class FindLessonById {
   constructor(private repository: LessonRepository) {}
 
-  async run(id: number): Promise<Lesson> {
-    return this.repository.findById(new LessonId(id));
+  async run(lessonId: LessonId): Promise<Lesson> {
+    return await this.repository.findById(lessonId);
   }
 }

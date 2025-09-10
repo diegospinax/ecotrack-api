@@ -5,7 +5,7 @@ import PersonId from "@/domain/person/value-objects/PersonId";
 export class PersonFindById {
   constructor(private reposiroty: PersonRepository) {}
 
-  async run(id: number): Promise<Person> {
-    return this.reposiroty.findById(new PersonId(id));
+  async run(personId: PersonId): Promise<Person> {
+    return await this.reposiroty.findById(personId);
   }
 }
