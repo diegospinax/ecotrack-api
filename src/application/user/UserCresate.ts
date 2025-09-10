@@ -9,7 +9,7 @@ import UserActive from "@/domain/user/value-objects/UserActive";
 
 export class UserCreate {
   constructor(private repository: UserRepository) {}
-
+ 
   async run(
     id: number,
     email: string,
