@@ -5,8 +5,8 @@
     "outDir": "./dist",
 
     // Environment Settings
-    "module": "commonjs", // Cambia de "nodenext" a "commonjs" para TypeORM
-    "target": "ES2021", // Cambia de "esnext" a una versión específica
+    "module": "commonjs", 
+    "target": "ES2021", 
     "lib": ["ES2021"],
     "types": ["node"],
 
@@ -37,14 +37,14 @@
     "skipLibCheck": true,
     
     // Path mapping
-    "baseUrl": "./", // Añade esta línea
+    "baseUrl": "./", 
     "paths": {
       "@/*": ["./src/*"]
     },
     
     // Module resolution
-    "moduleResolution": "node", // Añade esta línea
-    "esModuleInterop": true // Añade esta línea
+    "moduleResolution": "node", 
+    "esModuleInterop": true 
   },
   "include": ["src/**/*", "src/index.ts"],
   "exclude": ["node_modules", "dist"]
