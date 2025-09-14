@@ -17,4 +17,4 @@ export class ChallengeEntity {
     @Column({ type: "number" })
     id_Task!: number;
 
-} 
+}  

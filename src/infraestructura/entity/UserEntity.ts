@@ -14,15 +14,14 @@ export class UserEntity {
 
     @Column({ type: "varchar", length: 255 })
     password_user!: string;
-
-    @Column({ type: "boolean" })
-    active_user!: boolean;
-
+    
     @Column({
         type: "enum",
         enum: Role,
         default: Role.USER
     })
     role_user!: Role;
-
-}
+    
+    @Column({ type: "boolean" })
+    active_user!: boolean;
+} 

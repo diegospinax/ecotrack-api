@@ -6,16 +6,17 @@ export class TaskEntity {
     @PrimaryGeneratedColumn()
     id_Task!: number;
 
-    @Column({ type: "string" })
+    @Column({ type: "string", length: 255 })
     Title_Task!: string;
 
-    @Column({ type: "string" })
+    @Column({ type: "string", length: 255 })
     Description_Task!: string;
 
     @Column({
-        type: "number",
+        type: "enum",
         enum: Type,
     })
+    Type_Task!: Type;
 
     @Column({ type: "number" })
     Time_Task!: number;
