@@ -1,7 +1,7 @@
 import { Type } from "@/domain/challenge/task/Type";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "user" })
+@Entity({ name: "task" })
 export class TaskEntity {
     @PrimaryGeneratedColumn()
     id_Task!: number;

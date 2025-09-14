@@ -1,7 +1,7 @@
 import { Area } from "@/domain/person/Area";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "user" })
+@Entity({ name: "person" })
 export class PersonEntity {
     @PrimaryGeneratedColumn()
     id_Person!: number;
