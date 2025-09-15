@@ -1,7 +1,7 @@
 import CourseValidationException from "../../exception/CourseValidationException";
 import { AnswerField } from "./abstract/AnswerField";
 
-export default class AnswerIsCorrect extends AnswerField<boolean> {
+export default class AnswerValidation extends AnswerField<boolean> {
   constructor(value: boolean) {
     super(value);
   }

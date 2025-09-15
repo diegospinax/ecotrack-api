@@ -1,5 +1,5 @@
 import CourseValidationException from "../../exception/CourseValidationException";
-import { QuestionField } from "./abstract/QuestionFied";
+import { QuestionField } from "./abstract/QuestionField";
 
 export default class QuestionText extends QuestionField<string> {
   constructor(value: string) {

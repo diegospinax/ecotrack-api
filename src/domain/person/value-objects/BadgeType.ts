@@ -1,6 +1,6 @@
-import { Type } from "@/domain/logros/badge/Type";
-import { BadgeField } from "@/domain/logros/badge/value-objects/abstract/BadgeField";
-import LogroValidationException from "@/domain/logros/exception/LogroValidationException";
+import { Type } from "@/domain/achievement/badge/Type";
+import { BadgeField } from "@/domain/achievement/badge/value-objects/abstract/BadgeField";
+import AchievementValidationException from "@/domain/achievement/exception/AchievementValidationException";
 
 export default class BadgeType extends BadgeField<Type> {
   constructor(value: Type) {
@@ -8,6 +8,6 @@ export default class BadgeType extends BadgeField<Type> {
   }
   public validate(): void {
     if (!this.value)
-      throw new LogroValidationException("Invalidate badge type provided.");
+      throw new AchievementValidationException("Invalidate badge type provided.");
   }
 }
