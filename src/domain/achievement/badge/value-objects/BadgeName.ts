@@ -1,4 +1,4 @@
-import LogroValidationException from "../../exception/LogroValidationException";
+import AchievementValidationException from "../../exception/AchievementValidationException";
 import { BadgeField } from "./abstract/BadgeField";
 
 export default class BadgeName extends BadgeField<string> {
@@ -9,7 +9,7 @@ export default class BadgeName extends BadgeField<string> {
     const regex: RegExp =
       /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+){0,4}$/;
     if (!this.value || !regex.test(this.value)) {
-      throw new LogroValidationException("Invalidate badge name provided.");
+      throw new AchievementValidationException("Invalidate badge name provided.");
     }
   }
 }

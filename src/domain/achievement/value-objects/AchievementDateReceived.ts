@@ -1,5 +1,6 @@
-import LogroValidationException from "../../exception/LogroValidationException";
-import { AchievementField } from "../../abstract/AchievementField";
+import AchievementValidationException from "../exception/AchievementValidationException";
+import { AchievementField } from "./abstract/AchievementField";
+
 
 export default class AchievementDateReceived extends AchievementField<Date> {
   constructor(value: Date) {
@@ -9,7 +10,7 @@ export default class AchievementDateReceived extends AchievementField<Date> {
   public validate(): void {
     const now = new Date();
     if (!this.value || this.value.getTime() > now.getTime()) {
-      throw new LogroValidationException("Invalid achievement date provided.");
+      throw new AchievementValidationException("Invalid achievement date provided.");
     }
   }
 }
