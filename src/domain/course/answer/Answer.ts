@@ -1,6 +1,6 @@
 import QuestionId from "../question/value-objects/QuestionId";
 import AnswerId from "./value-objects/AnswerId";
-import AnswerValidation from "./value-objects/AnswerIsCorrect";
+import AnswerValidation from "./value-objects/AnswerValidation";
 import AnswerText from "./value-objects/AnswerText";
 
 export interface Answer {
