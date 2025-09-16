@@ -16,7 +16,7 @@ export class UserRepositoryAdpter implements UserRepository {
     constructor() {
         this.userRepository = AppDataSource.getRepository(UserEntity);
     }
-    
+
     async createUser(user: User): Promise<User> {
         try {
             const newUser = await this.toEntity(user);
@@ -102,7 +102,7 @@ export class UserRepositoryAdpter implements UserRepository {
 
     private async toEntity(user: User): Promise<UserEntity> {
         const userEntity = new UserEntity();
-        userEntity.email_user = user.email.value;
+        userEntity.email_user = user.email.value; 
         userEntity.password_user = await this.encryptPassword(user.password.value);
         userEntity.role_user = user.role.value;
         userEntity.active_user = user.active.value;
