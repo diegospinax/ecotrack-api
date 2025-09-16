@@ -16,6 +16,7 @@ export class UserRepositoryAdpter implements UserRepository {
     constructor() {
         this.userRepository = AppDataSource.getRepository(UserEntity);
     }
+    
     async createUser(user: User): Promise<User> {
         try {
             const newUser = await this.toEntity(user);
