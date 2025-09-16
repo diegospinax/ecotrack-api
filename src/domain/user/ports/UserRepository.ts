@@ -9,3 +9,4 @@ export interface UserRepository {
   updateUser(user: User): Promise<void>;
   deleteUser(userId: UserId): Promise<void>;
 }
+ 
