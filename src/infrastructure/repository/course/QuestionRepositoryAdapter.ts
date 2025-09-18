@@ -1,13 +1,13 @@
 import { QuestionRepository } from "@/domain/course/question/ports/QuestionRepository";
-import { QuestionEntity } from "../entities/QuestionEntity";
-import { AppDataSource } from "../config/database.postgres";
 import { Repository } from "typeorm";
 import { Question } from "@/domain/course/question/Questions";
 import QuestionId from "@/domain/course/question/value-objects/QuestionId";
 import QuestionText from "@/domain/course/question/value-objects/QuestionText";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
+import { QuestionEntity } from "@/infrastructure/entities/course/QuestionEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class QuestionRepositoryAdpter implements QuestionRepository {
+export class QuestionRepositoryAdapter implements QuestionRepository {
     private questionRepository: Repository<QuestionEntity>
 
     constructor() {

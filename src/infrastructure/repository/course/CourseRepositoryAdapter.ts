@@ -1,14 +1,14 @@
 import { Course } from "@/domain/course/Course";
-import { CourseEntity } from "../entities/CourseEntity";
 import { Repository } from "typeorm";
 import { CourseRepository } from "@/domain/course/ports/CourseRepository";
-import { AppDataSource } from "../config/database.postgres";
 import { CourseId } from "@/domain/course/value-objects/CourseId";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import { CourseStatus } from "@/domain/course/value-objects/CourseStatus";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { CourseEntity } from "@/infrastructure/entities/course/CourseEntity";
 
-export class CourseRepositoryAdpter implements CourseRepository {
+export class CourseRepositoryAdapter implements CourseRepository {
     private courseRepository: Repository<CourseEntity>
 
     constructor() {

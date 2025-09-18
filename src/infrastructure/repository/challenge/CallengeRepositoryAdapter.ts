@@ -1,6 +1,4 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../config/database.postgres";
-import { ChallengeEntity } from "../entities/ChallengeEntity";
 import { ChallengeRepository } from "@/domain/challenge/ports/ChallengeRepository";
 import { Challenge } from "@/domain/challenge/Challenge";
 import ChallengeId from "@/domain/challenge/value-objects/ChallengeId";
@@ -8,8 +6,10 @@ import ChallengeStatus from "@/domain/challenge/value-objects/ChallengeStatus";
 import ChallengeTime from "@/domain/challenge/value-objects/ChallengeTime";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
+import { ChallengeEntity } from "@/infrastructure/entities/challenge/ChallengeEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class ChallengeRepositoryAdpter implements ChallengeRepository {
+export class ChallengeRepositoryAdapter implements ChallengeRepository {
     private challengeRepository: Repository<ChallengeEntity>
 
     constructor() {

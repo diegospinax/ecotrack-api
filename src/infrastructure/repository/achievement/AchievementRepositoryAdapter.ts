@@ -1,14 +1,14 @@
 import { Achievement } from "@/domain/achievement/Achievement";
-import { AchievementEntity } from "../entities/AchievementEntity";
 import AchievementId from "@/domain/achievement/value-objects/AchievementId";
 import AchievementDateReceived from "@/domain/achievement/value-objects/AchievementDateReceived";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
 import { Repository } from "typeorm";
-import { AppDataSource } from "../config/database.postgres";
 import { AchievementRepository } from "@/domain/achievement/ports/AchievementRepository";
+import { AchievementEntity } from "@/infrastructure/entities/achievement/AchievementEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class AchievementRepositoryAdpter implements AchievementRepository {
+export class AchievementRepositoryAdapter implements AchievementRepository {
     private achievementRepository: Repository<AchievementEntity>
 
     constructor() {

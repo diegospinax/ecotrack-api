@@ -2,14 +2,14 @@ import { DataSource } from "typeorm";
 import environmentVars from "./environment.vars";
 import { UserEntity } from "../entities/UserEntity";
 import { PersonEntity } from "../entities/PersonEntity";
-import { TaskEntity } from "../entities/TaskEntity";
-import { QuestionEntity } from "../entities/QuestionEntity";
-import { LessonEntity } from "../entities/LessonEntity";
-import { CourseEntity } from "../entities/CourseEntity";
-import { ChallengeEntity } from "../entities/ChallengeEntity";
-import { BadgeEntity } from "../entities/BadgeEntity";
-import { AnswerEntity } from "../entities/AnswerEntity";
-import { AchievementEntity } from "../entities/AchievementEntity";
+import { TaskEntity } from "../entities/challenge/TaskEntity";
+import { QuestionEntity } from "../entities/course/QuestionEntity";
+import { LessonEntity } from "../entities/course/LessonEntity";
+import { CourseEntity } from "../entities/course/CourseEntity";
+import { ChallengeEntity } from "../entities/challenge/ChallengeEntity";
+import { BadgeEntity } from "../entities/achievement/BadgeEntity";
+import { AnswerEntity } from "../entities/course/AnswerEntity";
+import { AchievementEntity } from "../entities/achievement/AchievementEntity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",

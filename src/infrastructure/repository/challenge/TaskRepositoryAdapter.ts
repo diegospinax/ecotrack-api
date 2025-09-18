@@ -1,6 +1,4 @@
 import { TaskRepository } from "@/domain/challenge/task/ports/TaskRepository";
-import { TaskEntity } from "../entities/TaskEntity";
-import { AppDataSource } from "../config/database.postgres";
 import { Task } from "@/domain/challenge/task/Task";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import { Repository } from "typeorm";
@@ -8,8 +6,10 @@ import TaskType from "@/domain/challenge/task/value-objects/TaskType";
 import TaskTime from "@/domain/challenge/task/value-objects/TaskTime";
 import TaskDescription from "@/domain/challenge/task/value-objects/TaskDescription";
 import TaskTitle from "@/domain/challenge/task/value-objects/TaskTitle";
+import { TaskEntity } from "@/infrastructure/entities/challenge/TaskEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class TaskRepositoryAdpter implements TaskRepository {
+export class TaskRepositoryAdapter implements TaskRepository {
     private taskRepository: Repository<TaskEntity>
 
     constructor() {

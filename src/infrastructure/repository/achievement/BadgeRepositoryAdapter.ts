@@ -1,14 +1,14 @@
 import { Badge } from "@/domain/achievement/badge/Badge";
-import { BadgeEntity } from "../entities/BadgeEntity";
 import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
 import BadgeName from "@/domain/achievement/badge/value-objects/BadgeName";
 import BadgeDescription from "@/domain/achievement/badge/value-objects/BadgeDescription";
 import BadgeType from "@/domain/achievement/badge/value-objects/BadgeType";
 import { BadgeRepository } from "@/domain/achievement/badge/ports/BadgeRepository";
 import { Repository } from "typeorm";
-import { AppDataSource } from "../config/database.postgres";
+import { BadgeEntity } from "@/infrastructure/entities/achievement/BadgeEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class BadgeRepositoryAdpter implements BadgeRepository {
+export class BadgeRepositoryAdapter implements BadgeRepository {
     private badgeRepository: Repository<BadgeEntity>
 
     constructor() {

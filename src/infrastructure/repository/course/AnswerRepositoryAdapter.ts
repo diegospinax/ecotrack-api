@@ -1,14 +1,14 @@
 import { Answer } from "@/domain/course/answer/Answer";
-import { AnswerEntity } from "../entities/AnswerEntity";
 import AnswerId from "@/domain/course/answer/value-objects/AnswerId";
 import AnswerText from "@/domain/course/answer/value-objects/AnswerText";
 import AnswerValidation from "@/domain/course/answer/value-objects/AnswerValidation";
 import QuestionId from "@/domain/course/question/value-objects/QuestionId";
-import { AppDataSource } from "../config/database.postgres";
 import { Repository } from "typeorm";
 import { AnswerRepository } from "@/domain/course/answer/ports/AnswerRepository";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { AnswerEntity } from "@/infrastructure/entities/course/AnswerEntity";
 
-export class AnswerRepositoryAdpter implements AnswerRepository {
+export class AnswerRepositoryAdapter implements AnswerRepository {
     private answerRepository: Repository<AnswerEntity>
 
     constructor() {

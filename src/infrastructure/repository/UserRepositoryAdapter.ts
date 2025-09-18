@@ -10,7 +10,7 @@ import UserPassword from "@/domain/user/value-objects/UserPassword";
 import UserEmail from "@/domain/user/value-objects/UserEmail";
 import UserActive from "@/domain/user/value-objects/UserActive";
 
-export class UserRepositoryAdpter implements UserRepository {
+export class UserRepositoryAdapter implements UserRepository {
     private userRepository: Repository<UserEntity>;
 
     constructor() {

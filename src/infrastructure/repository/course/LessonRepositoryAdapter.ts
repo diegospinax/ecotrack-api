@@ -1,14 +1,14 @@
 import { LessonRepository } from "@/domain/course/lesson/ports/lessonRepository";
-import { LessonEntity } from "../entities/LessonEntity";
-import { AppDataSource } from "../config/database.postgres";
 import { Repository } from "typeorm";
 import { Lesson } from "@/domain/course/lesson/Lesson";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import LessonTitle from "@/domain/course/lesson/value-objects/LessonTitle";
 import LessonDescription from "@/domain/course/lesson/value-objects/LessonDescription";
 import LessonType from "@/domain/course/lesson/value-objects/LessonType";
+import { LessonEntity } from "@/infrastructure/entities/course/LessonEntity";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
 
-export class LessonRepositoryAdpter implements LessonRepository {
+export class LessonRepositoryAdapter implements LessonRepository {
     private lessonRepository: Repository<LessonEntity>
 
     constructor() {
