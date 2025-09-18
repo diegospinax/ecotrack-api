@@ -1,17 +1,17 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "course" })
+@Entity({ name: "courses" })
 export class CourseEntity {
     @PrimaryGeneratedColumn()
-    id_course!: number;
+    id!: number;
 
-    @Column({ type: "number" })
-    id_Person!: number;
+    @Column({ type: "number", name: "person_id" })
+    personId!: number;
 
-    @Column({ type: "number" })
-    id_lesson!: number;
+    @Column({ type: "number", name: "lesson_id" })
+    lessonId!: number;
 
-    @Column({ type: "boolean" })
-    status_course!: boolean;
+    @Column({ type: "boolean", name: "is_finished" })
+    isFinished!: boolean;
 }
 

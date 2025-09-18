@@ -1,24 +1,24 @@
-import { Type } from "@/domain/challenge/task/Type";
+import { TaskTypeEnum } from "@/domain/challenge/task/TaskTypeEnum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "task" })
+@Entity({ name: "tasks" })
 export class TaskEntity {
+    
     @PrimaryGeneratedColumn()
-    id_Task!: number;
+    id!: number;
 
     @Column({ type: "string", length: 255 })
-    Title_Task!: string;
+    title!: string;
 
     @Column({ type: "string", length: 255 })
-    Description_Task!: string;
+    description!: string;
 
     @Column({
-        type: "enum",
-        enum: Type,
+        type: "varchar",
+        length: 50,
     })
-    Type_Task!: Type;
+    type!: TaskTypeEnum;
 
-    @Column({ type: "number" })
-    Time_Task!: number;
-
+    @Column({ type: "number", name: "required_repetitions" })
+    requiredRepetitions!: number;
 }

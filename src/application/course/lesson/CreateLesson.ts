@@ -1,6 +1,6 @@
 import { Lesson } from "@/domain/course/lesson/Lesson";
-import { LessonRepository } from "@/domain/course/lesson/ports/lessonRepository";
-import { Type } from "@/domain/course/lesson/Type";
+import { LessonRepository } from "@/domain/course/lesson/ports/LessonRepository";
+import { LessonTypeEnum } from "@/domain/course/lesson/LessonTypeEnum";
 import LessonDescription from "@/domain/course/lesson/value-objects/LessonDescription";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import LessonTitle from "@/domain/course/lesson/value-objects/LessonTitle";

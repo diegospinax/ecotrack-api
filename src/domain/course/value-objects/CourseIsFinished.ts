@@ -1,7 +1,7 @@
 import CourseValidationException from "../exception/CourseValidationException";
 import { CourseField } from "./abstract/CourseField";
 
-export class CourseStatus extends CourseField<boolean> {
+export class CourseIsFinished extends CourseField<boolean> {
     constructor(value: boolean) {
         super(value);
     }

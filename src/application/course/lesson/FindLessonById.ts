@@ -1,4 +1,4 @@
-import { LessonRepository } from "@/domain/course/lesson/ports/lessonRepository";
+import { LessonRepository } from "@/domain/course/lesson/ports/LessonRepository";
 import { Lesson } from "./../../../domain/course/lesson/Lesson";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 

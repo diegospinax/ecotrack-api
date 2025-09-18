@@ -7,7 +7,7 @@ export default class TaskDescription extends TaskField<string> {
   }
 
   public validate(): void {
-    const regex: RegExp = / /;
+    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúÑñ¿¡.,;:!?\-()'"]+\.?$/u;
     if (!this.value || !regex.test(this.value)) {
       throw new TaskValidationException(
         "Invalidate task description provided."

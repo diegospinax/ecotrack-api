@@ -1,24 +1,24 @@
 import { Role } from "@/domain/user/Role";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "user" })
+@Entity({ name: "users" })
 export class UserEntity {
     @PrimaryGeneratedColumn()
-    id_user!: number;
+    id!: number;
 
     @Column({ type: "varchar", length: 255, unique: true })
-    email_user!: string;
+    email!: string;
 
     @Column({ type: "varchar", length: 255 })
-    password_user!: string;
+    password!: string;
 
     @Column({
         type: "enum",
         enum: Role,
-        default: Role.USER
+        enumName: "user_role"
     })
-    role_user!: Role;
+    role!: Role;
 
-    @Column({ type: "boolean" })
-    active_user!: boolean;
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
 } 

@@ -4,7 +4,7 @@ create table persons (
   name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   area VARCHAR(50) NOT NULL,
-  profile_picture VARCHAR(255) NOT NULL,
+  profile_picture TEXT NOT NULL,
 
   CONSTRAINT fk_persons_user
     FOREIGN KEY (user_id) 

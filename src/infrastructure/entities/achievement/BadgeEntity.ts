@@ -1,22 +1,21 @@
-import { Type } from "@/domain/achievement/badge/Type";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { BadgeTypeEnum } from "@/domain/achievement/badge/BadgeTypeEnum";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "badge" })
+@Entity({ name: "badges" })
 export class BadgeEntity {
-    @PrimaryColumn()
-    id_badge!: number;
+
+    @PrimaryGeneratedColumn()
+    id!: number;
 
     @Column({ type: "varchar", length: 255 })
-    name_badge!: string;
+    name!: string;
 
     @Column({ type: "varchar", length: 255 })
-    description_badge!: string;
+    description!: string;
 
     @Column({
-        type: "enum",
-        enum: Type
+        type: "varchar",
+        length: 50
     })
-    type_badge!: Type;
-
-
+    type!: BadgeTypeEnum;
 }  

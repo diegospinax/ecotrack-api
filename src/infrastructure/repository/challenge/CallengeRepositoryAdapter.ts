@@ -2,8 +2,8 @@ import { Repository } from "typeorm";
 import { ChallengeRepository } from "@/domain/challenge/ports/ChallengeRepository";
 import { Challenge } from "@/domain/challenge/Challenge";
 import ChallengeId from "@/domain/challenge/value-objects/ChallengeId";
-import ChallengeStatus from "@/domain/challenge/value-objects/ChallengeStatus";
-import ChallengeTime from "@/domain/challenge/value-objects/ChallengeTime";
+import ChallengeIsFinished from "@/domain/challenge/value-objects/ChallengeIsFinished";
+import ChallengeTimesDone from "@/domain/challenge/value-objects/ChallengeTimesDone";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import { ChallengeEntity } from "@/infrastructure/entities/challenge/ChallengeEntity";
@@ -83,8 +83,8 @@ export class ChallengeRepositoryAdapter implements ChallengeRepository {
     private toDomain(challenge: ChallengeEntity): Challenge {
         return {
             id: new ChallengeId(challenge.id_Challenge),
-            status: new ChallengeStatus(challenge.Status_Challenge),
-            timesDone: new ChallengeTime(challenge.Time_Challenge),
+            isFinished: new ChallengeIsFinished(challenge.Status_Challenge),
+            timesDone: new ChallengeTimesDone(challenge.Time_Challenge),
             personId: new PersonId(challenge.id_Person),
             taskId: new TaskId(challenge.id_Task),
 
@@ -95,7 +95,7 @@ export class ChallengeRepositoryAdapter implements ChallengeRepository {
     private async toEntity(challenge: Challenge): Promise<ChallengeEntity> {
 
         const challengeEntity = new ChallengeEntity();
-        challengeEntity.Status_Challenge = challenge.status.value;
+        challengeEntity.Status_Challenge = challenge.isFinished.value;
         challengeEntity.Time_Challenge = challenge.timesDone.value;
         challengeEntity.id_Person = challenge.personId.value;
         challengeEntity.id_Task = challenge.taskId.value;

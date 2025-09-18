@@ -6,7 +6,7 @@ export default class TaskTitle extends TaskField<string> {
     super(value);
   }
   public validate(): void {
-    const regex: RegExp = / /;
+    const regex: RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+(?:_[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+){0,3}$/;
     if (!this.value || !regex.test(this.value)) {
       throw new TaskValidationException("Invalidate task title provided.");
     }

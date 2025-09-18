@@ -4,7 +4,7 @@ import { CourseRepository } from "@/domain/course/ports/CourseRepository";
 import { CourseId } from "@/domain/course/value-objects/CourseId";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
-import { CourseStatus } from "@/domain/course/value-objects/CourseStatus";
+import { CourseIsFinished } from "@/domain/course/value-objects/CourseIsFinished";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { CourseEntity } from "@/infrastructure/entities/course/CourseEntity";
 
@@ -82,7 +82,7 @@ export class CourseRepositoryAdapter implements CourseRepository {
             id: new CourseId(course.id_course),
             personId: new PersonId(course.id_Person),
             lessonId: new LessonId(course.id_lesson),
-            status: new CourseStatus(course.status_course),
+            isFinished: new CourseIsFinished(course.status_course),
         };
     }
 
@@ -90,7 +90,7 @@ export class CourseRepositoryAdapter implements CourseRepository {
         const courseEntity = new CourseEntity();
         courseEntity.id_Person = course.personId.value;
         courseEntity.id_lesson = course.lessonId.value;
-        courseEntity.status_course = course.status.value;
+        courseEntity.status_course = course.isFinished.value;
         return courseEntity;
     }
 

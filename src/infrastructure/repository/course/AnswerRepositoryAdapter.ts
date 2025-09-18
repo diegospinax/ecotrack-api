@@ -1,7 +1,7 @@
 import { Answer } from "@/domain/course/answer/Answer";
 import AnswerId from "@/domain/course/answer/value-objects/AnswerId";
 import AnswerText from "@/domain/course/answer/value-objects/AnswerText";
-import AnswerValidation from "@/domain/course/answer/value-objects/AnswerValidation";
+import AnswerIsCorrect from "@/domain/course/answer/value-objects/AnswerIsCorrect";
 import QuestionId from "@/domain/course/question/value-objects/QuestionId";
 import { Repository } from "typeorm";
 import { AnswerRepository } from "@/domain/course/answer/ports/AnswerRepository";
@@ -81,7 +81,7 @@ export class AnswerRepositoryAdapter implements AnswerRepository {
         return {
             id: new AnswerId(answer.id_answer),
             text: new AnswerText(answer.text_answer),
-            is_correct: new AnswerValidation(answer.validation_answer),
+            isCorrect: new AnswerIsCorrect(answer.validation_answer),
             questionId: new QuestionId(answer.id_question),
         }
     }
@@ -89,7 +89,7 @@ export class AnswerRepositoryAdapter implements AnswerRepository {
     private async toEntity(answer: Answer): Promise<AnswerEntity> {
         const answerEntity = new AnswerEntity();
         answerEntity.text_answer = answer.text.value;
-        answerEntity.validation_answer = answer.is_correct.value;
+        answerEntity.validation_answer = answer.isCorrect.value;
         answerEntity.id_question = answer.questionId.value;
         return answerEntity;
     }

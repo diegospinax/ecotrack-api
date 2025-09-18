@@ -1,20 +1,21 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "challenge" })
+@Entity({ name: "challenges" })
 export class ChallengeEntity {
-    @PrimaryGeneratedColumn()
-    id_Challenge!: number;
-
-    @Column({ type: "boolean" })
-    Status_Challenge!: boolean;
-
-    @Column({ type: "number" })
-    Time_Challenge!: number;
-
-    @Column({ type: "number" })
-    id_Person!: number;
     
-    @Column({ type: "number" })
-    id_Task!: number;
+    @PrimaryGeneratedColumn()
+    id!: number;
+
+    @Column({ type: "boolean", name: "is_finished" })
+    isFinished!: boolean;
+
+    @Column({ type: "number", name: "times_done" })
+    timesDone!: number;
+
+    @Column({ type: "number", name: "person_id" })
+    personId!: number;
+    
+    @Column({ type: "number", name: "task_id" })
+    taskId!: number;
 
 }  

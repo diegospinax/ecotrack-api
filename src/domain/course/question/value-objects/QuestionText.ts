@@ -5,8 +5,9 @@ export default class QuestionText extends QuestionField<string> {
   constructor(value: string) {
     super(value);
   }
+  
   public validate(): void {
-    const regex: RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,;:()¿¡'"\- ]{5,200}\?$ /;
+    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúÑñ¿¡.,;:!?\-()'"]+\.?$/u;
     if (!this.value || !regex.test(this.value)) {
       throw new CourseValidationException("Invalid Question provided.");
     }

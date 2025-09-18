@@ -3,7 +3,7 @@ import { Task } from "@/domain/challenge/task/Task";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import { Repository } from "typeorm";
 import TaskType from "@/domain/challenge/task/value-objects/TaskType";
-import TaskTime from "@/domain/challenge/task/value-objects/TaskTime";
+import TaskRequiredRepetitions from "@/domain/challenge/task/value-objects/TaskRequiredRepetitions";
 import TaskDescription from "@/domain/challenge/task/value-objects/TaskDescription";
 import TaskTitle from "@/domain/challenge/task/value-objects/TaskTitle";
 import { TaskEntity } from "@/infrastructure/entities/challenge/TaskEntity";
@@ -85,7 +85,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
             title: new TaskTitle(task.Title_Task),
             description: new TaskDescription(task.Description_Task),
             type: new TaskType(task.Type_Task),
-            Time: new TaskTime(task.Time_Task),
+            requiredRepetitions: new TaskRequiredRepetitions(task.Time_Task),
         };
     }
 
@@ -94,7 +94,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
         taskEntity.Title_Task = task.title.value;
         taskEntity.Description_Task = task.description.value;
         taskEntity.Type_Task = task.type.value;
-        taskEntity.Time_Task = task.Time.value;
+        taskEntity.Time_Task = task.requiredRepetitions.value;
         return taskEntity;
     }
 

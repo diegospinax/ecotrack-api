@@ -8,7 +8,7 @@ import UserRole from "@/domain/user/value-objects/UserRole";
 import UserId from "@/domain/user/value-objects/UserId";
 import UserPassword from "@/domain/user/value-objects/UserPassword";
 import UserEmail from "@/domain/user/value-objects/UserEmail";
-import UserActive from "@/domain/user/value-objects/UserActive";
+import UserIsActive from "@/domain/user/value-objects/UserIsActive";
 
 export class UserRepositoryAdapter implements UserRepository {
     private userRepository: Repository<UserEntity>;
@@ -95,7 +95,7 @@ export class UserRepositoryAdapter implements UserRepository {
             email: new UserEmail(user.email_user),
             password: new UserPassword(user.password_user),
             role: new UserRole(user.role_user),
-            active: new UserActive(user.active_user),
+            isActive: new UserIsActive(user.active_user),
 
         };
     }
@@ -105,7 +105,7 @@ export class UserRepositoryAdapter implements UserRepository {
         userEntity.email_user = user.email.value; 
         userEntity.password_user = await this.encryptPassword(user.password.value);
         userEntity.role_user = user.role.value;
-        userEntity.active_user = user.active.value;
+        userEntity.active_user = user.isActive.value;
         return userEntity;
     }
 

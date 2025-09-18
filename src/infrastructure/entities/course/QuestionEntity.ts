@@ -1,14 +1,14 @@
 import { number } from "joi";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: "question" })
+@Entity({ name: "questions" })
 export class QuestionEntity {
     @PrimaryGeneratedColumn()
-    id_question!: number;
+    id!: number;
 
-    @Column({ type: "varchar", length: 255 })
-    text_question!: string;
+    @Column({ type: "text" })
+    question!: string;
 
-    @Column({ type: "number" })
-    id_lesson!: number;
+    @Column({ type: "number", name: "lesson_id" })
+    lessonId!: number;
 }

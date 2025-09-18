@@ -1,5 +1,5 @@
 import { Lesson } from "@/domain/course/lesson/Lesson";
-import { LessonRepository } from "@/domain/course/lesson/ports/lessonRepository";
+import { LessonRepository } from "@/domain/course/lesson/ports/LessonRepository";
 
 export class UpdateLesson {
   constructor(private repository: LessonRepository) {}
