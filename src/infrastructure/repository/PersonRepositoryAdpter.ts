@@ -10,7 +10,7 @@ import PersonName from "@/domain/person/value-objects/PersonName";
 import PersonArea from "@/domain/person/value-objects/PersonArea";
 import PersonProfilePicture from "@/domain/person/value-objects/PersonProfilePicture";
 
-export class UserRepositoryAdpter implements PersonRepository {
+export class PersonRepositoryAdpter implements PersonRepository {
     private personRepository: Repository<PersonEntity>
 
     constructor() {
@@ -70,7 +70,7 @@ export class UserRepositoryAdpter implements PersonRepository {
             if (result.affected === 0) {
                 throw new Error("Person not found");
             }
-            
+
         } catch (error) {
 
             console.error("Error deleting person:", error);
