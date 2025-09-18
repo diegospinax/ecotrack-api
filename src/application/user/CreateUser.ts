@@ -1,5 +1,5 @@
 import { User } from "@/domain/user/User";
-import { UserRepository } from "./../../domain/user/ports/UserRepository";
+import { UserRepository } from "../../domain/user/ports/UserRepository";
 import { UseCaseValidationException } from "../exception/UserValidationException";
 
 export class UserCreate {

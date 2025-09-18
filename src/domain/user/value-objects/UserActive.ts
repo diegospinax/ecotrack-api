@@ -1,8 +1,8 @@
 import UserValidationException from "../exception/UserValidationException";
 import { UserField } from "./abstract/UserField";
 
-export default class UserActive extends UserField<Boolean> {
-  constructor(value: Boolean) {
+export default class UserActive extends UserField<boolean> {
+  constructor(value: boolean) {
     super(value);
   }
 
