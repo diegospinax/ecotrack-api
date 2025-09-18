@@ -33,7 +33,7 @@ export class ChallengeRepositoryAdpter implements ChallengeRepository {
     async findById(challengeId: ChallengeId): Promise<Challenge> {
         try {
             const challenge = await this.challengeRepository.findOne({
-                where: { id_Task: challengeId.value },
+                where: { id_Challenge: challengeId.value },
             });
 
             if (!challenge) {
