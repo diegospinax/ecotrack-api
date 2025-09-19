@@ -7,6 +7,7 @@ import { UserEntity } from "@/infrastructure/entities/UserEntity";
 import {
   mapUserToDomain,
   mapUserToEntity,
+  mapUserUpdateToEntity,
 } from "@/infrastructure/mapper/user-mapper";
 import { Repository } from "typeorm";
 
@@ -40,7 +41,9 @@ export class UserRepositoryAdapter implements UserRepository {
   }
 
   async updateUser(user: User): Promise<void> {
-    const userUpdate = mapUserToEntity(user);
+    const userUpdate = mapUserUpdateToEntity(user);
+    console.log(userUpdate);
+    
     await this.userRepository.save(userUpdate);
   }
 

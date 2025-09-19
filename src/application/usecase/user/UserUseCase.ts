@@ -2,7 +2,7 @@ import { User } from "@/domain/user/User";
 import { CreateUserUseCase } from "./cases/CreateUserUseCase";
 import { UserRepository } from "@/domain/user/ports/UserRepository";
 import { PasswordEncrypter } from "@/domain/user/ports/PasswordEncrypter";
-import { UseCaseValidationException } from "@/application/exception/UserValidationException";
+import { UseCaseException } from "@/application/exception/UseCaseException";
 import { FindUserUseCase } from "./cases/FindUserUseCase";
 import UserEmail from "@/domain/user/value-objects/UserEmail";
 import UserId from "@/domain/user/value-objects/UserId";
@@ -11,24 +11,18 @@ import { UpdateUserUseCase } from "./cases/UpdateUserUseCase";
 
 export class UserUseCase
   implements
-    CreateUserUseCase,
-    FindUserUseCase,
-    DeleteUserUseCase,
-    UpdateUserUseCase
-{
-  private repository: UserRepository;
-  private encrypter: PasswordEncrypter;
+  CreateUserUseCase,
+  FindUserUseCase,
+  DeleteUserUseCase,
+  UpdateUserUseCase {
 
-  constructor(repository: UserRepository, encrypter: PasswordEncrypter) {
-    this.repository = repository;
-    this.encrypter = encrypter;
-  }
+  constructor(private repository: UserRepository, private encrypter: PasswordEncrypter) { }
 
   public async create(user: Omit<User, "id">): Promise<User> {
     const existingUser = await this.repository.findByEmail(user.email);
 
     if (existingUser) {
-      throw new UseCaseValidationException("Email already registered.");
+      throw new UseCaseException("Email already registered.");
     }
 
     const userPasswordEncrypted: Omit<User, "id"> = {
@@ -42,7 +36,7 @@ export class UserUseCase
   public async findById(userId: UserId): Promise<User> {
     const existingUser = await this.repository.findById(userId);
 
-    if (!existingUser) throw new Error("User does not exists.");
+    if (!existingUser) throw new UseCaseException("User does not exists.");
 
     return existingUser;
   }
@@ -50,7 +44,7 @@ export class UserUseCase
   public async findByEmail(userEmail: UserEmail): Promise<User> {
     const existingUser = await this.repository.findByEmail(userEmail);
 
-    if (!existingUser) throw new Error("User does not exists.");
+    if (!existingUser) throw new UseCaseException("User does not exists.");
 
     return existingUser;
   }
@@ -58,7 +52,7 @@ export class UserUseCase
   public async delete(userId: UserId): Promise<void> {
     const existingUser = await this.repository.findById(userId);
 
-    if (!existingUser) throw new Error("User not found.");
+    if (!existingUser) throw new UseCaseException("User not found.");
 
     await this.repository.deleteUser(userId);
   }
@@ -66,7 +60,7 @@ export class UserUseCase
   public async update(userPartial: Partial<User>): Promise<void> {
     const existingUser = await this.repository.findById(userPartial.id!);
 
-    if (!existingUser) throw new Error("User not found.");
+    if (!existingUser) throw new UseCaseException("User not found.");
 
     if (userPartial.email && userPartial.email !== existingUser.email)
       await this.validateEmailNotInUse(userPartial.email);
@@ -79,7 +73,7 @@ export class UserUseCase
   private async validateEmailNotInUse(userEmail: UserEmail): Promise<void> {
     const userWithEmail = await this.repository.findByEmail(userEmail);
 
-    if (userWithEmail) throw new Error("Email already registered.");
+    if (userWithEmail) throw new UseCaseException("Email already registered.");
   }
 
   private async updateUserFields(

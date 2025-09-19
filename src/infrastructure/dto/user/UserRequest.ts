@@ -1,6 +1,6 @@
 import { Role } from "@/domain/user/Role";
 
-export class CreateUserDto { 
+export class UserRequest { 
     constructor(
         public readonly email: string,
         public readonly password: string,

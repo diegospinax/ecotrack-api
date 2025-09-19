@@ -1,10 +1,10 @@
 import { Person } from "@/domain/person/Person";
 import { PersonRepository } from "@/domain/person/ports/PersonRepository";
 import PersonId from "@/domain/person/value-objects/PersonId";
+import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { PersonEntity } from "@/infrastructure/entities/PersonEntity";
+import { mapPersonToDomain, mapPersonToEntity } from "@/infrastructure/mapper/person-mapper";
 import { Repository } from "typeorm";
-import { AppDataSource } from "../config/database.postgres";
-import { PersonEntity } from "../entities/PersonEntity";
-import { mapPersonToDomain, mapPersonToEntity } from "../mapper/person-mapper";
 
 export class PersonRepositoryAdapter implements PersonRepository {
   private personRepository: Repository<PersonEntity>;
@@ -13,7 +13,7 @@ export class PersonRepositoryAdapter implements PersonRepository {
     this.personRepository = AppDataSource.getRepository(PersonEntity);
   }
 
-  async createPerson(person: Person): Promise<Person> {
+  async createPerson(person: Omit<Person, 'id'>): Promise<Person> {
     const newPerson = mapPersonToEntity(person);
     const savedPerson = await this.personRepository.save(newPerson);
     return mapPersonToDomain(savedPerson);

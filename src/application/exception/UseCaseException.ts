@@ -1,4 +1,4 @@
-export class UseCaseValidationException extends Error{
+export class UseCaseException extends Error{
     constructor(message:string){
         super(message);
     }
