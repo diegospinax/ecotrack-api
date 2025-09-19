@@ -7,7 +7,7 @@ export default class UserIsActive extends UserField<boolean> {
   }
 
   public validate(): void {
-    if (!this.value) {
+    if (this.value === null || this.value === undefined) {
       throw new UserValidationException("Invalid user active status provided.");
     }
   }

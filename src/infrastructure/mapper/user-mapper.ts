@@ -7,6 +7,7 @@ import UserRole from "@/domain/user/value-objects/UserRole";
 import UserIsActive from "@/domain/user/value-objects/UserIsActive";
 import bcrypt from "bcryptjs";
 import { CreateUserDto } from "../dto/user/CreateUserDto";
+import { UserResponse } from "../dto/user/UserResponse";
 
 export const mapUserToDomain = (entity: UserEntity): User => {
   return {
@@ -33,5 +34,14 @@ export const mapCreateToDomain = (dto: CreateUserDto): Omit<User, "id"> => {
     password: new UserPassword(dto.password),
     role: new UserRole(dto.role),
     isActive: new UserIsActive(true)
+  }
+}
+
+export const mapToResponse = (user: User): UserResponse => {
+  return {
+    id: user.id.value,
+    email: user.email.value,
+    role: user.role.value,
+    isActive: user.isActive.value
   }
 }

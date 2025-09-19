@@ -30,4 +30,35 @@ router.post(
   }
 );
 
+router.get(
+  BASE_URL + "/:id",
+  authenticationToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const claims: Claims = (req as any).user;
+
+    const { id } = req.params;
+
+    if (claims.id !== Number(id)){
+      if (claims.role !== Role.ADMIN) {
+        throw new HttpException(403, "Unauthorized.");
+      }
+    }
+
+    await controller.findById(req, res, next);
+  }
+);
+
+router.delete(
+  BASE_URL + "/:id",
+  authenticationToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const claims: Claims = (req as any).user;
+
+    if (claims.role !== Role.ADMIN)
+      throw new HttpException(403, "Unauthorized.");
+
+    await controller.deleteUser(req, res, next);
+  }
+);
+
 export default router;

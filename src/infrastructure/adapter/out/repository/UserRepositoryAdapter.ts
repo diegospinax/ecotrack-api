@@ -4,7 +4,10 @@ import UserEmail from "@/domain/user/value-objects/UserEmail";
 import UserId from "@/domain/user/value-objects/UserId";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { UserEntity } from "@/infrastructure/entities/UserEntity";
-import { mapUserToDomain, mapUserToEntity } from "@/infrastructure/mapper/user-mapper";
+import {
+  mapUserToDomain,
+  mapUserToEntity,
+} from "@/infrastructure/mapper/user-mapper";
 import { Repository } from "typeorm";
 
 export class UserRepositoryAdapter implements UserRepository {
@@ -42,6 +45,10 @@ export class UserRepositoryAdapter implements UserRepository {
   }
 
   async deleteUser(userId: UserId): Promise<void> {
-    await this.userRepository.delete(userId.value);
+    await this.userRepository
+      .createQueryBuilder("user")
+      .update({ isActive: false })
+      .where("id = :userId", {userId: userId.value})
+      .execute();
   }
 }
