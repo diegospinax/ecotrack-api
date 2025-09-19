@@ -20,6 +20,7 @@ export const AppDataSource = new DataSource({
   database: environmentVars.DB_NAME,
   schema: environmentVars.DB_SCHEMA,
   synchronize: true,
+  logging: true,
   entities: [UserEntity, PersonEntity, TaskEntity, QuestionEntity, LessonEntity, CourseEntity, ChallengeEntity, BadgeEntity, AnswerEntity, AchievementEntity]
 });
 

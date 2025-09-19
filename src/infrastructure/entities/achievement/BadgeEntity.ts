@@ -1,4 +1,4 @@
-import { BadgeTypeEnum } from "@/domain/achievement/badge/BadgeTypeEnum";
+import { BadgeTypeEnum } from "../../../domain/achievement/badge/BadgeTypeEnum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "badges" })

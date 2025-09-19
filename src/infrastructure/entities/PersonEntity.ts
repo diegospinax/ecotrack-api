@@ -1,4 +1,4 @@
-import { Area } from "@/domain/person/Area";
+import { Area } from "../../domain/person/Area";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "persons" })
@@ -22,7 +22,7 @@ export class PersonEntity {
     @Column({ type: "text", name: "profile_picture" })
     profilePicture!: string;
 
-    @Column({ type: "number", name: "user_id" })
+    @Column({ type: "bigint", name: "user_id" })
     userId!: number;
 
 }

@@ -3,7 +3,7 @@
     "ext": "ts json",
     "ignore": ["src/**/*.spec.ts","node_modules"],
     "execMap": {
-        "ts":"ts-node"
+        "ts":"ts-node -r tsconfig-paths/register"
     },
     "verbose": true,
    "restartable": "rs"

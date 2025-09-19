@@ -1,4 +1,4 @@
-import { LessonTypeEnum } from "@/domain/course/lesson/LessonTypeEnum";
+import { LessonTypeEnum } from "../../../domain/course/lesson/LessonTypeEnum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "lessons" })

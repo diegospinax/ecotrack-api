@@ -8,10 +8,10 @@ export class AchievementEntity {
     @Column({ type: "timestamp", name: "date_received" })
     dateReceived!: Date;
 
-    @Column({ type: "number", name: "person_id" })
+    @Column({ type: "bigint", name: "person_id" })
     personId!: number;
 
-    @Column({ type: "number", name: "badge_id" })
+    @Column({ type: "bigint", name: "badge_id" })
     badgeId!: number;
 
 }

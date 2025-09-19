@@ -9,13 +9,13 @@ export class ChallengeEntity {
     @Column({ type: "boolean", name: "is_finished" })
     isFinished!: boolean;
 
-    @Column({ type: "number", name: "times_done" })
+    @Column({ type: "int", name: "times_done" })
     timesDone!: number;
 
-    @Column({ type: "number", name: "person_id" })
+    @Column({ type: "bigint", name: "person_id" })
     personId!: number;
     
-    @Column({ type: "number", name: "task_id" })
+    @Column({ type: "bigint", name: "task_id" })
     taskId!: number;
 
 }  

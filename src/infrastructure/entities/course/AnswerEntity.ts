@@ -11,7 +11,7 @@ export class AnswerEntity {
     @Column({ type: "boolean", name: "is_correct" })
     isCorrect!: boolean;
 
-    @Column({ type: "number", name: "question_id" })
+    @Column({ type: "bigint", name: "question_id" })
     questionId!: number;
 }
 

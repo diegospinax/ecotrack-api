@@ -9,6 +9,6 @@ export class QuestionEntity {
     @Column({ type: "text" })
     question!: string;
 
-    @Column({ type: "number", name: "lesson_id" })
+    @Column({ type: "bigint", name: "lesson_id" })
     lessonId!: number;
 }

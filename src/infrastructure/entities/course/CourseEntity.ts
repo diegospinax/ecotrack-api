@@ -5,10 +5,10 @@ export class CourseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: "number", name: "person_id" })
+    @Column({ type: "bigint", name: "person_id" })
     personId!: number;
 
-    @Column({ type: "number", name: "lesson_id" })
+    @Column({ type: "bigint", name: "lesson_id" })
     lessonId!: number;
 
     @Column({ type: "boolean", name: "is_finished" })
