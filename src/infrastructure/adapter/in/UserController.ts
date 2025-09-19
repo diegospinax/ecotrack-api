@@ -4,8 +4,8 @@ import { User } from "@/domain/user/User";
 import UserId from "@/domain/user/value-objects/UserId";
 import { UserRequest } from "@/infrastructure/dto/user/UserRequest";
 import {
-  mapCreateToDomain,
-  mapToResponse,
+  mapUserRequestToDomain,
+  mapUserDomainToResponse,
 } from "@/infrastructure/mapper/user-mapper";
 import { NextFunction, Request, Response } from "express";
 import UserPassword from '@/domain/user/value-objects/UserPassword';
@@ -16,8 +16,8 @@ export class UserController {
 
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const userDto: UserRequest = req.body;
-      const user: Omit<User, "id"> = mapCreateToDomain(userDto);
+      const userRequest: UserRequest = req.body;
+      const user: Omit<User, "id"> = mapUserRequestToDomain(userRequest);
 
       const createdUser = await this.useCase.create(user);
 
@@ -37,7 +37,7 @@ export class UserController {
 
       const user: User = await this.useCase.findById(userId);
 
-      return res.status(200).json(mapToResponse(user));
+      return res.status(200).json(mapUserDomainToResponse(user));
     } catch (error) {
       next(error);
     }
@@ -50,7 +50,7 @@ export class UserController {
 
       const user: User = await this.useCase.findByEmail(userEmail);
 
-      return res.status(200).json(mapToResponse(user));
+      return res.status(200).json(mapUserDomainToResponse(user));
     } catch (error) {
       next(error);
     }

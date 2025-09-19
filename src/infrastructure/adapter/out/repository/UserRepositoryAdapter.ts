@@ -42,8 +42,6 @@ export class UserRepositoryAdapter implements UserRepository {
 
   async updateUser(user: User): Promise<void> {
     const userUpdate = mapUserUpdateToEntity(user);
-    console.log(userUpdate);
-    
     await this.userRepository.save(userUpdate);
   }
 

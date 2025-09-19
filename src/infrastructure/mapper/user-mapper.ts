@@ -38,7 +38,7 @@ export const mapUserUpdateToEntity = (domain: User): UserEntity => {
   return userEntity;
 }
 
-export const mapCreateToDomain = (dto: UserRequest): Omit<User, "id"> => {
+export const mapUserRequestToDomain = (dto: UserRequest): Omit<User, "id"> => {
   return {
     email: new UserEmail(dto.email),
     password: new UserPassword(dto.password),
@@ -47,7 +47,7 @@ export const mapCreateToDomain = (dto: UserRequest): Omit<User, "id"> => {
   }
 }
 
-export const mapToResponse = (user: User): UserResponse => {
+export const mapUserDomainToResponse = (user: User): UserResponse => {
   return {
     id: user.id.value,
     email: user.email.value,

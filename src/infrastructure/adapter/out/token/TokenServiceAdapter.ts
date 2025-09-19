@@ -24,6 +24,7 @@ export default class TokenServiceAdapter implements TokenService {
 
         return {
             id: payload.id,
+            personId: payload.personId,
             email: payload.email,
             role: payload.role
         }

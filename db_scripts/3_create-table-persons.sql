@@ -1,6 +1,6 @@
 create table persons (
   id BIGSERIAL NOT NULL PRIMARY KEY,
-  user_id BIGINT NOT NULL,
+  user_id BIGINT unique NOT NULL,
   name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   area VARCHAR(50) NOT NULL,

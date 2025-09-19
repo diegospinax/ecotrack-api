@@ -1,9 +1,10 @@
 import { Person } from "@/domain/person/Person";
 import { PersonRepository } from "@/domain/person/ports/PersonRepository";
 import PersonId from "@/domain/person/value-objects/PersonId";
+import UserId from "@/domain/user/value-objects/UserId";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { PersonEntity } from "@/infrastructure/entities/PersonEntity";
-import { mapPersonToDomain, mapPersonToEntity } from "@/infrastructure/mapper/person-mapper";
+import { mapEntityToPerson, mapPersonToEntity, mapPersonUpdateToEntity } from "@/infrastructure/mapper/out/person-out-mapper";
 import { Repository } from "typeorm";
 
 export class PersonRepositoryAdapter implements PersonRepository {
@@ -13,14 +14,19 @@ export class PersonRepositoryAdapter implements PersonRepository {
     this.personRepository = AppDataSource.getRepository(PersonEntity);
   }
 
-  async createPerson(person: Omit<Person, 'id'>): Promise<Person> {
+  public async createPerson(person: Omit<Person, 'id'>): Promise<Person> {
     const newPerson = mapPersonToEntity(person);
     const savedPerson = await this.personRepository.save(newPerson);
-    return mapPersonToDomain(savedPerson);
+    return mapEntityToPerson(savedPerson);
   }
 
-  async findById(personId: PersonId): Promise<Person> {
-    const person = await this.personRepository.findOne({
+  public async list(): Promise<Person[]> {
+    const entities = await this.personRepository.find();
+    return entities.map(entity => mapEntityToPerson(entity));
+  }
+
+  public async findById(personId: PersonId): Promise<Person> {
+    const person = await this.personRepository.findOneOrFail({
       where: { id: personId.value },
     });
 
@@ -28,15 +34,23 @@ export class PersonRepositoryAdapter implements PersonRepository {
       throw new Error("Person not found");
     }
 
-    return mapPersonToDomain(person);
+    return mapEntityToPerson(person);
   }
 
-  async updatePerson(person: Person): Promise<void> {
-    const personUpdate = mapPersonToEntity(person);
-    await this.personRepository.update(personUpdate.id, personUpdate);
+  public async findByUserId(userId: UserId): Promise<Person> {
+    const entity = await this.personRepository.findOneOrFail({
+      where: { userId: userId.value }
+    });
+
+    return mapEntityToPerson(entity);
   }
 
-  async deletePerson(personId: PersonId): Promise<void> {
+  public async updatePerson(person: Person): Promise<void> {
+    const personUpdate = mapPersonUpdateToEntity(person);
+    await this.personRepository.save(personUpdate);
+  }
+
+  public async deletePerson(personId: PersonId): Promise<void> {
     await this.personRepository.query(`
         UPDATE users u
         SET is_active = $1

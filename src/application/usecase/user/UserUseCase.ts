@@ -62,7 +62,7 @@ export class UserUseCase
 
     if (!existingUser) throw new UseCaseException("User not found.");
 
-    if (userPartial.email && userPartial.email !== existingUser.email)
+    if (userPartial.email && userPartial.email.value !== existingUser.email.value)
       await this.validateEmailNotInUse(userPartial.email);
 
     const userUpdated: User = await this.updateUserFields(userPartial, existingUser);
