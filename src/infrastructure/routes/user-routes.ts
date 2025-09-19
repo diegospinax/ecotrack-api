@@ -39,6 +39,7 @@ router.get(
     const { id } = req.params;
 
     if (claims.id !== Number(id)){
+      
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
