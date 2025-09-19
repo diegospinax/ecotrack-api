@@ -2,6 +2,7 @@ import cors from "cors";
 import express from 'express';
 import globalErrorHandler from "../middleware/error-handler.middleware";
 import userRoutes from '@/infrastructure/routes/user-routes';
+import authRoutes from '@/infrastructure/routes/auth-routes';
 
 class App {
     private app: express.Application;
@@ -13,6 +14,7 @@ class App {
 
     private routes () {
         this.app.use("/api/v1", userRoutes);
+        this.app.use("/api/v1", authRoutes);
     }
 
     constructor() {

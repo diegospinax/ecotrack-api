@@ -1,5 +1,4 @@
 import { Role } from "@/domain/user/Role";
-import { IsEnum, IsString } from "class-validator";
 
 export class CreateUserDto { 
     constructor(

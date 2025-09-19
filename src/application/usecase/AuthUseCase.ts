@@ -35,9 +35,9 @@ export class AuthUseCase {
     if (!passwordsMatch) throw new Error("Invalid credentials provided.");
 
     return AuthUseCase.tokenService.generateToken({
-        id: existingUser.id,
-        email: existingUser.email,
-        role: existingUser.role
+        id: existingUser.id.value,
+        email: existingUser.email.value,
+        role: existingUser.role.value
     });
   }
 
