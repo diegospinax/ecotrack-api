@@ -1,7 +1,6 @@
 import { Auth } from "@/domain/auth/Auth";
 import { Claims } from "@/domain/auth/Claims";
 import { Token } from "@/domain/auth/Token";
-import { PersonRepository } from "@/domain/person/ports/PersonRepository";
 import { PasswordEncrypter } from "@/domain/user/ports/PasswordEncrypter";
 import { TokenService } from "@/domain/user/ports/TokenService";
 import { UserRepository } from "@/domain/user/ports/UserRepository";
@@ -14,7 +13,6 @@ export class AuthUseCase {
 
   constructor(
     userRepository: UserRepository,
-    private personRepository: PersonRepository,
     tokenService: TokenService,
     encrypter: PasswordEncrypter
   ) {
@@ -30,10 +28,6 @@ export class AuthUseCase {
 
     if (!existingUser) throw new UseCaseException("User not found.");
 
-    const existingPerson = await this.personRepository.findByUserId(existingUser?.id);
-
-    if (!existingPerson) throw new UseCaseException("Person not found.")
-
     const passwordsMatch: boolean = await this.encrypter.validatePassword(
       credentials.password,
       existingUser.password
@@ -41,9 +35,11 @@ export class AuthUseCase {
 
     if (!passwordsMatch) throw new UseCaseException("Invalid credentials provided.");
 
+    console.log(existingUser);
+    
     return AuthUseCase.tokenService.generateToken({
-        id: existingUser.id.value,
-        personId: existingPerson.id.value,
+        id: existingUser.id!.value!,
+        personId: existingUser.person!.id.value,
         email: existingUser.email.value,
         role: existingUser.role.value
     });

@@ -1,8 +1,12 @@
-import UserId from "@/domain/user/value-objects/UserId";
-import PersonId from "./value-objects/PersonId";
-import PersonName from "./value-objects/PersonName";
-import PersonLastName from "./value-objects/PersonLastName";
+import { Achievement } from "../achievement/Achievement";
+import { Challenge } from "../challenge/Challenge";
+import { Course } from "../course/Course";
+import { User } from "../user/User";
 import PersonArea from "./value-objects/PersonArea";
+import PersonId from "./value-objects/PersonId";
+import PersonIsActive from "./value-objects/PersonIsActive";
+import PersonLastName from "./value-objects/PersonLastName";
+import PersonName from "./value-objects/PersonName";
 import PersonProfilePicture from "./value-objects/PersonProfilePicture";
 
 export interface Person {
@@ -11,5 +15,9 @@ export interface Person {
   lastName: PersonLastName;
   area: PersonArea;
   profilePicture: PersonProfilePicture;
-  userId: UserId;
+  isActive: PersonIsActive;
+  user?: User;
+  courses?: Course[];
+  challenges?: Challenge[];
+  achievements?: Achievement[];
 }

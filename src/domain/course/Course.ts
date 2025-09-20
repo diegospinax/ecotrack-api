@@ -1,11 +1,11 @@
-import PersonId from "../person/value-objects/PersonId";
-import LessonId from "./lesson/value-objects/LessonId";
+import { Person } from "../person/Person";
+import { Lesson } from "./lesson/Lesson";
 import { CourseId } from "./value-objects/CourseId";
 import { CourseIsFinished } from "./value-objects/CourseIsFinished";
 
 export interface Course{
     id: CourseId;
-    personId: PersonId;
-    lessonId: LessonId;
+    person: Person;
+    lesson: Lesson;
     isFinished: CourseIsFinished;
 }

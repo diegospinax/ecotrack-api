@@ -5,6 +5,6 @@ export class UserResponse {
     public readonly id: number,
     public readonly email: string,
     public readonly role: Role,
-    public readonly isActive: boolean
+    public readonly personId: number
   ) {}
 }

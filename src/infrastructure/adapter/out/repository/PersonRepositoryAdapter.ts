@@ -1,26 +1,39 @@
 import { Person } from "@/domain/person/Person";
 import { PersonRepository } from "@/domain/person/ports/PersonRepository";
 import PersonId from "@/domain/person/value-objects/PersonId";
-import UserId from "@/domain/user/value-objects/UserId";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { PersonEntity } from "@/infrastructure/entities/PersonEntity";
+import { UserEntity } from "@/infrastructure/entities/UserEntity";
 import { mapEntityToPerson, mapPersonToEntity, mapPersonUpdateToEntity } from "@/infrastructure/mapper/out/person-out-mapper";
-import { Repository } from "typeorm";
+import bcrypt from 'bcryptjs';
+import { DataSource, Repository } from "typeorm";
 
 export class PersonRepositoryAdapter implements PersonRepository {
   private personRepository: Repository<PersonEntity>;
 
-  constructor() {
+  constructor(private datasource: DataSource) {
     this.personRepository = AppDataSource.getRepository(PersonEntity);
   }
 
   public async createPerson(person: Omit<Person, 'id'>): Promise<Person> {
-    const newPerson = mapPersonToEntity(person);
-    const savedPerson = await this.personRepository.save(newPerson);
-    return mapEntityToPerson(savedPerson);
+    return await this.datasource.transaction(async (entityManager) => {
+      const personEntity = mapPersonToEntity(person);
+      const savedPerson = await entityManager.save(PersonEntity, personEntity);
+
+      const userEntity = entityManager.create(UserEntity, {
+        email: person.user?.email.value!,
+        password: await bcrypt.hash(person.user?.password.value!, 10),
+        role: person.user?.role.value!,
+        person: savedPerson
+      });
+
+      await entityManager.save(UserEntity, userEntity);
+
+      return mapEntityToPerson(savedPerson);
+    });
   }
 
-  public async list(): Promise<Person[]> {
+  public async findAll(): Promise<Person[]> {
     const entities = await this.personRepository.find();
     return entities.map(entity => mapEntityToPerson(entity));
   }
@@ -30,19 +43,10 @@ export class PersonRepositoryAdapter implements PersonRepository {
       where: { id: personId.value },
     });
 
-    if (!person) {
+    if (!person)
       throw new Error("Person not found");
-    }
 
     return mapEntityToPerson(person);
-  }
-
-  public async findByUserId(userId: UserId): Promise<Person> {
-    const entity = await this.personRepository.findOneOrFail({
-      where: { userId: userId.value }
-    });
-
-    return mapEntityToPerson(entity);
   }
 
   public async updatePerson(person: Person): Promise<void> {
@@ -51,12 +55,10 @@ export class PersonRepositoryAdapter implements PersonRepository {
   }
 
   public async deletePerson(personId: PersonId): Promise<void> {
-    await this.personRepository.query(`
-        UPDATE users u
-        SET is_active = $1
-        FROM persons p
-        WHERE p.id = $2
-        AND u.id = p.user_id;
-        `, [false, personId.value]);
+    await this.personRepository
+      .createQueryBuilder("person")
+      .update({ isActive: false })
+      .where("id = :personId", { personId: personId.value })
+      .execute();
   }
 }

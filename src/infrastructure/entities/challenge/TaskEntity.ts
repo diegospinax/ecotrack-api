@@ -1,5 +1,6 @@
 import { TaskTypeEnum } from "../../../domain/challenge/task/TaskTypeEnum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ChallengeEntity } from "./ChallengeEntity";
 
 @Entity({ name: "tasks" })
 export class TaskEntity {
@@ -21,4 +22,7 @@ export class TaskEntity {
 
     @Column({ type: "int", name: "required_repetitions" })
     requiredRepetitions!: number;
+
+    @OneToMany(() => ChallengeEntity, (challenges) => challenges.task)
+    challenges!: Promise<ChallengeEntity[]>;
 }

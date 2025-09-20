@@ -1,17 +1,21 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LessonEntity } from "./LessonEntity";
+import { PersonEntity } from "../PersonEntity";
 
 @Entity({ name: "courses" })
 export class CourseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: "bigint", name: "person_id" })
-    personId!: number;
+    @ManyToOne(() => PersonEntity, (person) => person.courses, { eager: true })
+    person!: PersonEntity;
 
-    @Column({ type: "bigint", name: "lesson_id" })
-    lessonId!: number;
+    @ManyToOne(() => LessonEntity, (lesson) => lesson.courses, { eager: true })
+    lesson!: LessonEntity;
 
     @Column({ type: "boolean", name: "is_finished" })
     isFinished!: boolean;
+    
 }
+
 

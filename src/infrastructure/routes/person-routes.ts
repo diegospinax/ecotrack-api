@@ -7,22 +7,22 @@ import { authenticationToken } from "../middleware/auth.middleware";
 import { Role } from "@/domain/user/Role";
 import { Claims } from "@/domain/auth/Claims";
 import { HttpException } from "../exception/HttpException";
+import { AppDataSource } from "../config/database.postgres";
 
 const router = Router();
 const BASE_URL = "/persons";
 
-const personRepository = new PersonRepositoryAdapter();
-const userRepository = new UserRepositoryAdapter();
-const useCase = new PersonUseCase(personRepository, userRepository);
+const personRepository = new PersonRepositoryAdapter(AppDataSource);
+const useCase = new PersonUseCase(personRepository);
 const controller = new PersonController(useCase);
 
 router.post(BASE_URL + "/create",
-    authenticationToken,
+    // authenticationToken,
     async (req: Request, res: Response, next: NextFunction) => {
-        const claims: Claims = (req as any).user;
+        // const claims: Claims = (req as any).user;
 
-        if (claims.role !== Role.ADMIN)
-            throw new HttpException(403, "Unauthorized.");
+        // if (claims.role !== Role.ADMIN)
+        //     throw new HttpException(403, "Unauthorized.");
 
         await controller.createPerson(req, res, next);
     }
@@ -31,24 +31,7 @@ router.post(BASE_URL + "/create",
 router.get(BASE_URL + "/list",
     authenticationToken,
     async (req: Request, res: Response, next: NextFunction) => {
-        await controller.listPersons(req, res, next);
-    }
-);
-
-router.get(BASE_URL + "/user/:id",
-    authenticationToken,
-    async (req: Request, res: Response, next: NextFunction) => {
-        const claims: Claims = (req as any).user;
-
-        const { id } = req.params;
-
-        if (claims.id !== Number(id)) {
-            if (claims.role !== Role.ADMIN) {
-                throw new HttpException(403, "Unauthorized.");
-            }
-        }
-
-        await controller.findByUserId(req, res, next);
+        await controller.findAll(req, res, next);
     }
 );
 

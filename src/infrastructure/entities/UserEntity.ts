@@ -1,5 +1,6 @@
 import { Role } from "../../domain/user/Role";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PersonEntity } from "./PersonEntity";
 
 @Entity({ name: "users" })
 export class UserEntity {
@@ -19,6 +20,7 @@ export class UserEntity {
   })
   role!: Role;
 
-  @Column({ type: "boolean", name: "is_active" })
-  isActive!: boolean;
+  @OneToOne(() => PersonEntity, (person) => person.user, { eager: true })
+  @JoinColumn({name: "person_id"})
+  person!: PersonEntity;
 }

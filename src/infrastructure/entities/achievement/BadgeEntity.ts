@@ -1,5 +1,6 @@
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BadgeTypeEnum } from "../../../domain/achievement/badge/BadgeTypeEnum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { AchievementEntity } from "./AchievementEntity";
 
 @Entity({ name: "badges" })
 export class BadgeEntity {
@@ -18,4 +19,7 @@ export class BadgeEntity {
         length: 50
     })
     type!: BadgeTypeEnum;
+
+    @OneToMany(() => AchievementEntity, (achievements) => achievements.badge)
+    achievements!: Promise<AchievementEntity[]>;
 }  

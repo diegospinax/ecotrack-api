@@ -1,37 +1,15 @@
-import { User } from "@/domain/user/User";
-import { CreateUserUseCase } from "./cases/CreateUserUseCase";
-import { UserRepository } from "@/domain/user/ports/UserRepository";
-import { PasswordEncrypter } from "@/domain/user/ports/PasswordEncrypter";
 import { UseCaseException } from "@/application/exception/UseCaseException";
-import { FindUserUseCase } from "./cases/FindUserUseCase";
+import { PasswordEncrypter } from "@/domain/user/ports/PasswordEncrypter";
+import { UserRepository } from "@/domain/user/ports/UserRepository";
+import { User } from "@/domain/user/User";
 import UserEmail from "@/domain/user/value-objects/UserEmail";
 import UserId from "@/domain/user/value-objects/UserId";
-import { DeleteUserUseCase } from "./cases/DeleteUserUseCase";
+import { FindUserUseCase } from "./cases/FindUserUseCase";
 import { UpdateUserUseCase } from "./cases/UpdateUserUseCase";
 
-export class UserUseCase
-  implements
-  CreateUserUseCase,
-  FindUserUseCase,
-  DeleteUserUseCase,
-  UpdateUserUseCase {
+export class UserUseCase implements FindUserUseCase, UpdateUserUseCase {
 
   constructor(private repository: UserRepository, private encrypter: PasswordEncrypter) { }
-
-  public async create(user: Omit<User, "id">): Promise<User> {
-    const existingUser = await this.repository.findByEmail(user.email);
-
-    if (existingUser) {
-      throw new UseCaseException("Email already registered.");
-    }
-
-    const userPasswordEncrypted: Omit<User, "id"> = {
-      ...user,
-      password: await this.encrypter.encryptPassword(user.password),
-    };
-
-    return await this.repository.createUser(userPasswordEncrypted);
-  }
 
   public async findById(userId: UserId): Promise<User> {
     const existingUser = await this.repository.findById(userId);
@@ -47,14 +25,6 @@ export class UserUseCase
     if (!existingUser) throw new UseCaseException("User does not exists.");
 
     return existingUser;
-  }
-
-  public async delete(userId: UserId): Promise<void> {
-    const existingUser = await this.repository.findById(userId);
-
-    if (!existingUser) throw new UseCaseException("User not found.");
-
-    await this.repository.deleteUser(userId);
   }
 
   public async update(userPartial: Partial<User>): Promise<void> {
@@ -81,13 +51,12 @@ export class UserUseCase
     existingUser: User
   ): Promise<User> {
     return {
-      id: existingUser.id,
+      id: existingUser.id!,
       email: user.email ?? existingUser.email,
       password: user.password
         ? await this.encrypter.encryptPassword(user.password)
         : existingUser.password,
-      role: user.role ?? existingUser.role,
-      isActive: existingUser.isActive,
+      role: user.role ?? existingUser.role
     };
   }
 }

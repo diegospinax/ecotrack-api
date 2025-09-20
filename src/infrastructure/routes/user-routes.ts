@@ -17,19 +17,6 @@ const encrypter = new PasswordEncrypterAdapter();
 const useCase = new UserUseCase(repository, encrypter);
 const controller = new UserController(useCase);
 
-router.post(
-  BASE_URL + "/create",
-  authenticationToken,
-  async (req: Request, res: Response, next: NextFunction) => {
-    const claims: Claims = (req as any).user;
-
-    if (claims.role !== Role.ADMIN)
-      throw new HttpException(403, "Unauthorized.");
-
-    await controller.createUser(req, res, next);
-  }
-);
-
 router.get(
   BASE_URL + "/email",
   authenticationToken,
@@ -38,7 +25,7 @@ router.get(
 
     const value = req.query.value;
 
-    if (claims.email !== value){
+    if (claims.email !== value) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
@@ -57,7 +44,7 @@ router.get(
 
     const { id } = req.params;
 
-    if (claims.id !== Number(id)){
+    if (claims.id !== Number(id)) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
@@ -76,26 +63,13 @@ router.put(
 
     const { id } = req.params;
 
-    if (claims.id !== Number(id)){
+    if (claims.id !== Number(id)) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
     }
 
     await controller.updateUser(req, res, next);
-  }
-);
-
-router.delete(
-  BASE_URL + "/:id",
-  authenticationToken,
-  async (req: Request, res: Response, next: NextFunction) => {
-    const claims: Claims = (req as any).user;
-
-    if (claims.role !== Role.ADMIN)
-      throw new HttpException(403, "Unauthorized.");
-
-    await controller.deleteUser(req, res, next);
   }
 );
 

@@ -12,23 +12,7 @@ import UserPassword from '@/domain/user/value-objects/UserPassword';
 import UserRole from '@/domain/user/value-objects/UserRole';
 
 export class UserController {
-  constructor(private useCase: UserUseCase) {}
-
-  async createUser(req: Request, res: Response, next: NextFunction) {
-    try {
-      const userRequest: UserRequest = req.body;
-      const user: Omit<User, "id"> = mapUserRequestToDomain(userRequest);
-
-      const createdUser = await this.useCase.create(user);
-
-      return res
-        .status(201)
-        .location(`/api/v1/users/${createdUser.id.value}`)
-        .end();
-    } catch (error) {
-      next(error);
-    }
-  }
+  constructor(private useCase: UserUseCase) { }
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
@@ -56,7 +40,7 @@ export class UserController {
     }
   }
 
-   async updateUser(req: Request, res: Response, next: NextFunction) {
+  async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const userRequest: Partial<UserRequest> = req.body;
@@ -65,24 +49,12 @@ export class UserController {
 
       const partialUser: Partial<User> = {
         id: userId,
-        ...(userRequest.email &&  {email: new UserEmail(userRequest.email)}),
-        ...(userRequest.password && {password: new UserPassword(userRequest.password)}),
-        ...(userRequest.role && {role: new UserRole(userRequest.role)})
+        ...(userRequest.email && { email: new UserEmail(userRequest.email) }),
+        ...(userRequest.password && { password: new UserPassword(userRequest.password) }),
+        ...(userRequest.role && { role: new UserRole(userRequest.role) })
       }
 
       await this.useCase.update(partialUser);
-
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async deleteUser(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const userId = new UserId(Number(id));
-      await this.useCase.delete(userId);
 
       return res.status(204).end();
     } catch (error) {

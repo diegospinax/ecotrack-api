@@ -18,12 +18,6 @@ export class UserRepositoryAdapter implements UserRepository {
     this.userRepository = AppDataSource.getRepository(UserEntity);
   }
 
-  async createUser(user: Omit<User, "id">): Promise<User> {
-    const newUser = mapUserToEntity(user);
-    const savedUser = await this.userRepository.save(newUser);
-    return mapUserToDomain(savedUser);
-  }
-
   async findById(userId: UserId): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { id: userId.value },
@@ -43,13 +37,5 @@ export class UserRepositoryAdapter implements UserRepository {
   async updateUser(user: User): Promise<void> {
     const userUpdate = mapUserUpdateToEntity(user);
     await this.userRepository.save(userUpdate);
-  }
-
-  async deleteUser(userId: UserId): Promise<void> {
-    await this.userRepository
-      .createQueryBuilder("user")
-      .update({ isActive: false })
-      .where("id = :userId", {userId: userId.value})
-      .execute();
   }
 }

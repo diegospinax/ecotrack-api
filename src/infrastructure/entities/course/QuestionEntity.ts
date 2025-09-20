@@ -1,5 +1,6 @@
-import { number } from "joi";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LessonEntity } from "./LessonEntity";
+import { AnswerEntity } from "./AnswerEntity";
 
 @Entity({ name: "questions" })
 export class QuestionEntity {
@@ -9,6 +10,9 @@ export class QuestionEntity {
     @Column({ type: "text" })
     question!: string;
 
-    @Column({ type: "bigint", name: "lesson_id" })
-    lessonId!: number;
-}
+    @ManyToOne(() => LessonEntity, (lesson) => lesson.questions)
+    lesson!: Promise<LessonEntity>;
+
+    @OneToMany(() => AnswerEntity, (answers) => answers.question, { eager: true })
+    answers!: AnswerEntity[];
+} 

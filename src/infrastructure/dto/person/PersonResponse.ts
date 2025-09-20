@@ -7,6 +7,6 @@ export class PersonResponse {
         public readonly lastname: string,
         public readonly area: Area,
         public readonly profilePicture: string,
-        public readonly userId: number 
+        public readonly isActive: boolean 
     ){}
 }

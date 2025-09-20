@@ -1,9 +1,13 @@
 import { Area } from "../../domain/person/Area";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from "./UserEntity";
+import { CourseEntity } from "./course/CourseEntity";
+import { ChallengeEntity } from "./challenge/ChallengeEntity";
+import { AchievementEntity } from "./achievement/AchievementEntity";
 
 @Entity({ name: "persons" })
 export class PersonEntity {
-    
+
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -22,7 +26,18 @@ export class PersonEntity {
     @Column({ type: "text", name: "profile_picture" })
     profilePicture!: string;
 
-    @Column({ type: "bigint", name: "user_id" })
-    userId!: number;
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
 
+    @OneToOne(() => UserEntity, (user) => user.person, { lazy: true })
+    user!: Promise<UserEntity>;
+
+    @OneToMany(() => CourseEntity, (courses) => courses.person, { lazy: true })
+    courses!: Promise<CourseEntity[]>;
+
+    @OneToMany(() => ChallengeEntity, (challenges) => challenges.person, { lazy: true })
+    challenges!: Promise<ChallengeEntity[]>;
+
+    @OneToMany(() => AchievementEntity, (achievements) => achievements.person, { lazy: true })
+    achievements!: Promise<AchievementEntity[]>;
 }

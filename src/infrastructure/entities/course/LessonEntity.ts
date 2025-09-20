@@ -1,5 +1,7 @@
 import { LessonTypeEnum } from "../../../domain/course/lesson/LessonTypeEnum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CourseEntity } from "./CourseEntity";
+import { QuestionEntity } from "./QuestionEntity";
 
 @Entity({ name: "lessons" })
 export class LessonEntity {
@@ -17,5 +19,14 @@ export class LessonEntity {
         length: 50
     })
     type!: LessonTypeEnum;
+
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
+
+    @OneToMany(() => QuestionEntity, (questions) => questions.lesson, { eager: true })
+    questions!: QuestionEntity[];
+
+    @OneToMany(() => CourseEntity, (courses) => courses.lesson)
+    courses!: Promise<CourseEntity[]>;
 }
 

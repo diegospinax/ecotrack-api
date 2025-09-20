@@ -1,9 +1,11 @@
-import LessonId from "../lesson/value-objects/LessonId";
+import { Answer } from "../answer/Answer";
+import { Lesson } from "../lesson/Lesson";
 import QuestionId from "./value-objects/QuestionId";
 import QuestionText from "./value-objects/QuestionText";
 
 export interface Question {
   id: QuestionId;
   question: QuestionText;
-  lessonId: LessonId;
+  lesson: Lesson;
+  answers?: Answer[];
 }

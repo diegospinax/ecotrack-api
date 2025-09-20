@@ -2,8 +2,9 @@ import { PersonUseCase } from "@/application/usecase/person/PersonUseCase";
 import { Person } from "@/domain/person/Person";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import UserId from "@/domain/user/value-objects/UserId";
+import { PersonRegister } from "@/infrastructure/dto/person/PersonRegister";
 import { PersonRequest } from "@/infrastructure/dto/person/PersonRequest";
-import { mapPersonDomainToResponse, mapPersonRequestPartialToPartialDomain, mapPersonRequestToDomain } from "@/infrastructure/mapper/in/person-in-mapper";
+import { mapPersonDomainToResponse, mapPersonRequestPartialToPartialDomain, mapPersonRegisterToDomain } from "@/infrastructure/mapper/in/person-in-mapper";
 import { NextFunction, Request, Response } from "express";
 
 export class PersonController {
@@ -11,8 +12,8 @@ export class PersonController {
 
     public async createPerson(req: Request, res: Response, next: NextFunction) {
         try {
-            const personRequest: PersonRequest = req.body;
-            const person: Omit<Person, "id"> = mapPersonRequestToDomain(personRequest);
+            const registerData: PersonRegister = req.body;
+            const person: Omit<Person, "id"> = mapPersonRegisterToDomain(registerData);
 
             const createdPerson: Person = await this.useCase.create(person);
 
@@ -25,9 +26,9 @@ export class PersonController {
         }
     }
 
-    public async listPersons(req: Request, res: Response, next: NextFunction) {
+    public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const persons: Person[] = await this.useCase.list();
+            const persons: Person[] = await this.useCase.findAll();
 
             return res.status(200).json(persons
                 .map(person => mapPersonDomainToResponse(person)));
@@ -42,20 +43,6 @@ export class PersonController {
             const personId = new PersonId(Number(id));
 
             const person: Person = await this.useCase.findById(personId);
-
-            return res.status(200).json(mapPersonDomainToResponse(person));
-
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    public async findByUserId(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id } = req.params;
-            const userId = new UserId(Number(id));
-
-            const person: Person = await this.useCase.findByUserId(userId);
 
             return res.status(200).json(mapPersonDomainToResponse(person));
 

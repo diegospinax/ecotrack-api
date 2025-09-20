@@ -1,4 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PersonEntity } from "../PersonEntity";
+import { BadgeEntity } from "./BadgeEntity";
 
 @Entity({ name: "achievements" })
 export class AchievementEntity {
@@ -8,10 +10,10 @@ export class AchievementEntity {
     @Column({ type: "timestamp", name: "date_received" })
     dateReceived!: Date;
 
-    @Column({ type: "bigint", name: "person_id" })
-    personId!: number;
+    @ManyToOne(() => PersonEntity, (person) => person.achievements, { eager: true })
+    person!: PersonEntity;
 
-    @Column({ type: "bigint", name: "badge_id" })
-    badgeId!: number;
+    @ManyToOne(() => BadgeEntity, (badge) => badge.achievements, { eager: true })
+    badge!: BadgeEntity;
 
 }

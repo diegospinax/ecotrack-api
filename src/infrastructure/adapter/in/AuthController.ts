@@ -18,7 +18,11 @@ export class AuthController {
                 password: new UserPassword(credentials.password)
             }
 
+            console.log("no");
+
             const token: Token = await this.useCase.login(auth);
+
+            console.log(token);
 
             return res.status(200).json({
                 token: token.value

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { QuestionEntity } from "./QuestionEntity";
 
 @Entity({ name: "answers" })
 export class AnswerEntity {
@@ -11,8 +12,8 @@ export class AnswerEntity {
     @Column({ type: "boolean", name: "is_correct" })
     isCorrect!: boolean;
 
-    @Column({ type: "bigint", name: "question_id" })
-    questionId!: number;
+    @ManyToOne(() => QuestionEntity, (question) => question.answers)
+    question!: Promise<QuestionEntity>;
 }
 
 

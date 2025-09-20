@@ -7,6 +7,6 @@ export function updatePersonFields(person: Partial<Person>, existingPerson: Pers
         lastName: person.lastName ?? existingPerson.lastName,
         area: person.area ?? existingPerson.area,
         profilePicture: person.profilePicture ?? existingPerson.profilePicture,
-        userId: person.userId ?? existingPerson.userId
+        isActive: person.isActive ?? existingPerson.isActive
     }
 }

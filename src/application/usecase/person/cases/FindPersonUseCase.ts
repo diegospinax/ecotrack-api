@@ -4,5 +4,4 @@ import UserId from "@/domain/user/value-objects/UserId";
 
 export interface FindPersonUseCase {
     findById(personId: PersonId): Promise<Person | null>;
-    findByUserId(userId: UserId): Promise<Person | null>;
 }
