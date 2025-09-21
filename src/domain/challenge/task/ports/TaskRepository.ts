@@ -1,10 +1,13 @@
 import { Task } from "../Task";
 import TaskId from "../value-objects/TaskId";
+import TaskType from "../value-objects/TaskType";
 
 export interface TaskRepository {
-  createTask(task: Task): Promise<Task>;
-  FindById(taskId: TaskId): Promise<Task>;
-  updateTask(task: Task): Promise<void>;
-  deleteTask(taskId: TaskId): Promise<void>;
+  create(task: Omit<Task, "id">): Promise<Task>;
+  findAll(): Promise<Task[]>;
+  findById(taskId: TaskId): Promise<Task>;
+  findByType(taskType: TaskType): Promise<Task[]>
+  update(task: Task): Promise<void>;
+  delete(taskId: TaskId): Promise<void>;
 }
  

@@ -1,9 +1,8 @@
+import PersonId from "@/domain/person/value-objects/PersonId";
 import { Achievement } from "../Achievement";
-import AchievementId from "../value-objects/AchievementId";
 
 export interface AchievementRepository {
-  createAchievement(achievement: Achievement): Promise<Achievement>;
-  findById(achievementId: AchievementId): Promise<Achievement>;
-  updateAchievement(achievement: Achievement): Promise<void>;
-  deleteAchievement(achievementId: AchievementId): Promise<void>;
+  create(achievement: Omit<Achievement, "id">): Promise<Achievement>;
+  findAll(): Promise<Achievement[]>;
+  findAllByPersonId(personId: PersonId): Promise<Achievement[]>;
 }

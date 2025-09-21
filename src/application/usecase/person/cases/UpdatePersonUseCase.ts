@@ -1,5 +1,5 @@
-import { Person } from "@/domain/person/Person";
+import { UpdatePersonDto } from "@/application/dto/person/UpdatePersonDto";
 
 export interface UpdatePersonUseCase {
-    update(personPartial: Partial<Person>): Promise <void>;
+    update(personDto: UpdatePersonDto): Promise <void>;
 }

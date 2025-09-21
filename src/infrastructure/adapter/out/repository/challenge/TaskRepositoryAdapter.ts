@@ -16,7 +16,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
         this.taskRepository = AppDataSource.getRepository(TaskEntity);
     }
 
-    async createTask(task: Task): Promise<Task> {
+    async create(task: Task): Promise<Task> {
         try {
             const newTask = await this.toEntity(task);
             const savedTask = await this.taskRepository.save(newTask);
@@ -30,7 +30,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
     }
 
 
-    async FindById(taskId: TaskId): Promise<Task> {
+    async findById(taskId: TaskId): Promise<Task> {
         try {
             const task = await this.taskRepository.findOne({
                 where: { id_Task: taskId.value },
@@ -50,7 +50,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
         }
     }
 
-    async updateTask(task: Task): Promise<void> {
+    async update(task: Task): Promise<void> {
         try {
 
             const taskUpdate = await this.toEntity(task);
@@ -63,7 +63,7 @@ export class TaskRepositoryAdapter implements TaskRepository {
         }
     }
 
-    async deleteTask(taskId: TaskId): Promise<void> {
+    async delete(taskId: TaskId): Promise<void> {
         try {
             const result = await this.taskRepository.delete(taskId.value);
 

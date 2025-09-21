@@ -12,6 +12,6 @@ export interface Lesson {
     description: LessonDescription;
     type: LessonType;
     isActive: LessonIsActive;
-    questions?: Question[];
+    questions: Question[];
     courses?: Course[];
 }

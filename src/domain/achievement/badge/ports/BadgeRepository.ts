@@ -1,9 +1,12 @@
 import { Badge } from "../Badge";
 import BadgeId from "../value-objects/BadgeId";
+import BadgeType from "../value-objects/BadgeType";
 
 export interface BadgeRepository{
-    createBadge(badge: Badge):Promise<Badge>;
+    create(badge: Omit<Badge, "id">):Promise<Badge>;
+    findAll(): Promise<Badge[]>;
     findById(badgeId: BadgeId):Promise<Badge>;
-    updateBadge(badge: Badge):Promise<void>;
-    deleteBadge(badgeId: BadgeId):Promise<void>;
+    findAllByType(badgeType: BadgeType): Promise<Badge[]>;
+    update(badge: Badge):Promise<void>;
+    delete(badgeId: BadgeId):Promise<void>;
 }  

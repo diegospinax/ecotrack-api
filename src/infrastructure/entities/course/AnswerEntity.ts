@@ -12,7 +12,7 @@ export class AnswerEntity {
     @Column({ type: "boolean", name: "is_correct" })
     isCorrect!: boolean;
 
-    @ManyToOne(() => QuestionEntity, (question) => question.answers)
+    @ManyToOne(() => QuestionEntity, (question) => question.answers, { lazy: true })
     question!: Promise<QuestionEntity>;
 }
 

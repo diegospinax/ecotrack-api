@@ -23,10 +23,10 @@ export class LessonEntity {
     @Column({ type: "boolean", name: "is_active" })
     isActive!: boolean;
 
-    @OneToMany(() => QuestionEntity, (questions) => questions.lesson, { eager: true })
+    @OneToMany(() => QuestionEntity, (questions) => questions.lesson, { eager: true, cascade: true })
     questions!: QuestionEntity[];
 
-    @OneToMany(() => CourseEntity, (courses) => courses.lesson)
-    courses!: Promise<CourseEntity[]>;
+    @OneToMany(() => CourseEntity, (courses) => courses.lesson, { lazy: true })
+    courses?: Promise<CourseEntity[]>;
 }
 

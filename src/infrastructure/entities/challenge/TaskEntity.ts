@@ -4,7 +4,7 @@ import { ChallengeEntity } from "./ChallengeEntity";
 
 @Entity({ name: "tasks" })
 export class TaskEntity {
-    
+
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -20,9 +20,12 @@ export class TaskEntity {
     })
     type!: TaskTypeEnum;
 
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
+
     @Column({ type: "int", name: "required_repetitions" })
     requiredRepetitions!: number;
 
-    @OneToMany(() => ChallengeEntity, (challenges) => challenges.task)
-    challenges!: Promise<ChallengeEntity[]>;
+    @OneToMany(() => ChallengeEntity, (challenges) => challenges.task, { lazy: true })
+    challenges?: Promise<ChallengeEntity[]>;
 }

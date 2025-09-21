@@ -20,6 +20,9 @@ export class BadgeEntity {
     })
     type!: BadgeTypeEnum;
 
-    @OneToMany(() => AchievementEntity, (achievements) => achievements.badge)
-    achievements!: Promise<AchievementEntity[]>;
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
+
+    @OneToMany(() => AchievementEntity, (achievements) => achievements.badge, { lazy: true })
+    achievements?: Promise<AchievementEntity[]>;
 }  

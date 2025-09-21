@@ -7,7 +7,7 @@ import PersonName from "@/domain/person/value-objects/PersonName";
 import PersonProfilePicture from "@/domain/person/value-objects/PersonProfilePicture";
 import { PersonEntity } from "@/infrastructure/entities/PersonEntity";
 
-export const mapEntityToPerson = (entity: PersonEntity): Person => {
+export const mapEntityToPersonDomain = (entity: PersonEntity): Person => {
     return {
             id: new PersonId(entity.id),
             name: new PersonName(entity.name),
@@ -18,25 +18,13 @@ export const mapEntityToPerson = (entity: PersonEntity): Person => {
         };
 }
 
-export const mapPersonToEntity = (domain: Omit<Person, 'id'>): PersonEntity => {
-    const personEntity: PersonEntity = new PersonEntity();
-
-    personEntity.name = domain.name.value;
-    personEntity.lastName = domain.lastName.value;
-    personEntity.area = domain.area.value;
-    personEntity.profilePicture = domain.profilePicture.value;
-    personEntity.isActive = domain.isActive.value;
-
-    return personEntity;
-}
-
-export const mapPersonUpdateToEntity = (domain: Person): PersonEntity => {
-    const entity: PersonEntity = new PersonEntity();
-    entity.id = domain.id.value;
-    entity.name = domain.name.value;
-    entity.lastName = domain.lastName.value;
-    entity.area = domain.area.value;
-    entity.profilePicture = domain.profilePicture.value;
-    entity.isActive = domain.isActive.value;
-    return entity;
+export const mapPersonDomainToEntity = (domain: Person): PersonEntity => {
+    return {
+        id: domain.id.value,
+        name: domain.name.value,
+        lastName: domain.lastName.value,
+        area: domain.area.value,
+        profilePicture: domain.profilePicture.value,
+        isActive: domain.isActive.value,
+    }
 }

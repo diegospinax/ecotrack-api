@@ -1,10 +1,11 @@
 import { Person } from "@/domain/person/Person";
 import { PersonRepository } from "@/domain/person/ports/PersonRepository";
 import PersonId from "@/domain/person/value-objects/PersonId";
+import { User } from "@/domain/user/User";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { PersonEntity } from "@/infrastructure/entities/PersonEntity";
 import { UserEntity } from "@/infrastructure/entities/UserEntity";
-import { mapEntityToPerson, mapPersonToEntity, mapPersonUpdateToEntity } from "@/infrastructure/mapper/out/person-out-mapper";
+import { mapEntityToPersonDomain, mapPersonDomainToEntity } from "@/infrastructure/mapper/out/person-out-mapper";
 import bcrypt from 'bcryptjs';
 import { DataSource, Repository } from "typeorm";
 
@@ -15,27 +16,39 @@ export class PersonRepositoryAdapter implements PersonRepository {
     this.personRepository = AppDataSource.getRepository(PersonEntity);
   }
 
-  public async createPerson(person: Omit<Person, 'id'>): Promise<Person> {
+  public async create(person: Omit<Person, 'id'>, user: Omit<User, "id">): Promise<Person> {
     return await this.datasource.transaction(async (entityManager) => {
-      const personEntity = mapPersonToEntity(person);
+
+      const personEntity = entityManager.create(PersonEntity, {
+        name: person.name.value,
+        lastName: person.lastName.value,
+        area: person.area.value,
+        profilePicture: person.profilePicture.value,
+        isActive: person.isActive.value
+      });
+
       const savedPerson = await entityManager.save(PersonEntity, personEntity);
 
       const userEntity = entityManager.create(UserEntity, {
-        email: person.user?.email.value!,
-        password: await bcrypt.hash(person.user?.password.value!, 10),
-        role: person.user?.role.value!,
+        email: user.email.value,
+        password: await bcrypt.hash(user.password.value, 10),
+        role: user.role.value,
         person: savedPerson
       });
 
       await entityManager.save(UserEntity, userEntity);
 
-      return mapEntityToPerson(savedPerson);
+      return mapEntityToPersonDomain(savedPerson);
     });
   }
 
   public async findAll(): Promise<Person[]> {
-    const entities = await this.personRepository.find();
-    return entities.map(entity => mapEntityToPerson(entity));
+    const entities = await this.personRepository.find({
+      where: {
+        isActive: true
+      }
+    });
+    return entities.map(entity => mapEntityToPersonDomain(entity));
   }
 
   public async findById(personId: PersonId): Promise<Person> {
@@ -46,15 +59,15 @@ export class PersonRepositoryAdapter implements PersonRepository {
     if (!person)
       throw new Error("Person not found");
 
-    return mapEntityToPerson(person);
+    return mapEntityToPersonDomain(person);
   }
 
-  public async updatePerson(person: Person): Promise<void> {
-    const personUpdate = mapPersonUpdateToEntity(person);
+  public async update(person: Person): Promise<void> {
+    const personUpdate = mapPersonDomainToEntity(person);
     await this.personRepository.save(personUpdate);
   }
 
-  public async deletePerson(personId: PersonId): Promise<void> {
+  public async delete(personId: PersonId): Promise<void> {
     await this.personRepository
       .createQueryBuilder("person")
       .update({ isActive: false })

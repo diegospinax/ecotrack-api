@@ -34,8 +34,6 @@ export class AuthUseCase {
     );
 
     if (!passwordsMatch) throw new UseCaseException("Invalid credentials provided.");
-
-    console.log(existingUser);
     
     return AuthUseCase.tokenService.generateToken({
         id: existingUser.id!.value!,

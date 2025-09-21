@@ -7,6 +7,9 @@ import { Repository } from "typeorm";
 import { AchievementRepository } from "@/domain/achievement/ports/AchievementRepository";
 import { AchievementEntity } from "@/infrastructure/entities/achievement/AchievementEntity";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { mapBadgeDomainToEntity } from "@/infrastructure/mapper/out/badge-out-mapper";
+import { mapEntityToAchievementDomain } from "@/infrastructure/mapper/out/achievement-out-mapper";
+import { mapPersonDomainToEntity } from "@/infrastructure/mapper/out/person-out-mapper";
 
 export class AchievementRepositoryAdapter implements AchievementRepository {
     private achievementRepository: Repository<AchievementEntity>
@@ -15,82 +18,44 @@ export class AchievementRepositoryAdapter implements AchievementRepository {
         this.achievementRepository = AppDataSource.getRepository(AchievementEntity);
     }
 
-    async createAchievement(achievement: Achievement): Promise<Achievement> {
-        try {
-            const newachievement = await this.toEntity(achievement);
-            const savedachievement = await this.achievementRepository.save(newachievement);
-            return this.toDomain(savedachievement);
+    public async create(achievement: Omit<Achievement, "id">): Promise<Achievement> {
+        const entity: AchievementEntity = this.achievementRepository.create({
+            person: mapPersonDomainToEntity(achievement.person),
+            badge: mapBadgeDomainToEntity(achievement.badge),
+            dateReceived: achievement.date.value
+        });
 
-        } catch (error) {
+        const savedAchievement = await this.achievementRepository.save(entity);
 
-            console.error("Error creating achievement ", error);
-            throw new Error("Error creating achievement");
-        }
+        return mapEntityToAchievementDomain(savedAchievement);
     }
 
-
-    async findById(achievementId: AchievementId): Promise<Achievement> {
-        try {
-            const achievement = await this.achievementRepository.findOne({
-                where: { id_achievement: achievementId.value },
-            });
-
-            if (!achievement) {
-                throw new Error("Achievement not found");
+    public async findAll(): Promise<Achievement[]> {
+        const achievements = await this.achievementRepository.find({
+            where: {
+                badge: {
+                    isActive: true
+                },
+                person: {
+                    isActive: true
+                }
             }
+        });
 
-            return this.toDomain(achievement);
-
-        } catch (error) {
-
-            console.error("Error fetching achievement by id: ", error);
-            throw new Error("Error fetching achievement by id");
-
-        }
+        return achievements.map(achievement => mapEntityToAchievementDomain(achievement));
     }
 
-    async updateAchievement(achievement: Achievement): Promise<void> {
-        try {
-
-            const achievementUpdate = await this.toEntity(achievement);
-            await this.achievementRepository.update(achievementUpdate.id_achievement, achievementUpdate);
-
-        } catch (error) {
-
-            console.error("Error updating achievement:", error);
-            throw new Error("Error updating achievement");
-        }
-    }
-
-    async deleteAchievement(achievementId: AchievementId): Promise<void> {
-        try {
-            const result = await this.achievementRepository.delete(achievementId.value);
-
-            if (result.affected === 0) {
-                throw new Error("Achievement not found");
+    public async findAllByPersonId(personId: PersonId): Promise<Achievement[]> {
+        const personAchievements = await this.achievementRepository.findBy({
+            person: {
+                id: personId.value,
+                isActive: true
+            },
+            badge: {
+                isActive: true
             }
+        });
 
-        } catch (error) {
-
-            console.error("Error deleting achievement:", error);
-            throw new Error("Error deleting achievement");
-        }
-    }
-
-    private toDomain(achievement: AchievementEntity): Achievement {
-        return {
-            id: new AchievementId(achievement.id_achievement),
-            date: new AchievementDateReceived(achievement.DateReceived_Achievement),
-            personId: new PersonId(achievement.id_Person),
-            badgeId: new BadgeId(achievement.id_Badge),
-        }
-    }
-
-    private async toEntity(achievement: Achievement): Promise<AchievementEntity> {
-        const achievementEntity = new AchievementEntity();
-        achievementEntity.DateReceived_Achievement = achievement.date.value;
-        achievementEntity.id_Person = achievement.personId.value;
-        achievementEntity.id_Badge = achievement.badgeId.value;
-        return achievementEntity;
+        return personAchievements.map(achievement => mapEntityToAchievementDomain(achievement));
     }
 }

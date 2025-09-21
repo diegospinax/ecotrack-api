@@ -10,9 +10,9 @@ export class QuestionEntity {
     @Column({ type: "text" })
     question!: string;
 
-    @ManyToOne(() => LessonEntity, (lesson) => lesson.questions)
+    @ManyToOne(() => LessonEntity, (lesson) => lesson.questions, { lazy: true })
     lesson!: Promise<LessonEntity>;
 
-    @OneToMany(() => AnswerEntity, (answers) => answers.question, { eager: true })
+    @OneToMany(() => AnswerEntity, (answers) => answers.question, { eager: true, cascade: true })
     answers!: AnswerEntity[];
 } 

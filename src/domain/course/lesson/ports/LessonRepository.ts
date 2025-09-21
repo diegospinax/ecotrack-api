@@ -2,8 +2,9 @@ import { Lesson } from "../Lesson";
 import LessonId from "../value-objects/LessonId";
 
 export interface LessonRepository {
-    createLesson(lesson: Lesson): Promise<Lesson>;
-    findById(lessonId: LessonId): Promise<Lesson>;
-    updateLesson(lesson: Lesson): Promise<void>;
-    deleteLesson(lessonId: LessonId): Promise<void>;
+    create(lesson: Omit<Lesson, "id">): Promise<Lesson>;
+    findById(lessonId: LessonId): Promise<Lesson | null>;
+    findAll(): Promise<Lesson[]>;
+    update(lesson: Lesson): Promise<void>;
+    delete(lessonId: LessonId): Promise<void>;
 }

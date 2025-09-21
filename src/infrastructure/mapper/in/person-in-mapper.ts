@@ -5,13 +5,10 @@ import PersonIsActive from "@/domain/person/value-objects/PersonIsActive";
 import PersonLastName from "@/domain/person/value-objects/PersonLastName";
 import PersonName from "@/domain/person/value-objects/PersonName";
 import PersonProfilePicture from "@/domain/person/value-objects/PersonProfilePicture";
-import UserEmail from "@/domain/user/value-objects/UserEmail";
-import UserId from "@/domain/user/value-objects/UserId";
-import UserPassword from "@/domain/user/value-objects/UserPassword";
-import UserRole from "@/domain/user/value-objects/UserRole";
 import { PersonRegister } from "@/infrastructure/dto/person/PersonRegister";
 import { PersonRequest } from "@/infrastructure/dto/person/PersonRequest";
 import { PersonResponse } from "@/infrastructure/dto/person/PersonResponse";
+import { mapUserRequestToDomain } from "./user-in-mapper";
 
 export const mapPersonDomainToResponse = (domain: Person): PersonResponse => {
     return {
@@ -32,11 +29,7 @@ export const mapPersonRegisterToDomain = (request: PersonRegister): Omit<Person,
         area: new PersonArea(person.area),
         profilePicture: new PersonProfilePicture(person.profilePicture),
         isActive: new PersonIsActive(true),
-        user: {
-            email: new UserEmail(user.email),
-            password: new UserPassword(user.password),
-            role: new UserRole(user.role)
-        }
+        user: mapUserRequestToDomain(user)
     }
 }
 

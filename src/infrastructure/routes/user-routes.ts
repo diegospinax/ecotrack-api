@@ -18,6 +18,20 @@ const useCase = new UserUseCase(repository, encrypter);
 const controller = new UserController(useCase);
 
 router.get(
+  BASE_URL + "/list", 
+  authenticationToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const claims: Claims = (req as any).user;
+
+    if (claims.role !== Role.ADMIN) {
+        throw new HttpException(403, "Unauthorized.");
+    }
+
+    await controller.findAll(req, res, next);
+  }
+)
+
+router.get(
   BASE_URL + "/email",
   authenticationToken,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -34,7 +48,6 @@ router.get(
     await controller.findByEmail(req, res, next);
   }
 );
-
 
 router.get(
   BASE_URL + "/:id",

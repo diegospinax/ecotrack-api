@@ -8,7 +8,7 @@ import {
   mapUserToDomain,
   mapUserToEntity,
   mapUserUpdateToEntity,
-} from "@/infrastructure/mapper/user-mapper";
+} from "@/infrastructure/mapper/out/user-out-mapper";
 import { Repository } from "typeorm";
 
 export class UserRepositoryAdapter implements UserRepository {
@@ -18,7 +18,12 @@ export class UserRepositoryAdapter implements UserRepository {
     this.userRepository = AppDataSource.getRepository(UserEntity);
   }
 
-  async findById(userId: UserId): Promise<User | null> {
+  public async findAll(): Promise<User[]> {
+    const users = await this.userRepository.find();
+    return users.map(user => mapUserToDomain(user));
+  }
+
+  public async findById(userId: UserId): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { id: userId.value },
     });
@@ -26,7 +31,7 @@ export class UserRepositoryAdapter implements UserRepository {
     return user ? mapUserToDomain(user) : null;
   }
 
-  async findByEmail(userEmail: UserEmail): Promise<User | null> {
+  public async findByEmail(userEmail: UserEmail): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { email: userEmail.value },
     });
@@ -34,7 +39,7 @@ export class UserRepositoryAdapter implements UserRepository {
     return user ? mapUserToDomain(user) : null;
   }
 
-  async updateUser(user: User): Promise<void> {
+  public async updateUser(user: User): Promise<void> {
     const userUpdate = mapUserUpdateToEntity(user);
     await this.userRepository.save(userUpdate);
   }

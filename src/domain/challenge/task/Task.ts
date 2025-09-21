@@ -1,3 +1,4 @@
+import { Challenge } from "../Challenge";
 import TaskDescription from "./value-objects/TaskDescription";
 import TaskId from "./value-objects/TaskId";
 import TaskIsActive from "./value-objects/TaskIsActive";
@@ -12,5 +13,6 @@ export interface Task {
   type: TaskType;
   requiredRepetitions: TaskRequiredRepetitions;
   isActive: TaskIsActive;
+  challenges?: Challenge[];
 }
   

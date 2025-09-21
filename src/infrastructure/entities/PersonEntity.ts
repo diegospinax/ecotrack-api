@@ -30,14 +30,14 @@ export class PersonEntity {
     isActive!: boolean;
 
     @OneToOne(() => UserEntity, (user) => user.person, { lazy: true })
-    user!: Promise<UserEntity>;
+    user?: Promise<UserEntity>;
 
     @OneToMany(() => CourseEntity, (courses) => courses.person, { lazy: true })
-    courses!: Promise<CourseEntity[]>;
+    courses?: Promise<CourseEntity[]>;
 
     @OneToMany(() => ChallengeEntity, (challenges) => challenges.person, { lazy: true })
-    challenges!: Promise<ChallengeEntity[]>;
+    challenges?: Promise<ChallengeEntity[]>;
 
     @OneToMany(() => AchievementEntity, (achievements) => achievements.person, { lazy: true })
-    achievements!: Promise<AchievementEntity[]>;
+    achievements?: Promise<AchievementEntity[]>;
 }

@@ -5,7 +5,7 @@ import UserPassword from "./value-objects/UserPassword";
 import UserRole from "./value-objects/UserRole";
 
 export interface User {
-  id?: UserId;
+  id: UserId;
   email: UserEmail;
   password: UserPassword;
   role: UserRole;

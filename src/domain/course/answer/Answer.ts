@@ -4,8 +4,8 @@ import AnswerIsCorrect from "./value-objects/AnswerIsCorrect";
 import AnswerText from "./value-objects/AnswerText";
 
 export interface Answer {
-  id: AnswerId;
+  id?: AnswerId;
   text: AnswerText;
   isCorrect: AnswerIsCorrect;
-  question: Question;
+  question?: Question;
 }

@@ -1,5 +1,6 @@
+import { CreatePersonDto } from "@/application/dto/person/CreatePersonDto";
 import { Person } from "@/domain/person/Person";
 
 export interface CreatePersonUseCase {
-    create(person: Omit<Person, "id">): Promise<Person>;
+    create(person: CreatePersonDto): Promise<Person>;
 }

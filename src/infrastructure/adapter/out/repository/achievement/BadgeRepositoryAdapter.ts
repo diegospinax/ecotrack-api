@@ -1,12 +1,11 @@
 import { Badge } from "@/domain/achievement/badge/Badge";
-import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
-import BadgeName from "@/domain/achievement/badge/value-objects/BadgeName";
-import BadgeDescription from "@/domain/achievement/badge/value-objects/BadgeDescription";
-import BadgeType from "@/domain/achievement/badge/value-objects/BadgeType";
 import { BadgeRepository } from "@/domain/achievement/badge/ports/BadgeRepository";
-import { Repository } from "typeorm";
-import { BadgeEntity } from "@/infrastructure/entities/achievement/BadgeEntity";
+import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
+import BadgeType from "@/domain/achievement/badge/value-objects/BadgeType";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { BadgeEntity } from "@/infrastructure/entities/achievement/BadgeEntity";
+import { mapEntityToBadgeDomain } from "@/infrastructure/mapper/out/badge-out-mapper";
+import { Repository } from "typeorm";
 
 export class BadgeRepositoryAdapter implements BadgeRepository {
     private badgeRepository: Repository<BadgeEntity>
@@ -15,85 +14,62 @@ export class BadgeRepositoryAdapter implements BadgeRepository {
         this.badgeRepository = AppDataSource.getRepository(BadgeEntity);
     }
 
-    async createBadge(badge: Badge): Promise<Badge> {
-        try {
-            const newBadge = await this.toEntity(badge);
-            const savedBadge = await this.badgeRepository.save(newBadge);
-            return this.toDomain(savedBadge);
+    public async create(badge: Omit<Badge, "id">): Promise<Badge> {
+        const entity = this.badgeRepository.create({
+            name: badge.name.value,
+            description: badge.description.value,
+            type: badge.type.value,
+            isActive: badge.isActive.value
+        });
 
-        } catch (error) {
+        const savedBadge = await this.badgeRepository.save(entity);
 
-            console.error("Error creating badge: ", error);
-            throw new Error("Error creating badge");
-        }
+        return mapEntityToBadgeDomain(savedBadge);
     }
 
+    public async findAll(): Promise<Badge[]> {
+        const badges = await this.badgeRepository.find({
+            where: { isActive: true }
+        });
+        return badges.map(badge => mapEntityToBadgeDomain(badge));
+    }
 
-    async findById(badgeId: BadgeId): Promise<Badge> {
-        try {
-            const badge = await this.badgeRepository.findOne({
-                where: { id_badge: badgeId.value },
-            });
+    public async findById(badgeId: BadgeId): Promise<Badge> {
+        const existingBadge = await this.badgeRepository.findOneByOrFail({
+            id: badgeId.value,
+        });
 
-            if (!badge) {
-                throw new Error("Badge not found");
+        return mapEntityToBadgeDomain(existingBadge);
+    }
+
+    public async findAllByType(badgeType: BadgeType): Promise<Badge[]> {
+        const badges = await this.badgeRepository.find({
+            where: {
+                isActive: true,
+                type: badgeType.value
             }
+        });
 
-            return this.toDomain(badge);
-
-        } catch (error) {
-
-            console.error("Error fetching badge by id: ", error);
-            throw new Error("Error fetching badge by id");
-
-        }
+        return badges.map(badge => mapEntityToBadgeDomain(badge));
     }
 
+    public async update(badge: Badge): Promise<void> {
+        const entity = this.badgeRepository.create({
+            id: badge.id.value,
+            name: badge.name.value,
+            description: badge.description.value,
+            type: badge.type.value,
+            isActive: badge.isActive.value
+        });
 
-    async updateBadge(badge: Badge): Promise<void> {
-        try {
-
-            const badgeUpdate = await this.toEntity(badge);
-            await this.badgeRepository.update(badgeUpdate.id_badge, badgeUpdate);
-
-        } catch (error) {
-
-            console.error("Error updating badge:", error);
-            throw new Error("Error updating badge");
-        }
+        await this.badgeRepository.save(entity);
     }
 
-
-    async deleteBadge(badgeId: BadgeId): Promise<void> {
-        try {
-            const result = await this.badgeRepository.delete(badgeId.value);
-
-            if (result.affected === 0) {
-                throw new Error("Badge not found");
-            }
-
-        } catch (error) {
-
-            console.error("Error deleting badge:", error);
-            throw new Error("Error deleting badge");
-        }
-    }
-
-
-    private toDomain(badge: BadgeEntity): Badge {
-        return {
-            id: new BadgeId(badge.id_badge),
-            name: new BadgeName(badge.name_badge),
-            description: new BadgeDescription(badge.description_badge),
-            type: new BadgeType(badge.type_badge),
-        };
-    }
-
-    private async toEntity(badge: Badge): Promise<BadgeEntity> {
-        const badgeEntity = new BadgeEntity();
-        badgeEntity.name_badge = badge.name.value;
-        badgeEntity.description_badge = badge.description.value;
-        badgeEntity.type_badge = badge.type.value;
-        return badgeEntity;
+    public async delete(badgeId: BadgeId): Promise<void> {
+        await this.badgeRepository
+            .createQueryBuilder("badge")
+            .update({ isActive: false })
+            .where("id = :badgeId", { badgeId: badgeId.value })
+            .execute();
     }
 }

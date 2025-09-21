@@ -1,8 +1,11 @@
+import { CreatePersonDto } from '@/application/dto/person/CreatePersonDto';
+import { UpdatePersonDto } from '@/application/dto/person/UpdatePersonDto';
 import { UseCaseException } from '@/application/exception/UseCaseException';
-import { updatePersonFields } from '@/application/util/person-usecase-utils';
+import { createPersonFromDto, createUserFromDto, updatePersonFieldsFromDto } from '@/application/util/person-usecase-util';
 import { Person } from '@/domain/person/Person';
 import { PersonRepository } from '@/domain/person/ports/PersonRepository';
 import PersonId from '@/domain/person/value-objects/PersonId';
+import { User } from '@/domain/user/User';
 import { CreatePersonUseCase } from './cases/CreatePersonUseCase';
 import { DeletePersonUseCase } from './cases/DeletePersonUseCase';
 import { FindPersonUseCase } from './cases/FindPersonUseCase';
@@ -14,8 +17,12 @@ export class PersonUseCase implements CreatePersonUseCase, FindPersonUseCase, Up
         private personRepository: PersonRepository
     ) { }
 
-    public async create(person: Omit<Person, 'id'>): Promise<Person> {
-        return await this.personRepository.createPerson(person);
+    public async create(personDto: CreatePersonDto): Promise<Person> {
+        const person: Omit<Person, "id"> = createPersonFromDto(personDto);
+
+        const user: Omit<User, "id"> = createUserFromDto(personDto.user);
+        
+        return await this.personRepository.create(person, user);
     }
 
     public async findAll(): Promise<Person[]> {
@@ -23,30 +30,31 @@ export class PersonUseCase implements CreatePersonUseCase, FindPersonUseCase, Up
     }
 
     public async findById(personId: PersonId): Promise<Person> {
-        const existingPerson = await this.personRepository.findById(personId);
-
-        if (!existingPerson) 
-            throw new UseCaseException("Person does not exists.")
+        const existingPerson = await this.validateExistingPerson(personId);
 
         return existingPerson;
     }
 
-    public async update(personPartial: Partial<Person>): Promise<void> {
-        const existingPerson = await this.personRepository.findById(personPartial.id!);
+    public async update(personDto: UpdatePersonDto): Promise<void> {
+        const existingPerson = await this.validateExistingPerson(personDto.id);
 
-        if (!existingPerson) throw new UseCaseException("Person does not exists.");
+        const updatedPerson: Person = updatePersonFieldsFromDto(personDto, existingPerson);
 
-        const updatedPerson: Person = updatePersonFields(personPartial, existingPerson);
-
-        return await this.personRepository.updatePerson(updatedPerson);
+        await this.personRepository.update(updatedPerson);
     }
 
     public async delete(personId: PersonId): Promise<void> {
+        const existingPerson = await this.validateExistingPerson(personId);
+
+        await this.personRepository.delete(existingPerson.id);
+    }
+
+    private async validateExistingPerson(personId: PersonId): Promise<Person> {
         const existingPerson = await this.personRepository.findById(personId);
 
-        if (!existingPerson) 
-            throw new UseCaseException("Person does not exists.");
+        if (!existingPerson)
+            throw new UseCaseException(`Person not found for id: ${personId.value}`);
 
-        return await this.personRepository.deletePerson(personId);
+        return existingPerson;
     }
 }

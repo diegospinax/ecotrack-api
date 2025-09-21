@@ -7,28 +7,23 @@ import { CredentialsDto } from "@/infrastructure/dto/auth/CredentialsDto";
 import { NextFunction, Request, Response } from "express";
 
 export class AuthController {
-    constructor(private useCase: AuthUseCase){}
+    constructor(private useCase: AuthUseCase) { }
 
     public async login(req: Request, res: Response, next: NextFunction) {
-        try{
+        try {
             const credentials: CredentialsDto = req.body;
-            
+
             const auth: Auth = {
                 email: new UserEmail(credentials.email),
                 password: new UserPassword(credentials.password)
             }
 
-            console.log("no");
-
             const token: Token = await this.useCase.login(auth);
-
-            console.log(token);
 
             return res.status(200).json({
                 token: token.value
-            })
-
-        } catch(error) {
+            });
+        } catch (error) {
             next(error);
         }
     }

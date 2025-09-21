@@ -16,7 +16,7 @@ export class ChallengeRepositoryAdapter implements ChallengeRepository {
         this.challengeRepository = AppDataSource.getRepository(ChallengeEntity);
     }
 
-    async createChallenge(challenge: Challenge): Promise<Challenge> {
+    async create(challenge: Challenge): Promise<Challenge> {
         try {
             const newchallenge = await this.toEntity(challenge);
             const savedchallenge = await this.challengeRepository.save(newchallenge);
@@ -50,7 +50,7 @@ export class ChallengeRepositoryAdapter implements ChallengeRepository {
         }
     }
 
-    async updateChallenge(challenge: Challenge): Promise<void> {
+    async update(challenge: Challenge): Promise<void> {
         try {
 
             const challengeUpdate = await this.toEntity(challenge);
