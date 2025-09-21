@@ -1,24 +1,31 @@
-import { Type } from "@/domain/challenge/task/Type";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { TaskTypeEnum } from "../../../domain/challenge/task/TaskTypeEnum";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ChallengeEntity } from "./ChallengeEntity";
 
-@Entity({ name: "task" })
+@Entity({ name: "tasks" })
 export class TaskEntity {
+
     @PrimaryGeneratedColumn()
-    id_Task!: number;
+    id!: number;
 
-    @Column({ type: "string", length: 255 })
-    Title_Task!: string;
+    @Column({ type: "varchar", length: 255 })
+    title!: string;
 
-    @Column({ type: "string", length: 255 })
-    Description_Task!: string;
+    @Column({ type: "varchar", length: 255 })
+    description!: string;
 
     @Column({
-        type: "enum",
-        enum: Type,
+        type: "varchar",
+        length: 50,
     })
-    Type_Task!: Type;
+    type!: TaskTypeEnum;
 
-    @Column({ type: "number" })
-    Time_Task!: number;
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
 
+    @Column({ type: "int", name: "required_repetitions" })
+    requiredRepetitions!: number;
+
+    @OneToMany(() => ChallengeEntity, (challenges) => challenges.task, { lazy: true })
+    challenges?: Promise<ChallengeEntity[]>;
 }

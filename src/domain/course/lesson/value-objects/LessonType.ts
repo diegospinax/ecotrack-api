@@ -1,9 +1,9 @@
 import CourseValidationException from "../../exception/CourseValidationException";
-import { Type } from "../Type";
+import { LessonTypeEnum } from "../LessonTypeEnum";
 import { LessonField } from "./abstract/LessonField";
 
-export default class LessonType extends LessonField<Type> {
-  constructor(value: Type) {
+export default class LessonType extends LessonField<LessonTypeEnum> {
+  constructor(value: LessonTypeEnum) {
     super(value);
   }
   public validate(): void {

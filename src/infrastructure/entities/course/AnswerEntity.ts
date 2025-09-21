@@ -1,18 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { QuestionEntity } from "./QuestionEntity";
 
-@Entity({ name: "answer" })
+@Entity({ name: "answers" })
 export class AnswerEntity {
     @PrimaryGeneratedColumn()
-    id_answer!: number;
+    id!: number;
 
     @Column({ type: "varchar", length: 255 })
-    text_answer!: string;
+    answer!: string;
 
-    @Column({ type: "boolean" })
-    validation_answer!: boolean;
+    @Column({ type: "boolean", name: "is_correct" })
+    isCorrect!: boolean;
 
-    @Column({ type: "number" })
-    id_question!: number;
+    @ManyToOne(() => QuestionEntity, (question) => question.answers, { lazy: true })
+    question!: Promise<QuestionEntity>;
 }
 
 

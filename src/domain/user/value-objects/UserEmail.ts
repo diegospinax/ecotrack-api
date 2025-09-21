@@ -11,5 +11,6 @@ export default class UserEmail extends UserField<string> {
     if (!this.value || !regex.test(this.value)) {
       throw new UserValidationException("Invalid email provided.");
     }
+    this.value = this.value.toLowerCase();
   }
 }

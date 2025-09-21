@@ -1,4 +1,4 @@
-import UserActive from "./value-objects/UserActive";
+import { Person } from "../person/Person";
 import UserEmail from "./value-objects/UserEmail";
 import UserId from "./value-objects/UserId";
 import UserPassword from "./value-objects/UserPassword";
@@ -9,5 +9,5 @@ export interface User {
   email: UserEmail;
   password: UserPassword;
   role: UserRole;
-  active: UserActive;
+  person?: Person
 }

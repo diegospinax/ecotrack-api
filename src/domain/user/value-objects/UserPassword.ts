@@ -7,7 +7,7 @@ export default class UserPassword extends UserField<string> {
   }
 
   public validate(): void {
-    if (!this.value || this.value.length < 8) {
+    if (!this.value || this.value.length < 6) {
       throw new UserValidationException("Invalid password provided.");
     }
   }

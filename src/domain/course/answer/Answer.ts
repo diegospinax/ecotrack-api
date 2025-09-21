@@ -1,11 +1,11 @@
-import QuestionId from "../question/value-objects/QuestionId";
+import { Question } from "../question/Question";
 import AnswerId from "./value-objects/AnswerId";
-import AnswerValidation from "./value-objects/AnswerValidation";
+import AnswerIsCorrect from "./value-objects/AnswerIsCorrect";
 import AnswerText from "./value-objects/AnswerText";
 
 export interface Answer {
-  id: AnswerId;
+  id?: AnswerId;
   text: AnswerText;
-  is_correct: AnswerValidation;
-  questionId: QuestionId;
+  isCorrect: AnswerIsCorrect;
+  question?: Question;
 }

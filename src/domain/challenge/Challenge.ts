@@ -1,13 +1,13 @@
-import PersonId from "../person/value-objects/PersonId";
-import TaskId from "./task/value-objects/TaskId";
+import { Person } from "../person/Person";
+import { Task } from "./task/Task";
 import ChallengeId from "./value-objects/ChallengeId";
-import ChallengeStatus from "./value-objects/ChallengeStatus";
-import ChallengeTime from "./value-objects/ChallengeTime";
+import ChallengeIsFinished from "./value-objects/ChallengeIsFinished";
+import ChallengeTimesDone from "./value-objects/ChallengeTimesDone";
 
 export interface Challenge {
   id: ChallengeId;
-  status: ChallengeStatus;
-  timesDone: ChallengeTime;
-  personId: PersonId;
-  taskId: TaskId;
+  isFinished: ChallengeIsFinished;
+  timesDone: ChallengeTimesDone;
+  person: Person;
+  task: Task;
 }

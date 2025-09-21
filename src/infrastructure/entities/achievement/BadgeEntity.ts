@@ -1,22 +1,28 @@
-import { Type } from "@/domain/achievement/badge/Type";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BadgeTypeEnum } from "../../../domain/achievement/badge/BadgeTypeEnum";
+import { AchievementEntity } from "./AchievementEntity";
 
-@Entity({ name: "badge" })
+@Entity({ name: "badges" })
 export class BadgeEntity {
-    @PrimaryColumn()
-    id_badge!: number;
+
+    @PrimaryGeneratedColumn()
+    id!: number;
 
     @Column({ type: "varchar", length: 255 })
-    name_badge!: string;
+    name!: string;
 
     @Column({ type: "varchar", length: 255 })
-    description_badge!: string;
+    description!: string;
 
     @Column({
-        type: "enum",
-        enum: Type
+        type: "varchar",
+        length: 50
     })
-    type_badge!: Type;
+    type!: BadgeTypeEnum;
 
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
 
+    @OneToMany(() => AchievementEntity, (achievements) => achievements.badge, { lazy: true })
+    achievements?: Promise<AchievementEntity[]>;
 }  

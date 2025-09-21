@@ -6,7 +6,7 @@ export default class BadgeDescription extends BadgeField<string> {
     super(value);
   }
   public validate(): void {
-    const regex: RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9.,;:()¿?¡!'"\- ]{10,500}$/;
+    const regex: RegExp = /^[a-zA-Z0-9]+([ _-]|, )[a-zA-Z0-9]+(([ _-]|, )[a-zA-Z0-9]+)*\.?$/;
     if (!this.value || !regex.test(this.value)) {
       throw new AchievementValidationException(
         "Invalidate badge description provided."

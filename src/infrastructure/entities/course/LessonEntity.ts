@@ -1,21 +1,32 @@
-import { Type } from "@/domain/course/lesson/Type";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { LessonTypeEnum } from "../../../domain/course/lesson/LessonTypeEnum";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CourseEntity } from "./CourseEntity";
+import { QuestionEntity } from "./QuestionEntity";
 
-@Entity({ name: "lesson" })
+@Entity({ name: "lessons" })
 export class LessonEntity {
     @PrimaryGeneratedColumn()
-    id_lesson!: number;
+    id!: number;
 
     @Column({ type: "varchar", length: 255 })
-    title_lesson!: string;
+    title!: string;
 
     @Column({ type: "varchar", length: 255 })
-    description_lesson!: string;
+    description!: string;
 
     @Column({
-        type: "enum",
-        enum: Type
+        type: "varchar",
+        length: 50
     })
-    type_lesson!: Type;
+    type!: LessonTypeEnum;
+
+    @Column({ type: "boolean", name: "is_active" })
+    isActive!: boolean;
+
+    @OneToMany(() => QuestionEntity, (questions) => questions.lesson, { eager: true, cascade: true })
+    questions!: QuestionEntity[];
+
+    @OneToMany(() => CourseEntity, (courses) => courses.lesson, { lazy: true })
+    courses?: Promise<CourseEntity[]>;
 }
 

@@ -1,17 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PersonEntity } from "../PersonEntity";
+import { BadgeEntity } from "./BadgeEntity";
 
-@Entity({ name: "achievement" })
+@Entity({ name: "achievements" })
 export class AchievementEntity {
     @PrimaryGeneratedColumn()
-    id_achievement!: number;
+    id!: number;
 
-    @Column({ type: "date" })
-    DateReceived_Achievement!: Date;
+    @Column({ type: "timestamp", name: "date_received" })
+    dateReceived!: Date;
 
-    @Column({ type: "number" })
-    id_Person!: number;
+    @ManyToOne(() => PersonEntity, (person) => person.achievements, { eager: true })
+    person!: PersonEntity;
 
-    @Column({ type: "number" })
-    id_Badge!: number;
+    @ManyToOne(() => BadgeEntity, (badge) => badge.achievements, { eager: true })
+    badge!: BadgeEntity;
 
 }

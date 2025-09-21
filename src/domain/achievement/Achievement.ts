@@ -1,11 +1,11 @@
-import PersonId from "@/domain/person/value-objects/PersonId";
-import AchievementId from "./value-objects/AchievementId";
+import { Person } from "../person/Person";
+import { Badge } from "./badge/Badge";
 import AchievementDateReceived from "./value-objects/AchievementDateReceived";
-import BadgeId from "./badge/value-objects/BadgeId";
+import AchievementId from "./value-objects/AchievementId";
 
 export interface Achievement {
   id: AchievementId;
-  date: AchievementDateReceived;
-  personId: PersonId;
-  badgeId: BadgeId;
+  dateReceived: AchievementDateReceived;
+  person: Person;
+  badge: Badge;
 }

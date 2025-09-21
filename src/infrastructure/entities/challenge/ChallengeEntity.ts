@@ -1,20 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TaskEntity } from "./TaskEntity";
+import { PersonEntity } from "../PersonEntity";
 
-@Entity({ name: "challenge" })
+@Entity({ name: "challenges" })
 export class ChallengeEntity {
+
     @PrimaryGeneratedColumn()
-    id_Challenge!: number;
+    id!: number;
 
-    @Column({ type: "boolean" })
-    Status_Challenge!: boolean;
+    @Column({ type: "boolean", name: "is_finished" })
+    isFinished!: boolean;
 
-    @Column({ type: "number" })
-    Time_Challenge!: number;
+    @Column({ type: "int", name: "times_done" })
+    timesDone!: number;
 
-    @Column({ type: "number" })
-    id_Person!: number;
-    
-    @Column({ type: "number" })
-    id_Task!: number;
+    @Column({ type: "bigint", name: "person_id" })
+    personId!: number;
 
+    @ManyToOne(() => PersonEntity, (person) => person.challenges, { eager: true })
+    person!: PersonEntity;
+
+    @ManyToOne(() => TaskEntity, (task) => task.challenges, { eager: true })
+    task!: TaskEntity;
 }  

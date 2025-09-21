@@ -1,24 +1,26 @@
-import { Role } from "@/domain/user/Role";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "../../domain/user/Role";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PersonEntity } from "./PersonEntity";
 
-@Entity({ name: "user" })
+@Entity({ name: "users" })
 export class UserEntity {
-    @PrimaryGeneratedColumn()
-    id_user!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column({ type: "varchar", length: 255, unique: true })
-    email_user!: string;
+  @Column({ type: "varchar", length: 255, unique: true })
+  email!: string;
 
-    @Column({ type: "varchar", length: 255 })
-    password_user!: string;
+  @Column({ type: "varchar", length: 255 })
+  password!: string;
 
-    @Column({
-        type: "enum",
-        enum: Role,
-        default: Role.USER
-    })
-    role_user!: Role;
+  @Column({
+    type: "enum",
+    enum: Role,
+    enumName: "user_role",
+  })
+  role!: Role;
 
-    @Column({ type: "boolean" })
-    active_user!: boolean;
-} 
+  @OneToOne(() => PersonEntity, (person) => person.user, { eager: true })
+  @JoinColumn({name: "person_id"})
+  person!: PersonEntity;
+}

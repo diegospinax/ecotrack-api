@@ -1,9 +1,9 @@
 import TaskValidationException from "../exception/TaskValidationException";
-import { Type } from "../Type";
+import { TaskTypeEnum } from "../TaskTypeEnum";
 import { TaskField } from "./abstract/taskField";
 
-export default class TaskType extends TaskField<Type> {
-  constructor(value: Type) {
+export default class TaskType extends TaskField<TaskTypeEnum> {
+  constructor(value: TaskTypeEnum) {
     super(value);
   }
   public validate(): void {

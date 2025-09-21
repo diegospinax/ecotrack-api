@@ -19,7 +19,8 @@ export const AppDataSource = new DataSource({
   password: environmentVars.DB_PASSWORD,
   database: environmentVars.DB_NAME,
   schema: environmentVars.DB_SCHEMA,
-  synchronize: true,
+  synchronize: false,
+  logging: true,
   entities: [UserEntity, PersonEntity, TaskEntity, QuestionEntity, LessonEntity, CourseEntity, ChallengeEntity, BadgeEntity, AnswerEntity, AchievementEntity]
 });
 

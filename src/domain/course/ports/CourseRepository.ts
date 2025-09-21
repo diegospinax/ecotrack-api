@@ -1,9 +1,14 @@
+import PersonId from "@/domain/person/value-objects/PersonId";
 import { Course } from "../Course";
 import { CourseId } from "../value-objects/CourseId";
+import LessonId from "../lesson/value-objects/LessonId";
 
 export interface CourseRepository {
-    createCourse(course: Course): Promise<Course>;
-    findById(courseId: CourseId): Promise<Course>;
-    updateCourse(course: Course): Promise<void>;
-    deleteCourse(courseId: CourseId): Promise<void>;
+    create(course: Omit<Course, "id">): Promise<Course>;
+    findAll(): Promise<Course[]>
+    findById(courseId: CourseId): Promise<Course | null>;
+    findAllByPersonId(personId: PersonId): Promise<Course[]>;
+    findAllByLessonId(lessonId: LessonId): Promise<Course[]>;
+    findByPersonIdAndLessonId(personId: PersonId, lessonId: LessonId): Promise<Course | null>;
+    updateStateToFinished(courseId: CourseId): Promise<void>;
 }
