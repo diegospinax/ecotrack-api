@@ -25,12 +25,13 @@ export class ChallengeUseCase implements CreateChallengeUseCase, FindChallengeUs
     ) { }
 
     public async create(challengeDto: CreateChallengeDto): Promise<Challenge> {
-        const existingChallenge = await this.challengeRepository.findByTaskIdAndPersonId(challengeDto.taskId, challengeDto.personId);
-
-        if (!existingChallenge) throw new UseCaseException("Challenge already exists.");
-
         const existingPerson = await this.validateExistingPerson(challengeDto.personId);
         const existingTask = await this.validateExistingTask(challengeDto.taskId);
+
+        const existingChallenge = await this.challengeRepository.findByTaskIdAndPersonId(challengeDto.taskId, challengeDto.personId);
+
+        if (existingChallenge) 
+            throw new UseCaseException("Task already registered by person.");
 
         const challenge: Omit<Challenge, "id"> = {
             person: existingPerson,

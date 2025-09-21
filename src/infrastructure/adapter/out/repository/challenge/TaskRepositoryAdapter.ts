@@ -1,13 +1,10 @@
 import { TaskRepository } from "@/domain/challenge/task/ports/TaskRepository";
 import { Task } from "@/domain/challenge/task/Task";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
-import { Repository } from "typeorm";
 import TaskType from "@/domain/challenge/task/value-objects/TaskType";
-import TaskRequiredRepetitions from "@/domain/challenge/task/value-objects/TaskRequiredRepetitions";
-import TaskDescription from "@/domain/challenge/task/value-objects/TaskDescription";
-import TaskTitle from "@/domain/challenge/task/value-objects/TaskTitle";
-import { TaskEntity } from "@/infrastructure/entities/challenge/TaskEntity";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
+import { TaskEntity } from "@/infrastructure/entities/challenge/TaskEntity";
+import { Repository } from "typeorm";
 
 export class TaskRepositoryAdapter implements TaskRepository {
     private taskRepository: Repository<TaskEntity>
@@ -16,87 +13,27 @@ export class TaskRepositoryAdapter implements TaskRepository {
         this.taskRepository = AppDataSource.getRepository(TaskEntity);
     }
 
-    async create(task: Task): Promise<Task> {
-        try {
-            const newTask = await this.toEntity(task);
-            const savedTask = await this.taskRepository.save(newTask);
-            return this.toDomain(savedTask);
-
-        } catch (error) {
-
-            console.error("Error creating task ", error);
-            throw new Error("Error creating task");
-        }
+    public async create(task: Omit<Task, "id">): Promise<Task> {
+        throw new Error("Method not implemented.");
     }
 
-
-    async findById(taskId: TaskId): Promise<Task> {
-        try {
-            const task = await this.taskRepository.findOne({
-                where: { id_Task: taskId.value },
-            });
-
-            if (!task) {
-                throw new Error("Task not found");
-            }
-
-            return this.toDomain(task);
-
-        } catch (error) {
-
-            console.error("Error fetching task by id: ", error);
-            throw new Error("Error fetching task by id");
-
-        }
+    public async findAll(): Promise<Task[]> {
+        throw new Error("Method not implemented.");
     }
 
-    async update(task: Task): Promise<void> {
-        try {
-
-            const taskUpdate = await this.toEntity(task);
-            await this.taskRepository.update(taskUpdate.id_Task, taskUpdate);
-
-        } catch (error) {
-
-            console.error("Error updating task:", error);
-            throw new Error("Error updating task");
-        }
+    public async findById(taskId: TaskId): Promise<Task> {
+        throw new Error("Method not implemented.");
     }
 
-    async delete(taskId: TaskId): Promise<void> {
-        try {
-            const result = await this.taskRepository.delete(taskId.value);
-
-            if (result.affected === 0) {
-                throw new Error("Task not found");
-            }
-
-        } catch (error) {
-
-            console.error("Error deleting task:", error);
-            throw new Error("Error deleting task");
-        }
+    public async findAllByType(taskType: TaskType): Promise<Task[]> {
+        throw new Error("Method not implemented.");
     }
 
-
-    private toDomain(task: TaskEntity): Task {
-        return {
-            id: new TaskId(task.id_Task),
-            title: new TaskTitle(task.Title_Task),
-            description: new TaskDescription(task.Description_Task),
-            type: new TaskType(task.Type_Task),
-            requiredRepetitions: new TaskRequiredRepetitions(task.Time_Task),
-        };
+    public async update(task: Task): Promise<void> {
+        throw new Error("Method not implemented.");
     }
 
-    private async toEntity(task: Task): Promise<TaskEntity> {
-        const taskEntity = new TaskEntity();
-        taskEntity.Title_Task = task.title.value;
-        taskEntity.Description_Task = task.description.value;
-        taskEntity.Type_Task = task.type.value;
-        taskEntity.Time_Task = task.requiredRepetitions.value;
-        return taskEntity;
+    public async delete(taskId: TaskId): Promise<void> {
+        throw new Error("Method not implemented.");
     }
-
-
 }

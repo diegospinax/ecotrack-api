@@ -24,6 +24,12 @@ export class CourseUseCase implements CreateCourseUseCase, FindCourseUseCase, Up
     public async create(courseDto: CreateCourseDto): Promise<Course> {
         const existingPerson = await this.validateExistingPerson(courseDto.personId);
         const existingLesson = await this.validateExistingLesson(courseDto.lessonId);
+        
+        const existingCourse = await this.courseRepository.findByPersonIdAndLessonId(courseDto.personId, courseDto.lessonId);
+
+        if (existingCourse)
+            throw new UseCaseException("Person already registered in lesson.");
+
 
         const course: Omit<Course, "id"> = {
             lesson: existingLesson,
@@ -42,6 +48,12 @@ export class CourseUseCase implements CreateCourseUseCase, FindCourseUseCase, Up
         const existingPerson = await this.validateExistingPerson(personId);
 
         return await this.courseRepository.findAllByPersonId(existingPerson.id);
+    }
+
+    public async findAllByLessonId(lessonId: LessonId): Promise<Course[]> {
+        const existingLesson = await this.validateExistingLesson(lessonId);
+
+        return await this.courseRepository.findAllByLessonId(existingLesson.id);
     }
 
     public async updateStateToFinished(courseId: CourseId): Promise<void> {

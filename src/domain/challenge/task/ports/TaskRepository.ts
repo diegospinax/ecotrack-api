@@ -6,7 +6,7 @@ export interface TaskRepository {
   create(task: Omit<Task, "id">): Promise<Task>;
   findAll(): Promise<Task[]>;
   findById(taskId: TaskId): Promise<Task>;
-  findByType(taskType: TaskType): Promise<Task[]>
+  findAllByType(taskType: TaskType): Promise<Task[]>
   update(task: Task): Promise<void>;
   delete(taskId: TaskId): Promise<void>;
 }

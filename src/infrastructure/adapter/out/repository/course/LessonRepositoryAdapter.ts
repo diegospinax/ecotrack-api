@@ -56,6 +56,14 @@ export class LessonRepositoryAdapter implements LessonRepository {
         return mapEntityToLessonDomain(entity);
     }
 
+    public async findAllByType(lessonType: LessonType): Promise<Lesson[]> {
+        const entities = await this.lessonRepository.find({
+            where: {
+                type: lessonType.value
+            }
+        });
+        return entities.map(mapEntityToLessonDomain);
+    }
 
     public async update(lesson: Lesson): Promise<void> {
         return this.datasource.transaction(async (entityManager) => {
@@ -81,7 +89,7 @@ export class LessonRepositoryAdapter implements LessonRepository {
         await this.lessonRepository
             .createQueryBuilder("lesson")
             .update({ isActive: false })
-            .where("id = :lessonId", {lessonId: lessonId.value})
+            .where("id = :lessonId", { lessonId: lessonId.value })
             .execute();
     }
 }

@@ -1,19 +1,20 @@
+import { CreatePersonDto } from "@/application/dto/person/CreatePersonDto";
+import { UdpateUserDto } from "@/application/dto/user/UpdateUserDto";
 import { PersonUseCase } from "@/application/usecase/person/PersonUseCase";
 import { Person } from "@/domain/person/Person";
 import PersonId from "@/domain/person/value-objects/PersonId";
-import UserId from "@/domain/user/value-objects/UserId";
 import { PersonRegister } from "@/infrastructure/dto/person/PersonRegister";
 import { PersonRequest } from "@/infrastructure/dto/person/PersonRequest";
-import { mapPersonDomainToResponse, mapPersonRequestPartialToPartialDomain, mapPersonRegisterToDomain } from "@/infrastructure/mapper/in/person-in-mapper";
+import { mapPersonDomainToResponse, mapPersonRegisterToCreateDto, mapPersonRequestToUpdateDto } from "@/infrastructure/mapper/in/person-in-mapper";
 import { NextFunction, Request, Response } from "express";
 
 export class PersonController {
     constructor(private useCase: PersonUseCase) { }
 
-    public async createPerson(req: Request, res: Response, next: NextFunction) {
+    public async create(req: Request, res: Response, next: NextFunction) {
         try {
             const registerData: PersonRegister = req.body;
-            const person: Omit<Person, "id"> = mapPersonRegisterToDomain(registerData);
+            const person: CreatePersonDto = mapPersonRegisterToCreateDto(registerData);
 
             const createdPerson: Person = await this.useCase.create(person);
 
@@ -58,9 +59,9 @@ export class PersonController {
 
             const personId = new PersonId(Number(id));
 
-            const partialPerson: Partial<Person> = mapPersonRequestPartialToPartialDomain(personRequest, personId);
+            const personDto: UdpateUserDto = mapPersonRequestToUpdateDto(personRequest, personId);
 
-            await this.useCase.update(partialPerson);
+            await this.useCase.update(personDto);
 
             return res.status(204).end();
         } catch (error) {
@@ -73,7 +74,6 @@ export class PersonController {
             const { id } = req.params;
 
             const personId = new PersonId(Number(id));
-
             await this.useCase.delete(personId);
 
             return res.status(204).end();

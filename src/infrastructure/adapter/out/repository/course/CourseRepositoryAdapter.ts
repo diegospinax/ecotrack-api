@@ -1,4 +1,5 @@
 import { Course } from "@/domain/course/Course";
+import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import { CourseRepository } from "@/domain/course/ports/CourseRepository";
 import { CourseId } from "@/domain/course/value-objects/CourseId";
 import PersonId from "@/domain/person/value-objects/PersonId";
@@ -26,6 +27,10 @@ export class CourseRepositoryAdapter implements CourseRepository {
     }
 
     public async findAllByPersonId(personId: PersonId): Promise<Course[]> {
+        throw new Error("Method not implemented.");
+    }
+
+    public async findAllByLessonId(lessonId: LessonId): Promise<Course[]> {
         throw new Error("Method not implemented.");
     }
 

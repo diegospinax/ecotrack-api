@@ -12,11 +12,11 @@ export const authenticationToken = (request: Request, response: Response, next: 
     }
 
     try {
-        const domainToken: Token = {value: token};
+        const domainToken: Token = { value: token };
         const claims = AuthUseCase.verifyToken(domainToken);
         (request as any).user = claims;
         next();
-    } catch(error) {
+    } catch (error) {
         response.status(401).json();
         return;
     }

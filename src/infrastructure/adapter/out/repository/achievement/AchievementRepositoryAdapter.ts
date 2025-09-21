@@ -45,6 +45,14 @@ export class AchievementRepositoryAdapter implements AchievementRepository {
         return achievements.map(achievement => mapEntityToAchievementDomain(achievement));
     }
 
+    public async findByPersonIdAndBadgeId(personId: PersonId, badgeId: BadgeId): Promise<Achievement | null> {
+        throw new Error("Method not implemented.");
+    }
+    
+    public async findAllByBadgeId(badgeId: BadgeId): Promise<Achievement[]> {
+        throw new Error("Method not implemented.");
+    }
+
     public async findAllByPersonId(personId: PersonId): Promise<Achievement[]> {
         const personAchievements = await this.achievementRepository.findBy({
             person: {

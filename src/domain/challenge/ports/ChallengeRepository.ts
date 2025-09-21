@@ -8,6 +8,6 @@ export interface ChallengeRepository {
   findAllByTaskId(taskId: TaskId): Promise<Challenge[]>;
   findAllByPersonId(personId: PersonId): Promise<Challenge[]>;
   findById(challengeId: ChallengeId): Promise<Challenge | null>;
-  findByTaskIdAndPersonId(taskId: TaskId, personId: PersonId): Promise<Challenge | null>
+  findByTaskIdAndPersonId(taskId: TaskId, personId: PersonId): Promise<Challenge | null>;
   update(challenge: Challenge): Promise<void>;
 } 

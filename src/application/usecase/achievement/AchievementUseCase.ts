@@ -21,8 +21,12 @@ export class AchievementUseCase implements CreateAchievementUseCase, FindAchieve
 
     public async create(achievementDto: CreateAchievementDto): Promise<Achievement> {
         const existingPerson = await this.validateExistingPerson(achievementDto.personId);
-
         const existingBadge = await this.validateExistingBadge(achievementDto.badgeId);
+
+        const existingAchievement = await this.achievementRepository.findByPersonIdAndBadgeId(achievementDto.personId, achievementDto.badgeId);
+
+        if (existingAchievement)
+            throw new UseCaseException("Person already won that badge.");
 
         const achievement: Omit<Achievement, "id"> = {
             badge: existingBadge,
@@ -41,6 +45,12 @@ export class AchievementUseCase implements CreateAchievementUseCase, FindAchieve
         const existingPerson = await this.validateExistingPerson(personId);
 
         return await this.achievementRepository.findAllByPersonId(existingPerson.id);
+    }
+
+    public async findAllByBadgeId(badgeId: BadgeId): Promise<Achievement[]> {
+        const existingBadge = await this.validateExistingBadge(badgeId);
+
+        return await this.achievementRepository.findAllByBadgeId(existingBadge.id);
     }
 
     private async validateExistingPerson(personId: PersonId): Promise<Person> {

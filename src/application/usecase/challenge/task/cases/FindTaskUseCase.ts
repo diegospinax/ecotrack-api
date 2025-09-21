@@ -5,5 +5,5 @@ import TaskType from "@/domain/challenge/task/value-objects/TaskType";
 export interface FindTaskUseCase {
     findAll(): Promise<Task[]>;
     findById(taskId: TaskId): Promise<Task>;
-    findByType(taskType: TaskType): Promise<Task[]>;
+    findAllByType(taskType: TaskType): Promise<Task[]>;
 }

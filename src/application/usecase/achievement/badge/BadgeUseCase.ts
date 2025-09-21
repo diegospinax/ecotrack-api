@@ -12,7 +12,7 @@ import { FindBadgeUseCase } from "./cases/FindBadgeUseCase";
 import { UpdateBadgeUseCase } from "./cases/UpdateBadgeUseCase";
 
 export class BadgeUseCase implements CreateBadgeUseCase, FindBadgeUseCase, UpdateBadgeUseCase, DeleteBadgeUseCase {
-    constructor(private badgeRepository: BadgeRepository){}
+    constructor(private badgeRepository: BadgeRepository) { }
 
     public async create(badgeDto: CreateBadgeDto): Promise<Badge> {
         const badge: Omit<Badge, "id"> = createBadgeFromDto(badgeDto);
@@ -20,7 +20,7 @@ export class BadgeUseCase implements CreateBadgeUseCase, FindBadgeUseCase, Updat
         return await this.badgeRepository.create(badge);
     }
 
-     public async findAll(): Promise<Badge[]> {
+    public async findAll(): Promise<Badge[]> {
         return await this.badgeRepository.findAll();
     }
 
@@ -36,7 +36,7 @@ export class BadgeUseCase implements CreateBadgeUseCase, FindBadgeUseCase, Updat
 
     public async update(badgeDto: UpdateBadgeDto): Promise<void> {
         const existingBadge: Badge = await this.validateExistingBadge(badgeDto.id);
-        
+
         const badge: Badge = updateBadgeFieldsFromDto(badgeDto, existingBadge);
 
         await this.badgeRepository.update(badge);

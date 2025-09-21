@@ -27,8 +27,8 @@ export class TaskUseCase implements CreateTaskUseCase, FindTaskUseCase, UpdateTa
         return await this.validateExistingTask(taskId);
     }
 
-    public async findByType(taskType: TaskType): Promise<Task[]> {
-        return await this.taskRepository.findByType(taskType);
+    public async findAllByType(taskType: TaskType): Promise<Task[]> {
+        return await this.taskRepository.findAllByType(taskType);
     }
 
     public async update(taskDto: UpdateTaskDto): Promise<void> {

@@ -9,6 +9,7 @@ import { DeleteLessonUseCase } from "./cases/DeleteLessonUseCase";
 import { FindLessonUseCase } from "./cases/FindLessonUseCase";
 import { UpdateLessonUseCase } from "./cases/UpdateLessonUseCase";
 import { UseCaseException } from "@/application/exception/UseCaseException";
+import LessonType from "@/domain/course/lesson/value-objects/LessonType";
 
 
 export class LessonUseCase implements CreateLessonUseCase, FindLessonUseCase, UpdateLessonUseCase, DeleteLessonUseCase {
@@ -16,7 +17,6 @@ export class LessonUseCase implements CreateLessonUseCase, FindLessonUseCase, Up
 
     public async create(lessonDto: CreateLessonDto): Promise<Lesson> {
         const lesson = createLessonFromDto(lessonDto);
-
         return await this.lessonRepository.create(lesson);
     }
 
@@ -27,6 +27,10 @@ export class LessonUseCase implements CreateLessonUseCase, FindLessonUseCase, Up
     public async findById(lessonId: LessonId): Promise<Lesson> {
         const existingLesson = await this.validateExistingLesson(lessonId);
         return existingLesson;
+    }
+
+    public async findAllByType(lessonType: LessonType): Promise<Lesson[]> {
+        return await this.lessonRepository.findAllByType(lessonType);
     }
 
     public async update(lessonDto: UpdateLessonDto): Promise<void> {

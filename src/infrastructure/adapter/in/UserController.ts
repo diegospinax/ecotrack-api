@@ -1,15 +1,24 @@
+import { UdpateUserDto } from "@/application/dto/user/UpdateUserDto";
 import { UserUseCase } from "@/application/usecase/user/UserUseCase";
 import { User } from "@/domain/user/User";
 import UserEmail from '@/domain/user/value-objects/UserEmail';
 import UserId from "@/domain/user/value-objects/UserId";
-import UserPassword from '@/domain/user/value-objects/UserPassword';
-import UserRole from '@/domain/user/value-objects/UserRole';
 import { UserRequest } from "@/infrastructure/dto/user/UserRequest";
-import { mapUserDomainToResponse } from "@/infrastructure/mapper/in/user-in-mapper";
+import { mapUserDomainToResponse, mapUserRequestToUpdateDto } from "@/infrastructure/mapper/in/user-in-mapper";
 import { NextFunction, Request, Response } from "express";
 
 export class UserController {
+
   constructor(private useCase: UserUseCase) { }
+
+  async findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const users: User[] = await this.useCase.findAll();
+      return res.status(200).json(users.map(user => mapUserDomainToResponse(user)));
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
@@ -26,21 +35,12 @@ export class UserController {
 
   async findByEmail(req: Request, res: Response, next: NextFunction) {
     try {
-      const email = req.query.value;
-      const userEmail = new UserEmail(email as string);
+      const email = req.query.value as string;
+      const userEmail = new UserEmail(email);
 
       const user: User = await this.useCase.findByEmail(userEmail);
 
       return res.status(200).json(mapUserDomainToResponse(user));
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async findAll(req: Request, res: Response, next: NextFunction) {
-    try {
-      const users: User[] = await this.useCase.findAll();
-      return res.status(200).json(users.map(user => mapUserDomainToResponse(user)));
     } catch (error) {
       next(error);
     }
@@ -53,14 +53,9 @@ export class UserController {
 
       const userId = new UserId(Number(id));
 
-      const partialUser: Partial<User> = {
-        id: userId,
-        ...(userRequest.email && { email: new UserEmail(userRequest.email) }),
-        ...(userRequest.password && { password: new UserPassword(userRequest.password) }),
-        ...(userRequest.role && { role: new UserRole(userRequest.role) })
-      }
+      const userDto: UdpateUserDto = mapUserRequestToUpdateDto(userRequest, userId);
 
-      await this.useCase.update(partialUser);
+      await this.useCase.update(userDto);
 
       return res.status(204).end();
     } catch (error) {
