@@ -5,7 +5,7 @@ import AchievementId from "./value-objects/AchievementId";
 
 export interface Achievement {
   id: AchievementId;
-  date: AchievementDateReceived;
+  dateReceived: AchievementDateReceived;
   person: Person;
   badge: Badge;
 }

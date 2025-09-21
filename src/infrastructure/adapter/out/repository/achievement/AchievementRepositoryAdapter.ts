@@ -22,7 +22,7 @@ export class AchievementRepositoryAdapter implements AchievementRepository {
         const entity: AchievementEntity = this.achievementRepository.create({
             person: mapPersonDomainToEntity(achievement.person),
             badge: mapBadgeDomainToEntity(achievement.badge),
-            dateReceived: achievement.date.value
+            dateReceived: achievement.dateReceived.value
         });
 
         const savedAchievement = await this.achievementRepository.save(entity);

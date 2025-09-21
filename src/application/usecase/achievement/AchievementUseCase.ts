@@ -31,7 +31,7 @@ export class AchievementUseCase implements CreateAchievementUseCase, FindAchieve
         const achievement: Omit<Achievement, "id"> = {
             badge: existingBadge,
             person: existingPerson,
-            date: new AchievementDateReceived(new Date())
+            dateReceived: new AchievementDateReceived(new Date())
         }
 
         return await this.achievementRepository.create(achievement);

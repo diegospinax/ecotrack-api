@@ -10,6 +10,6 @@ export const mapEntityToAchievementDomain = (entity: AchievementEntity): Achieve
         id: new AchievementId(entity.id),
         person: mapEntityToPersonDomain(entity.person),
         badge: mapEntityToBadgeDomain(entity.badge),
-        date: new AchievementDateReceived(entity.dateReceived)
+        dateReceived: new AchievementDateReceived(entity.dateReceived)
     }
 }
