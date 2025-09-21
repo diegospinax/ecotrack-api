@@ -2,7 +2,7 @@ import { Lesson } from "@/domain/course/lesson/Lesson";
 import { CreateLessonDto } from "../dto/course/lesson/CreateLessonDto";
 import LessonIsActive from "@/domain/course/lesson/value-objects/LessonIsActive";
 import { CreateQuestionDto } from "../dto/course/lesson/question/CreateQuestionDto";
-import { Question } from "@/domain/course/question/Questions";
+import { Question } from "@/domain/course/question/Question";
 import { CreateAnswerDto } from "../dto/course/lesson/question/answer/CreateAnswerDto";
 import { Answer } from "@/domain/course/answer/Answer";
 import { UpdateLessonDto } from "../dto/course/lesson/UpdateLessonDto";

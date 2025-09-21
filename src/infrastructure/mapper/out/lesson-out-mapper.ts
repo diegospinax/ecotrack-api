@@ -8,7 +8,7 @@ import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import LessonIsActive from "@/domain/course/lesson/value-objects/LessonIsActive";
 import LessonTitle from "@/domain/course/lesson/value-objects/LessonTitle";
 import LessonType from "@/domain/course/lesson/value-objects/LessonType";
-import { Question } from "@/domain/course/question/Questions";
+import { Question } from "@/domain/course/question/Question";
 import QuestionId from "@/domain/course/question/value-objects/QuestionId";
 import QuestionText from "@/domain/course/question/value-objects/QuestionText";
 import { AnswerEntity } from "@/infrastructure/entities/course/AnswerEntity";

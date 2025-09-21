@@ -1,5 +1,5 @@
 import { Course } from "../Course";
-import { Question } from "../question/Questions";
+import { Question } from "../question/Question";
 import LessonDescription from "./value-objects/LessonDescription";
 import LessonId from "./value-objects/LessonId";
 import LessonIsActive from "./value-objects/LessonIsActive";

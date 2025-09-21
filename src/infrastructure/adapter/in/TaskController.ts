@@ -5,7 +5,7 @@ import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import TaskType from "@/domain/challenge/task/value-objects/TaskType";
 import { TaskRequest } from "@/infrastructure/dto/task/TaskRequest";
 import { HttpException } from "@/infrastructure/exception/HttpException";
-import { mapTaskDomainToResponse, mapTaskRequestToCreateDto, mapTaskRequestToUpdateDto } from "@/infrastructure/mapper/in/task-in-mapper";
+import { mapTaskDomainToResponse, mapTaskRequestToCreateDto, mapTaskRequestToUpdateDto } from "@/infrastructure/mapper/in/challenge/task-in-mapper";
 import { NextFunction, Request, Response } from "express";
 
 export class TaskController {
@@ -62,7 +62,6 @@ export class TaskController {
             const tasks = await this.useCase.findAllByType(taskType);
 
             return res.status(200).json(tasks.map(mapTaskDomainToResponse));
-
         } catch (error) {
             next(error);
         }

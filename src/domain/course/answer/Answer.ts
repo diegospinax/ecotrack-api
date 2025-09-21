@@ -1,4 +1,4 @@
-import { Question } from "../question/Questions";
+import { Question } from "../question/Question";
 import AnswerId from "./value-objects/AnswerId";
 import AnswerIsCorrect from "./value-objects/AnswerIsCorrect";
 import AnswerText from "./value-objects/AnswerText";

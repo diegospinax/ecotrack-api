@@ -7,6 +7,9 @@ import { authenticationToken } from "../middleware/auth.middleware";
 import { Claims } from "@/domain/auth/Claims";
 import { Role } from "@/domain/user/Role";
 import { HttpException } from "../exception/HttpException";
+import UserEmail from "@/domain/user/value-objects/UserEmail";
+import UserId from "@/domain/user/value-objects/UserId";
+import PersonId from "@/domain/person/value-objects/PersonId";
 
 const router = Router();
 
@@ -18,13 +21,13 @@ const useCase = new UserUseCase(repository, encrypter);
 const controller = new UserController(useCase);
 
 router.get(
-  BASE_URL + "/list", 
+  BASE_URL + "/list",
   authenticationToken,
   async (req: Request, res: Response, next: NextFunction) => {
     const claims: Claims = (req as any).user;
 
     if (claims.role !== Role.ADMIN) {
-        throw new HttpException(403, "Unauthorized.");
+      throw new HttpException(403, "Unauthorized.");
     }
 
     await controller.findAll(req, res, next);
@@ -38,8 +41,9 @@ router.get(
     const claims: Claims = (req as any).user;
 
     const value = req.query.value;
+    const userEmail = new UserEmail(value as string);
 
-    if (claims.email !== value) {
+    if (claims.email !== userEmail.value) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
@@ -56,8 +60,9 @@ router.get(
     const claims: Claims = (req as any).user;
 
     const { id } = req.params;
+    const personId = new PersonId(Number(id));
 
-    if (claims.id !== Number(id)) {
+    if (claims.personId !== personId.value) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }
@@ -75,8 +80,9 @@ router.put(
     const claims: Claims = (req as any).user;
 
     const { id } = req.params;
+    const personId = new PersonId(Number(id));
 
-    if (claims.id !== Number(id)) {
+    if (claims.personId !== personId.value) {
       if (claims.role !== Role.ADMIN) {
         throw new HttpException(403, "Unauthorized.");
       }

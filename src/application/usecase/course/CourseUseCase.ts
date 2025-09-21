@@ -60,6 +60,8 @@ export class CourseUseCase implements CreateCourseUseCase, FindCourseUseCase, Up
         const existingCourse = await this.courseRepository.findById(courseId);
 
         if (!existingCourse) throw new UseCaseException(`Course not found for id: ${courseId.value}`);
+        if (existingCourse.isFinished.value) 
+            throw new UseCaseException("Course already finished.");
 
         await this.courseRepository.updateStateToFinished(courseId);
     }

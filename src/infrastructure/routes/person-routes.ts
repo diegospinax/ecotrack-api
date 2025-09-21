@@ -7,6 +7,7 @@ import { PersonRepositoryAdapter } from "../adapter/out/repository/PersonReposit
 import { AppDataSource } from "../config/database.postgres";
 import { HttpException } from "../exception/HttpException";
 import { authenticationToken } from "../middleware/auth.middleware";
+import PersonId from "@/domain/person/value-objects/PersonId";
 
 const router = Router();
 const BASE_URL = "/persons";
@@ -47,8 +48,9 @@ router.put(BASE_URL + "/:id",
         const claims: Claims = (req as any).user;
 
         const { id } = req.params;
+        const personId = new PersonId(Number(id));
 
-        if (claims.personId !== Number(id)) {
+        if (claims.personId !== personId.value) {
             if (claims.role !== Role.ADMIN) {
                 throw new HttpException(403, "Unauthorized.");
             }

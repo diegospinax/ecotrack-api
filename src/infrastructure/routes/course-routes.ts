@@ -9,6 +9,7 @@ import { authenticationToken } from "../middleware/auth.middleware";
 import { Claims } from "@/domain/auth/Claims";
 import { Role } from "@/domain/user/Role";
 import { HttpException } from "../exception/HttpException";
+import PersonId from "@/domain/person/value-objects/PersonId";
 
 
 const router = Router();
@@ -27,8 +28,9 @@ router.post(
         const claims: Claims = (req as any).user;
 
         const { personId } = req.body;
+        const id = new PersonId(personId);
 
-        if (claims.personId !== personId) {
+        if (claims.personId !== id.value) {
             if (claims.role !== Role.ADMIN)
                 throw new HttpException(403, "Unauthorized.");
         }
@@ -67,9 +69,10 @@ router.put(
     async (req: Request, res: Response, next: NextFunction) => {
         const claims: Claims = (req as any).user;
 
-        const { id } = req.params;
+        const { personId } = req.body;
+        const id = new PersonId(personId);
 
-        if (claims.personId !== Number(id)) {
+        if (claims.personId !== id.value) {
             if (claims.role !== Role.ADMIN)
                 throw new HttpException(403, "Unauthorized.");
         }
