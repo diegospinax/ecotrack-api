@@ -4,6 +4,7 @@ import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import TaskType from "@/domain/challenge/task/value-objects/TaskType";
 import { AppDataSource } from "@/infrastructure/config/database.postgres";
 import { TaskEntity } from "@/infrastructure/entities/challenge/TaskEntity";
+import { mapEntityToTaskDomain } from "@/infrastructure/mapper/out/task-out-mapper";
 import { Repository } from "typeorm";
 
 export class TaskRepositoryAdapter implements TaskRepository {
@@ -14,26 +15,65 @@ export class TaskRepositoryAdapter implements TaskRepository {
     }
 
     public async create(task: Omit<Task, "id">): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const entity = this.taskRepository.create({
+            title: task.title.value,
+            description: task.description.value,
+            type: task.type.value,
+            isActive: task.isActive.value,
+            requiredRepetitions: task.requiredRepetitions.value,
+        });
+
+        const savedEntity = await this.taskRepository.save(entity);
+
+        return mapEntityToTaskDomain(savedEntity);
     }
 
     public async findAll(): Promise<Task[]> {
-        throw new Error("Method not implemented.");
+        const entities = await this.taskRepository.find({
+            where: {
+                isActive: true
+            }
+        });
+
+        return entities.map(mapEntityToTaskDomain);
     }
 
-    public async findById(taskId: TaskId): Promise<Task> {
-        throw new Error("Method not implemented.");
+    public async findById(taskId: TaskId): Promise<Task | null> {
+        const entity = await this.taskRepository.findOneBy({
+            id: taskId.value
+        });
+
+        return entity ? mapEntityToTaskDomain(entity) : null;
     }
 
     public async findAllByType(taskType: TaskType): Promise<Task[]> {
-        throw new Error("Method not implemented.");
+        const entities = await this.taskRepository.find({
+            where: {
+                isActive: true,
+                type: taskType.value
+            }
+        });
+
+        return entities.map(mapEntityToTaskDomain);
     }
 
     public async update(task: Task): Promise<void> {
-        throw new Error("Method not implemented.");
+        const entity = this.taskRepository.create({
+            id: task.id.value,
+            title: task.title.value,
+            description: task.description.value,
+            type: task.type.value,
+            isActive: task.isActive.value,
+            requiredRepetitions: task.requiredRepetitions.value
+        });
+
+        await this.taskRepository.save(entity);
     }
 
     public async delete(taskId: TaskId): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.taskRepository.createQueryBuilder("task")
+            .update({ isActive: false })
+            .where("id = :id", { id: taskId.value })
+            .execute();
     }
 }

@@ -4,8 +4,8 @@ import TaskId from '@/domain/challenge/task/value-objects/TaskId';
 import PersonId from '@/domain/person/value-objects/PersonId';
 import { ChallengeRequest } from "@/infrastructure/dto/challenge/ChallengeRequest";
 import { ChallengeResponse } from "@/infrastructure/dto/challenge/ChallengeResponse";
-import { mapPersonDomainToResponse } from "./person-in-mapper";
 import { mapTaskDomainToResponse } from "./task-in-mapper";
+import { mapPersonDomainToResponse } from "../person-in-mapper";
 
 export const mapChallengeRequestToCreateDto = (request: Omit<ChallengeRequest, "id">): CreateChallengeDto => {
     return {

@@ -12,7 +12,7 @@ export default class TokenServiceAdapter implements TokenService {
 
     generateToken(payload: object): Token {
         return {
-            value: jwt.sign(payload, this.tokenKey, {expiresIn: '1h'})
+            value: jwt.sign(payload, this.tokenKey, {expiresIn: '72h'})
         }
     }
 

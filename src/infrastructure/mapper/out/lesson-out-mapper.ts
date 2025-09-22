@@ -22,7 +22,7 @@ export function mapEntityToLessonDomain(entity: LessonEntity): Lesson {
         description: new LessonDescription(entity.description),
         type: new LessonType(entity.type),
         isActive: new LessonIsActive(entity.isActive),
-        questions: entity.questions.map(mapEntityToQuestionDomain)
+        questions: entity.questions!.map(mapEntityToQuestionDomain)
     }
 }
 
@@ -30,7 +30,7 @@ function mapEntityToQuestionDomain(entity: QuestionEntity): Question {
     return {
         id: new QuestionId(entity.id),
         text: new QuestionText(entity.question),
-        answers: entity.answers.map(mapEntityToAnswerDomain)
+        answers: entity.answers!.map(mapEntityToAnswerDomain)
     }
 }
 
@@ -39,5 +39,32 @@ function mapEntityToAnswerDomain(entity: AnswerEntity): Answer {
         id: new AnswerId(entity.id),
         text: new AnswerText(entity.answer),
         isCorrect: new AnswerIsCorrect(entity.isCorrect)
+    }
+}
+
+export function mapLessonDomainToEntity(lesson: Lesson): LessonEntity {
+    return {
+        id: lesson.id.value,
+        title: lesson.title.value,
+        description: lesson.description.value,
+        type: lesson.type.value,
+        isActive: lesson.isActive.value,
+        questions: lesson.questions.map(mapQuestionDomainToEntity)
+    }
+}
+
+const mapQuestionDomainToEntity = (question: Question): QuestionEntity => {
+    return {
+        id: question.id!.value,
+        question: question.text.value,
+        answers: question.answers.map(mapAnswerDomainToEntity),
+    }
+}
+
+const mapAnswerDomainToEntity = (answer: Answer): AnswerEntity => {
+    return {
+        id: answer.id!.value,
+        answer: answer.text.value,
+        isCorrect: answer.isCorrect.value
     }
 }

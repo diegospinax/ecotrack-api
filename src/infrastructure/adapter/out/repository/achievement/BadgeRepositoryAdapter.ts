@@ -34,12 +34,12 @@ export class BadgeRepositoryAdapter implements BadgeRepository {
         return badges.map(badge => mapEntityToBadgeDomain(badge));
     }
 
-    public async findById(badgeId: BadgeId): Promise<Badge> {
-        const existingBadge = await this.badgeRepository.findOneByOrFail({
+    public async findById(badgeId: BadgeId): Promise<Badge | null> {
+        const existingBadge = await this.badgeRepository.findOneBy({
             id: badgeId.value,
         });
 
-        return mapEntityToBadgeDomain(existingBadge);
+        return existingBadge ? mapEntityToBadgeDomain(existingBadge) : null;
     }
 
     public async findAllByType(badgeType: BadgeType): Promise<Badge[]> {

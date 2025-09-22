@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { ChallengeRepositoryAdapter } from "../adapter/out/repository/challenge/CallengeRepositoryAdapter";
+import { ChallengeRepositoryAdapter } from "../adapter/out/repository/challenge/ChallengeRepositoryAdapter";
 import { PersonRepositoryAdapter } from "../adapter/out/repository/PersonRepositoryAdapter";
 import { AppDataSource } from "../config/database.postgres";
 import { TaskRepositoryAdapter } from "../adapter/out/repository/challenge/TaskRepositoryAdapter";
@@ -27,12 +27,19 @@ router.post(
     async (req: Request, res: Response, next: NextFunction) => {
         const claims: Claims = (req as any).user;
 
-        const { personId } = req.body;
-        const id = new PersonId(personId);
+        try {
+            const { personId } = req.body;
+            const id = new PersonId(personId);
 
-        if (claims.personId !== id.value) {
-            if (claims.role !== Role.ADMIN)
-                throw new HttpException(403, "Unauthorized.");
+            if (claims.personId !== id.value) {
+                if (claims.role !== Role.ADMIN)
+                    throw new HttpException(403, "Unauthorized.");
+            }
+        } catch (error) {
+            if (error instanceof HttpException)
+                throw error;
+
+            throw new HttpException(400, "Invalid body provided.");
         }
 
         await controller.create(req, res, next);
@@ -69,12 +76,19 @@ router.put(
     async (req: Request, res: Response, next: NextFunction) => {
         const claims: Claims = (req as any).user;
 
-        const { personId } = req.body;
-        const id = new PersonId(personId);
+        try {
+            const { personId } = req.body;
+            const id = new PersonId(personId);
 
-        if (claims.personId !== id.value) {
-            if (claims.role !== Role.ADMIN)
-                throw new HttpException(403, "Unauthorized.");
+            if (claims.personId !== id.value) {
+                if (claims.role !== Role.ADMIN)
+                    throw new HttpException(403, "Unauthorized.");
+            }
+        } catch (error) {
+            if (error instanceof HttpException)
+                throw error;
+
+            throw new HttpException(400, "Missing personId in body.");
         }
 
         await controller.update(req, res, next);

@@ -7,7 +7,8 @@ export default class TaskType extends TaskField<TaskTypeEnum> {
     super(value);
   }
   public validate(): void {
-    if (!this.value) {
+    const isValid = Object.values(TaskTypeEnum).includes(this.value as TaskTypeEnum);
+    if (!isValid) {
       throw new TaskValidationException("Invalid task type provided.");
     }
   }

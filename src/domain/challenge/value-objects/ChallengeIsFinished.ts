@@ -6,9 +6,9 @@ export default class ChallengeIsFinished extends ChallengeField<boolean> {
     super(value);
   }
   public validate(): void {
-    if (!this.value) {
+    if (this.value === null || this.value === undefined) {
       throw new ChallengeValidationException(
-        "Invalidate challenge finished status provided."
+        "Invalid challenge finished status provided."
       );
     }
   }

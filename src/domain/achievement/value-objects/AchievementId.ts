@@ -7,8 +7,8 @@ export default class AchievementId extends AchievementField<number> {
     super(value);
   }
   public validate(): void {
-    if (!this.validate || this.value % 1 !== 0) {
-      throw new AchievementValidationException("Invalidate achivement id provided.");
+    if (this.value === null || this.value === undefined || this.value % 1 !== 0) {
+      throw new AchievementValidationException("Invalid achievement id provided.");
     }
   }
 }

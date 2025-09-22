@@ -11,6 +11,7 @@ import AnswerText from "@/domain/course/answer/value-objects/AnswerText";
 import { Lesson } from "@/domain/course/lesson/Lesson";
 import LessonDescription from '@/domain/course/lesson/value-objects/LessonDescription';
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
+import LessonIsActive from "@/domain/course/lesson/value-objects/LessonIsActive";
 import LessonTitle from "@/domain/course/lesson/value-objects/LessonTitle";
 import LessonType from '@/domain/course/lesson/value-objects/LessonType';
 import { Question } from "@/domain/course/question/Question";
@@ -51,6 +52,7 @@ const mapAnswerDomainToResponse = (answer: Answer): AnswerResponse => {
 }
 
 export const mapLessonRequestToCreateDto = (request: CreateLessonRequest): CreateLessonDto => {
+    if (!request.questions) throw new Error("Questions array is undefined");
     return {
         title: new LessonTitle(request.title),
         description: new LessonDescription(request.description),
@@ -60,6 +62,7 @@ export const mapLessonRequestToCreateDto = (request: CreateLessonRequest): Creat
 }
 
 const mapQuestionRequestToCreateDto = (request: CreateQuestionRequest): CreateQuestionDto => {
+    if (!request.answers) throw new Error("Answers array is undefined");
     return {
         question: new QuestionText(request.text),
         answers: request.answers.map(mapAnswerRequestToCreateDto)
@@ -79,7 +82,8 @@ export const mapLessonRequestToUpdateDto = (request: UpdateLessonRequest, lesson
         ...(request.title && { title: new LessonTitle(request.title) }),
         ...(request.description && { description: new LessonDescription(request.description) }),
         ...(request.type && { type: new LessonType(request.type) }),
-        ...(request.questions && { questions: request.questions.map(mapQuestionRequestToUpdateDto) })
+        ...(request.questions && { questions: request.questions.map(mapQuestionRequestToUpdateDto) }),
+        ...(request.isActive && { isActive: new LessonIsActive(request.isActive) })
     }
 }
 

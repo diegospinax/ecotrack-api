@@ -52,7 +52,7 @@ router.get(
         if (claims.role !== Role.ADMIN)
             throw new HttpException(403, "Unauthorized.");
 
-        await controller.findAllByType(req, res, next);
+        await controller.findById(req, res, next);
     }
 );
 

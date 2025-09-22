@@ -6,7 +6,7 @@ export default class TaskId extends TaskField<number> {
     super(value);
   }
   public validate(): void {
-    if (!this.value || this.value % 1 !== 0) {
+    if (this.value === null || this.value === undefined || this.value % 1 !== 0) {
       throw new TaskValidationException("Invalid task id provided");
     }
   }
