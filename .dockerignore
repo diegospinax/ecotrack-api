@@ -1,0 +1,14 @@
+# Dependencias y artefactos de compilación
+node_modules
+dist
+coverage
+
+# Archivos de configuración local y logs
+.env
+*.log
+nodemon.json
+
+# Archivos del IDE y del sistema operativo
+.vscode
+.DS_Store
+.idea
