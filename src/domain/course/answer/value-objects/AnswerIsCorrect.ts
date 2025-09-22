@@ -6,7 +6,7 @@ export default class AnswerIsCorrect extends AnswerField<boolean> {
     super(value);
   }
   public validate(): void {
-    if (!this.value) {
+    if (typeof this.value !== "boolean") {
       throw new CourseValidationException("Invalid answer is correct property provided.");
     }
   }

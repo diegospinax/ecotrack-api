@@ -7,7 +7,8 @@ export default class LessonType extends LessonField<LessonTypeEnum> {
     super(value);
   }
   public validate(): void {
-    if (!this.value) {
+    const isValid = Object.values(LessonTypeEnum).includes(this.value as LessonTypeEnum);
+    if (!isValid) {
       throw new CourseValidationException("Invalid lesson type provided.");
     }
   }

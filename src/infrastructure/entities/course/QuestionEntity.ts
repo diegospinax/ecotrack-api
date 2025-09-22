@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { LessonEntity } from "./LessonEntity";
 import { AnswerEntity } from "./AnswerEntity";
 
@@ -10,9 +10,10 @@ export class QuestionEntity {
     @Column({ type: "text" })
     question!: string;
 
-    @ManyToOne(() => LessonEntity, (lesson) => lesson.questions, { lazy: true })
-    lesson!: Promise<LessonEntity>;
+    @ManyToOne(() => LessonEntity, (lesson) => lesson.questions)
+    @JoinColumn({ name: "lesson_id" })
+    lesson?: LessonEntity;
 
-    @OneToMany(() => AnswerEntity, (answers) => answers.question, { eager: true, cascade: true })
-    answers!: AnswerEntity[];
+    @OneToMany(() => AnswerEntity, (answers) => answers.question, { cascade: true })
+    answers?: AnswerEntity[];
 } 

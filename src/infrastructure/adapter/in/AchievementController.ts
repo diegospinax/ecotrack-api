@@ -3,7 +3,7 @@ import { AchievementUseCase } from "@/application/usecase/achievement/Achievemen
 import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import { AchievementRequest } from "@/infrastructure/dto/achievement/AchievementRequest";
-import { mapAchievementDomainToResponse, mapAchievementRequestToCreateDto } from "@/infrastructure/mapper/in/achievement-in-mapper";
+import { mapAchievementDomainToResponse, mapAchievementRequestToCreateDto } from "@/infrastructure/mapper/in/achievement/achievement-in-mapper";
 import { NextFunction, Request, Response } from "express";
 
 export class AchievementController {

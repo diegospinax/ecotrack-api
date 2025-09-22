@@ -6,13 +6,13 @@ export default defineConfig({
     environment: 'node',
 
     globals: true,
-    setupFiles: ['./tests/setup.ts'],
+    setupFiles: ['./src/tests/setup.ts'],
     
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
         'node_modules/',
-        'tests/',
+        'src/tests/',
         'dist/',
         '**/*.d.ts',
         'vitest.config.ts'
@@ -22,7 +22,7 @@ export default defineConfig({
     testTimeout: 10000,
     
     include: [
-      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'src/tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       '**/__tests__/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
     ],
   

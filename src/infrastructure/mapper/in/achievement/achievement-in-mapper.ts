@@ -4,8 +4,9 @@ import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import { AchievementRequest } from "@/infrastructure/dto/achievement/AchievementRequest";
 import { AchievementResponse } from "@/infrastructure/dto/achievement/AchievementResponse";
-import { mapPersonDomainToResponse } from "./person-in-mapper";
+
 import { mapBadgeDomainToResponse } from "./badge-in-mapper";
+import { mapPersonDomainToResponse } from "../person-in-mapper";
 
 export const mapAchievementRequestToCreateDto = (request: AchievementRequest): CreateAchievementDto => {
     return {

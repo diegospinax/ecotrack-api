@@ -7,7 +7,8 @@ export default class BadgeType extends BadgeField<BadgeTypeEnum> {
     super(value);
   }
   public validate(): void {
-    if (!this.value)
+    const isValid = Object.values(BadgeTypeEnum).includes(this.value as BadgeTypeEnum);
+    if (!isValid)
       throw new AchievementValidationException("Invalidate badge type provided.");
   }
 }

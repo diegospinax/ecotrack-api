@@ -8,11 +8,14 @@ export default class LessonDescription extends LessonField<string> {
   }
 
   public validate(): void {
-    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúÑñ¿¡.,;:!?\-()'"]+\.?$/u;
+    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúüÑñ¿¡.,;:!?\-()'"]+\.?$/u;
     if (!this.value || !regex.test(this.value)) {
       throw new CourseValidationException(
         "Invalid lesson description provided."
       );
     }
+
+    this.value = this.value.replace(" ", "_");
+    //  this.value = this.value.replace(/ /g, "_");
   }
 }

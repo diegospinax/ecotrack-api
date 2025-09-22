@@ -19,22 +19,27 @@ export class UserRepositoryAdapter implements UserRepository {
   }
 
   public async findAll(): Promise<User[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.createQueryBuilder("user")
+      .leftJoinAndSelect("user.person", "person")
+      .getMany();
+      
     return users.map(user => mapUserToDomain(user));
   }
 
   public async findById(userId: UserId): Promise<User | null> {
-    const user = await this.userRepository.findOne({
-      where: { id: userId.value },
-    });
+    const user = await this.userRepository.createQueryBuilder("user")
+      .leftJoinAndSelect("user.person", "person")
+      .where("user.id = :userId", { userId: userId.value })
+      .getOne();
 
     return user ? mapUserToDomain(user) : null;
   }
 
   public async findByEmail(userEmail: UserEmail): Promise<User | null> {
-    const user = await this.userRepository.findOne({
-      where: { email: userEmail.value },
-    });
+    const user = await this.userRepository.createQueryBuilder("user")
+      .leftJoinAndSelect("user.person", "person")
+      .where("user.email = :userEmail", { userEmail: userEmail.value})
+      .getOne();
 
     return user ? mapUserToDomain(user) : null;
   }

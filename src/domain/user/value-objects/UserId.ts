@@ -7,7 +7,7 @@ export default class UserId extends UserField<number> {
   }
 
   public validate(): void {
-    if (!this.value || (this.value % 1 !== 0)) {
+    if (this.value === null || this.value === undefined || (this.value % 1 !== 0)) {
       throw new UserValidationException("Invalid user id provided.");
     }
   }

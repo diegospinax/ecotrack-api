@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { TaskEntity } from "./TaskEntity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PersonEntity } from "../PersonEntity";
+import { TaskEntity } from "./TaskEntity";
 
 @Entity({ name: "challenges" })
 export class ChallengeEntity {
@@ -14,12 +14,11 @@ export class ChallengeEntity {
     @Column({ type: "int", name: "times_done" })
     timesDone!: number;
 
-    @Column({ type: "bigint", name: "person_id" })
-    personId!: number;
-
-    @ManyToOne(() => PersonEntity, (person) => person.challenges, { eager: true })
+    @ManyToOne(() => PersonEntity, (person) => person.challenges)
+    @JoinColumn({ name: "person_id" })
     person!: PersonEntity;
 
-    @ManyToOne(() => TaskEntity, (task) => task.challenges, { eager: true })
+    @ManyToOne(() => TaskEntity, (task) => task.challenges)
+    @JoinColumn({ name: "task_id" })
     task!: TaskEntity;
 }  

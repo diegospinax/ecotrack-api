@@ -20,7 +20,7 @@ export class UserEntity {
   })
   role!: Role;
 
-  @OneToOne(() => PersonEntity, (person) => person.user, { eager: true })
+  @OneToOne(() => PersonEntity, (person) => person.user)
   @JoinColumn({name: "person_id"})
   person!: PersonEntity;
 }

@@ -11,6 +11,9 @@ import { UseCaseException } from "../exception/UseCaseException";
 import { UpdateAnswerDto } from "../dto/course/lesson/question/answer/UpdateAnswerDto";
 
 export const createLessonFromDto = (lessonDto: CreateLessonDto): Omit<Lesson, "id"> => {
+    if (lessonDto.questions.length < 4) 
+        throw new UseCaseException("A lesson must have four questions");
+
     return {
         title: lessonDto.title,
         description: lessonDto.description,
@@ -21,6 +24,9 @@ export const createLessonFromDto = (lessonDto: CreateLessonDto): Omit<Lesson, "i
 }
 
 const createQuestionFromDto = (questionDto: CreateQuestionDto): Omit<Question, "id"> => {
+    if (questionDto.answers.length < 4) 
+        throw new UseCaseException("A question must have four answers");
+    
     return {
         text: questionDto.question,
         answers: questionDto.answers.map(createAnswerFromDto)
@@ -52,6 +58,8 @@ const validateQuestionsUpdate = (questionsDto: UpdateQuestionDto[], existingQues
 
     const updatedQuestions: Question[] = [...existingQuestions];
 
+    questionsDto.forEach(q => console.log(q.id?.value + " " + q.text?.value));
+
     for(const questionDto of questionsDto) {
         const index = existingQuestions.findIndex(question => question.id!.value === questionDto.id.value);
 
@@ -61,7 +69,7 @@ const validateQuestionsUpdate = (questionsDto: UpdateQuestionDto[], existingQues
 
         updatedQuestions[index] = {
             id: existingQuestion.id!,
-            text: questionDto.question ?? existingQuestion.text,
+            text: questionDto.text ?? existingQuestion.text,
             answers: questionDto.answers
                 ? validateAnswersUpdate(questionDto.answers, existingQuestion.answers)
                 : existingQuestion.answers

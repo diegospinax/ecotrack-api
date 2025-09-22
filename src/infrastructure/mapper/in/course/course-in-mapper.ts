@@ -3,9 +3,9 @@ import { Course } from "@/domain/course/Course";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import PersonId from "@/domain/person/value-objects/PersonId";
 import { CourseRequest } from "@/infrastructure/dto/course/CourseRequest";
-import { mapPersonDomainToResponse } from "./person-in-mapper";
 import { CourseResponse } from "@/infrastructure/dto/course/CourseResponse";
 import { mapLessonDomainToResponse } from "./lesson-in-mapper";
+import { mapPersonDomainToResponse } from "../person-in-mapper";
 
 export const mapCourseRequestToCreateDto = (request: CourseRequest): CreateCourseDto => {
     return {

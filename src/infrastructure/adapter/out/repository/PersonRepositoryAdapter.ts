@@ -43,16 +43,15 @@ export class PersonRepositoryAdapter implements PersonRepository {
   }
 
   public async findAll(): Promise<Person[]> {
-    const entities = await this.personRepository.find({
-      where: {
-        isActive: true
-      }
-    });
+    const entities = await this.personRepository.createQueryBuilder("person")
+      .where("person.isActive = :isActive", { isActive: true })
+      .getMany();
+      
     return entities.map(entity => mapEntityToPersonDomain(entity));
   }
 
   public async findById(personId: PersonId): Promise<Person> {
-    const person = await this.personRepository.findOneOrFail({
+    const person = await this.personRepository.findOne({
       where: { id: personId.value },
     });
 

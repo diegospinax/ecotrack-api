@@ -17,6 +17,7 @@ export type CreateLessonRequest = Omit<LessonRequest, 'id' | 'questions'> & {
 
 export type UpdateLessonRequest = Partial<Omit<CreateLessonRequest, 'questions'>> & {
     id: number,
+    isActive?: boolean,
     questions?: UpdateQuestionRequest[]
 };
 
