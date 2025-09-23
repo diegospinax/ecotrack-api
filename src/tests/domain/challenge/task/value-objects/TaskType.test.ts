@@ -1,12 +1,12 @@
 import { describe, it, expect } from "vitest";
 import TaskType from "../../../../../../src/domain/challenge/task/value-objects/TaskType";
-import { TaskTypeEnum } from "../../../../../../src/domain/challenge/task/TaskTypeEnum";
+import { EcoCategoryEnum } from "../../../../../../src/domain/EcoCategoryEnum";
 import TaskValidationException from "../../../../../../src/domain/challenge/task/exception/TaskValidationException";
 
 describe("TaskType", () => {
   it("should create a valid task type", () => {
-    const taskType = new TaskType(TaskTypeEnum.RECICLAJE);
-    expect(taskType.value).toBe(TaskTypeEnum.RECICLAJE);
+    const taskType = new TaskType(EcoCategoryEnum.WASTE_MANAGEMENT);
+    expect(taskType.value).toBe(EcoCategoryEnum.WASTE_MANAGEMENT);
   });
 
   it("should throw an exception for an invalid task type", () => {
