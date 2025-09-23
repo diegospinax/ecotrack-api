@@ -9,7 +9,7 @@ create table users (
 
   CONSTRAINT fk_user_person_id 
     FOREIGN KEY (person_id)
-    REFERENCES persons(id)
+    REFERENCES persons(id) ON DELETE CASCADE
 );
 
 --password is: danna123

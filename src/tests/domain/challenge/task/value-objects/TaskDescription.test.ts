@@ -5,24 +5,24 @@ import TaskValidationException from "../../../../../../src/domain/challenge/task
 describe("TaskDescription", () => {
   it("should create a valid task description", () => {
     const taskDescription = new TaskDescription("This is a valid description.");
-    expect(taskDescription.value).toBe("This is a valid description.");
+    expect(taskDescription.value).toBe("THIS_IS_A_VALID_DESCRIPTION.");
   });
 
   it("should throw an exception for an invalid task description", () => {
     expect(() => new TaskDescription("Invalid description@")).toThrow(
-      new TaskValidationException("Invalidate task description provided.")
+      new TaskValidationException("Invalid task description provided.")
     );
   });
 
   it("should throw an exception for a null task description", () => {
     expect(() => new TaskDescription(null as any)).toThrow(
-      new TaskValidationException("Invalidate task description provided.")
+      new TaskValidationException("Invalid task description provided.")
     );
   });
 
   it("should throw an exception for an empty task description", () => {
     expect(() => new TaskDescription("")).toThrow(
-      new TaskValidationException("Invalidate task description provided.")
+      new TaskValidationException("Invalid task description provided.")
     );
   });
 });

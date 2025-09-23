@@ -4,7 +4,7 @@ import LessonDescription from "../../../../../../src/domain/course/lesson/value-
 
 describe("LessonDescription", () => {
   it("should create a valid lesson description", () => {
-    const lessonDescription = new LessonDescription("This is a valid description.");
+    const lessonDescription = new LessonDescription("This_is_a_valid_description.");
     expect(lessonDescription.value).toBe("This_is_a_valid_description.");
   });
 

@@ -6,10 +6,16 @@ export default class PersonLastName extends PersonField<string> {
     super(value);
   }
   public validate(): void {
-    const regex : RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?:_[A-Za-zÁÉÍÓÚáéíóúÑñ]+)?$/;
+    if (this.value === null || this.value === undefined)
+      throw new PersonValidationException("Invalid person lastname provided.");
 
-        if(!this.value || !regex.test(this.value)){
-        throw new PersonValidationException("Invalid Person last name provided.")
-      }
+    this.value = this.value.replace(/ /g, "_");
+    this.value = this.value.toUpperCase();
+
+    const regex: RegExp = /^[\p{Lu}]+(?:_[\p{Lu}]+)?$/u;
+
+    if (!regex.test(this.value)) {
+      throw new PersonValidationException("Invalid person lastname provided.");
+    }
   }
 }

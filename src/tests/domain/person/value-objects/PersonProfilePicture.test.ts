@@ -10,13 +10,13 @@ describe("PersonProfilePicture", () => {
 
   it("should throw an exception for a null person profile picture", () => {
     expect(() => new PersonProfilePicture(null as any)).toThrow(
-      new PersonValidationException("Invalid porfile picture provided.")
+      new PersonValidationException("Invalid profile picture provided.")
     );
   });
 
   it("should throw an exception for an empty person profile picture", () => {
     expect(() => new PersonProfilePicture("")).toThrow(
-      new PersonValidationException("Invalid porfile picture provided.")
+      new PersonValidationException("Invalid profile picture provided.")
     );
   });
 });

@@ -7,11 +7,16 @@ export default class TaskDescription extends TaskField<string> {
   }
 
   public validate(): void {
-    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúÑñ¿¡.,;:!?\-()'"]+\.?$/u;
-    if (!this.value || !regex.test(this.value)) {
-      throw new TaskValidationException(
-        "Invalidate task description provided."
-      );
+    if (this.value === null || this.value === undefined)
+      throw new TaskValidationException("Invalid task description provided.");
+
+    this.value = this.value.replace(/ /g, "_");
+    this.value = this.value.toUpperCase();
+
+    const regex: RegExp = /^[¿\p{Lu}0-9,:\-()."]+(?:_[,:\p{Lu}0-9?\-()."]+)*$/u;
+
+    if (!regex.test(this.value)) {
+      throw new TaskValidationException("Invalid task description provided.");
     }
   }
 }

@@ -6,5 +6,5 @@ create table questions (
 
   CONSTRAINT fk_questions_lesson
     FOREIGN KEY (lesson_id)
-    REFERENCES lessons(id)
+    REFERENCES lessons(id) ON DELETE CASCADE
 );

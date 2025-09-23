@@ -1,15 +1,21 @@
 import PersonValidationException from "../exception/PersonValidationException";
 import { PersonField } from "./abstract/PersonField";
 
-export default class PersonName extends PersonField<string>{
-    constructor(value:string){
+export default class PersonName extends PersonField<string> {
+    constructor(value: string) {
         super(value);
     }
     public validate(): void {
-        const regex : RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?:_[A-Za-zÁÉÍÓÚáéíóúÑñ]+)?$/;
+        if (this.value === null || this.value === undefined)
+            throw new PersonValidationException("Invalid person name provided.");
 
-        if(!this.value || !regex.test(this.value)){
-            throw new PersonValidationException("Invalid Person name provide");
+        this.value = this.value.replace(/ /g, "_");
+        this.value = this.value.toUpperCase();
+
+        const regex: RegExp = /^[\p{Lu}]+(?:_[\p{Lu}]+)?$/u;
+
+        if (!regex.test(this.value)) {
+            throw new PersonValidationException("Invalid person name provided.");
         }
     }
 }

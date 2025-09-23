@@ -14,26 +14,26 @@ describe("TaskTitle", () => {
   });
 
   it("should throw an exception for an invalid task title with spaces", () => {
-    expect(() => new TaskTitle("INVALID TITLE")).toThrow(
-      new TaskValidationException("Invalidate task title provided.")
+    expect(() => new TaskTitle("INVALID @TITLE")).toThrow(
+      new TaskValidationException("Invalid task title provided.")
     );
   });
 
-    it("should throw an exception for an invalid task title with special characters", () => {
+  it("should throw an exception for an invalid task title with special characters", () => {
     expect(() => new TaskTitle("INVALID-TITLE")).toThrow(
-      new TaskValidationException("Invalidate task title provided.")
+      new TaskValidationException("Invalid task title provided.")
     );
-    });
+  });
 
   it("should throw an exception for a null task title", () => {
     expect(() => new TaskTitle(null as any)).toThrow(
-      new TaskValidationException("Invalidate task title provided.")
+      new TaskValidationException("Invalid task title provided.")
     );
   });
 
-    it("should throw an exception for an empty task title", () => {
+  it("should throw an exception for an empty task title", () => {
     expect(() => new TaskTitle("")).toThrow(
-      new TaskValidationException("Invalidate task title provided.")
+      new TaskValidationException("Invalid task title provided.")
     );
-    });
+  });
 });

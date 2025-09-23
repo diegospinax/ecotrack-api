@@ -16,6 +16,14 @@ export class LessonUseCase implements CreateLessonUseCase, FindLessonUseCase, Up
     constructor(private lessonRepository: LessonRepository) { }
 
     public async create(lessonDto: CreateLessonDto): Promise<Lesson> {
+        if (lessonDto.questions.length < 4)
+            throw new UseCaseException("A lesson must have four questions");
+
+        for (let questionDto of lessonDto.questions) {
+            if (questionDto.answers.length < 4) 
+                throw new UseCaseException("A question must have four answers");
+        }
+
         const lesson = createLessonFromDto(lessonDto);
         return await this.lessonRepository.create(lesson);
     }

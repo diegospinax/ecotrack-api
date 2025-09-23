@@ -11,9 +11,6 @@ import { UseCaseException } from "../exception/UseCaseException";
 import { UpdateAnswerDto } from "../dto/course/lesson/question/answer/UpdateAnswerDto";
 
 export const createLessonFromDto = (lessonDto: CreateLessonDto): Omit<Lesson, "id"> => {
-    if (lessonDto.questions.length < 4) 
-        throw new UseCaseException("A lesson must have four questions");
-
     return {
         title: lessonDto.title,
         description: lessonDto.description,
