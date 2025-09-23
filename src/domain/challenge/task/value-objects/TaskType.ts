@@ -1,13 +1,13 @@
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 import TaskValidationException from "../exception/TaskValidationException";
-import { TaskTypeEnum } from "../TaskTypeEnum";
 import { TaskField } from "./abstract/taskField";
 
-export default class TaskType extends TaskField<TaskTypeEnum> {
-  constructor(value: TaskTypeEnum) {
+export default class TaskType extends TaskField<EcoCategoryEnum> {
+  constructor(value: EcoCategoryEnum) {
     super(value);
   }
   public validate(): void {
-    const isValid = Object.values(TaskTypeEnum).includes(this.value as TaskTypeEnum);
+    const isValid = Object.values(EcoCategoryEnum).includes(this.value as EcoCategoryEnum);
     if (!isValid) {
       throw new TaskValidationException("Invalid task type provided.");
     }

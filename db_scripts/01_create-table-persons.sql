@@ -6,3 +6,6 @@ create table persons (
   profile_picture TEXT NOT NULL,
   is_active boolean NOT NULL
 );
+
+insert into persons (name, last_name, area, profile_picture, is_active) values
+('DANNA', 'GARCIA', 'DIRECCION', 'https://avatars.githubusercontent.com/u/16887236?v=4', true);

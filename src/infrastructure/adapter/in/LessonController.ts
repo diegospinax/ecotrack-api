@@ -1,9 +1,9 @@
 import { CreateLessonDto } from "@/application/dto/course/lesson/CreateLessonDto";
 import { UpdateLessonDto } from "@/application/dto/course/lesson/UpdateLessonDto";
 import { LessonUseCase } from "@/application/usecase/course/lesson/LessonUseCase";
-import { LessonTypeEnum } from "@/domain/course/lesson/LessonTypeEnum";
 import LessonId from "@/domain/course/lesson/value-objects/LessonId";
 import LessonType from "@/domain/course/lesson/value-objects/LessonType";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 import { CreateLessonRequest, UpdateLessonRequest } from "@/infrastructure/dto/course/lesson/LessonRequest";
 import { HttpException } from "@/infrastructure/exception/HttpException";
 import { mapLessonDomainToResponse, mapLessonRequestToCreateDto, mapLessonRequestToUpdateDto } from "@/infrastructure/mapper/in/course/lesson-in-mapper";
@@ -51,10 +51,10 @@ export class LessonController {
         try {
             const type = req.query.value as string;
 
-            if (!Object.values(LessonTypeEnum).includes(type as LessonTypeEnum))
+            if (!Object.values(EcoCategoryEnum).includes(type as EcoCategoryEnum))
                 throw new HttpException(400, `Invalid lesson type: ${type}`);
 
-            const lessonType = new LessonType(type as LessonTypeEnum);
+            const lessonType = new LessonType(type as EcoCategoryEnum);
 
             const lessons = await this.useCase.findAllByType(lessonType);
 

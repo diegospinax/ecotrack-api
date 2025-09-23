@@ -1,4 +1,5 @@
-import { LessonTypeEnum } from "@/domain/course/lesson/LessonTypeEnum";
+
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 import { CreateQuestionRequest, QuestionRequest, UpdateQuestionRequest } from "./question/QuestionRequest";
 
 export class LessonRequest {
@@ -6,7 +7,7 @@ export class LessonRequest {
         public readonly id: number,
         public readonly title: string,
         public readonly description: string,
-        public readonly type: LessonTypeEnum,
+        public readonly type: EcoCategoryEnum,
         public readonly questions: QuestionRequest[],
     ) { }
 }

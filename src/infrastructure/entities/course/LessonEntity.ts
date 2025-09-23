@@ -1,7 +1,7 @@
-import { LessonTypeEnum } from "../../../domain/course/lesson/LessonTypeEnum";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CourseEntity } from "./CourseEntity";
 import { QuestionEntity } from "./QuestionEntity";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 
 @Entity({ name: "lessons" })
 export class LessonEntity {
@@ -18,7 +18,7 @@ export class LessonEntity {
         type: "varchar",
         length: 50
     })
-    type!: LessonTypeEnum;
+    type!: EcoCategoryEnum;
 
     @Column({ type: "boolean", name: "is_active" })
     isActive!: boolean;

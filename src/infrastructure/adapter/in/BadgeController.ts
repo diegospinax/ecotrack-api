@@ -1,8 +1,8 @@
 import { CreateBadgeDto } from "@/application/dto/achievement/badge/CreateBadgeDto";
 import { BadgeUseCase } from "@/application/usecase/achievement/badge/BadgeUseCase";
-import { BadgeTypeEnum } from "@/domain/achievement/badge/BadgeTypeEnum";
 import BadgeId from "@/domain/achievement/badge/value-objects/BadgeId";
 import BadgeType from "@/domain/achievement/badge/value-objects/BadgeType";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 import { BadgeRequest } from "@/infrastructure/dto/achievement/badge/BadgeRequest";
 import { HttpException } from "@/infrastructure/exception/HttpException";
 import { mapBadgeDomainToResponse, mapBadgeRequestToCreateDto, mapBadgeRequestToUpdateDto } from "@/infrastructure/mapper/in/achievement/badge-in-mapper";
@@ -46,10 +46,10 @@ export class BadgeController {
         try {
             const type = req.query.value as string;
 
-            if (!Object.values(BadgeTypeEnum).includes(type as BadgeTypeEnum))
+            if (!Object.values(EcoCategoryEnum).includes(type as EcoCategoryEnum))
                 throw new HttpException(400, `Invalid badge type: ${type}`);
 
-            const badgeType = new BadgeType(type as BadgeTypeEnum);
+            const badgeType = new BadgeType(type as EcoCategoryEnum);
 
             const badges = await this.useCase.findAllByType(badgeType);
 

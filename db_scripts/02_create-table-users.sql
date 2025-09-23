@@ -11,3 +11,6 @@ create table users (
     FOREIGN KEY (person_id)
     REFERENCES persons(id)
 );
+
+--password is: danna123
+insert into users (email, password, role, person_id) values ('danna@mail.com', '$2a$12$RDCmQZymq4g7K7wWqjweuOJ0kR404pVX9nfvOwqF.bkIFIYZ3vDU6', 'ADMIN', 1);
