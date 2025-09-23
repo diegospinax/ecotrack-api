@@ -6,8 +6,8 @@ export default class PersonProfilePicture extends PersonField<string>{
         super(value);
     }
     public validate(): void {
-        if(!this.value){
-            throw new PersonValidationException("Invalid porfile picture provided.")
+        if(this.value === null || this.value === undefined || this.value.trim() === ""){
+            throw new PersonValidationException("Invalid profile picture provided.")
         }
     }
 }

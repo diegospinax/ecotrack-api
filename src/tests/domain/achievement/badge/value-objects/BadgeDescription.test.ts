@@ -6,14 +6,14 @@ describe("BadgeDescription", () => {
   it("should create a valid badge description", () => {
     const description = "This is, a valid description.";
     const badgeDescription = new BadgeDescription(description);
-    expect(badgeDescription.value).toBe(description);
+    expect(badgeDescription.value).toBe("THIS_IS,_A_VALID_DESCRIPTION.");
   });
 
   it("should throw an exception for an invalid badge description", () => {
-    const invalidDescription = "invalid description";
+    const invalidDescription = "invalid @description";
     expect(() => new BadgeDescription(invalidDescription)).toThrow(
       new AchievementValidationException(
-        "Invalidate badge description provided."
+        "Invalid badge description provided."
       )
     );
   });
@@ -21,7 +21,7 @@ describe("BadgeDescription", () => {
   it("should throw an exception for a null badge description", () => {
     expect(() => new BadgeDescription(null as any)).toThrow(
       new AchievementValidationException(
-        "Invalidate badge description provided."
+        "Invalid badge description provided."
       )
     );
   });
@@ -29,7 +29,7 @@ describe("BadgeDescription", () => {
   it("should throw an exception for an empty badge description", () => {
     expect(() => new BadgeDescription("")).toThrow(
       new AchievementValidationException(
-        "Invalidate badge description provided."
+        "Invalid badge description provided."
       )
     );
   });

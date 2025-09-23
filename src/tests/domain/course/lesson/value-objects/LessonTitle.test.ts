@@ -14,7 +14,7 @@ describe("LessonTitle", () => {
   });
 
   it("should throw an exception for an invalid lesson title with spaces", () => {
-    expect(() => new LessonTitle("INVALID TITLE")).toThrow(
+    expect(() => new LessonTitle("INVALID @TITLE")).toThrow(
       new CourseValidationException("Invalid lesson title provided.")
     );
   });

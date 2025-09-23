@@ -7,10 +7,15 @@ export default class UserEmail extends UserField<string> {
   }
 
   public validate(): void {
-    const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!this.value || !regex.test(this.value)) {
+    if (this.value === null || this.value === undefined)
+      throw new UserValidationException("Invalid email provided.");
+
+    this.value = this.value.toLowerCase();
+
+    const regex: RegExp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    if (!regex.test(this.value)) {
       throw new UserValidationException("Invalid email provided.");
     }
-    this.value = this.value.toLowerCase();
   }
 }

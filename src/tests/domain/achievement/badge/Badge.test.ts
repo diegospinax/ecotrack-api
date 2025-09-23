@@ -19,7 +19,7 @@ describe("Badge", () => {
 
     expect(badge.id.value).toBe(1);
     expect(badge.name.value).toBe("BADGE_NAME");
-    expect(badge.description.value).toBe("This is, a valid description.");
+    expect(badge.description.value).toBe("THIS_IS,_A_VALID_DESCRIPTION.");
     expect(badge.type.value).toBe(EcoCategoryEnum.CARBON_FOOTPRINT);
     expect(badge.isActive.value).toBe(true);
   });

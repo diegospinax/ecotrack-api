@@ -7,5 +7,5 @@ create table answers (
 
   CONSTRAINT fk_answers_question
     FOREIGN KEY (question_id)
-    REFERENCES questions(id)
+    REFERENCES questions(id) ON DELETE CASCADE
 );

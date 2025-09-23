@@ -6,9 +6,16 @@ export default class TaskTitle extends TaskField<string> {
     super(value);
   }
   public validate(): void {
-    const regex: RegExp = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+(?:_[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+){0,3}$/;
-    if (!this.value || !regex.test(this.value)) {
-      throw new TaskValidationException("Invalidate task title provided.");
+    if (this.value === null || this.value === undefined)
+      throw new TaskValidationException("Invalid task title provided.");
+
+    this.value = this.value.replace(/ /g, "_");
+    this.value = this.value.toUpperCase();
+
+    const regex: RegExp = /^[\p{Lu}0-9]+(?:_[\p{Lu}0-9]+){0,5}$/u;
+
+    if (!regex.test(this.value)) {
+      throw new TaskValidationException("Invalid task title provided.");
     }
   }
 }

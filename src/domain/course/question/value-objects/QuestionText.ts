@@ -5,11 +5,18 @@ export default class QuestionText extends QuestionField<string> {
   constructor(value: string) {
     super(value);
   }
-  
+
   public validate(): void {
-    const regex: RegExp = /^[\w\sÁÉÍÓÚáéíóúÑñ¿¡.,;:!?\-()'"]+\.?$/u;
-    if (!this.value || !regex.test(this.value)) {
-      throw new CourseValidationException("Invalid Question provided.");
+    if (this.value === null || this.value === undefined)
+      throw new CourseValidationException("Invalid question text provided.");
+
+    this.value = this.value.replace(/ /g, "_");
+    this.value = this.value.toUpperCase();
+
+    const regex: RegExp = /^[¿\p{Lu}0-9,:\-()."]+(?:_[,:\p{Lu}0-9?\-()."]+)*$/u;
+
+    if (!regex.test(this.value)) {
+      throw new CourseValidationException("Invalid question text provided.");
     }
   }
 }
