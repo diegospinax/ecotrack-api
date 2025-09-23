@@ -1,6 +1,6 @@
-import { TaskTypeEnum } from "../../../domain/challenge/task/TaskTypeEnum";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ChallengeEntity } from "./ChallengeEntity";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 
 @Entity({ name: "tasks" })
 export class TaskEntity {
@@ -18,7 +18,7 @@ export class TaskEntity {
         type: "varchar",
         length: 50,
     })
-    type!: TaskTypeEnum;
+    type!: EcoCategoryEnum;
 
     @Column({ type: "boolean", name: "is_active" })
     isActive!: boolean;

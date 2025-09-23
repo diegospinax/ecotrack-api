@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BadgeTypeEnum } from "../../../domain/achievement/badge/BadgeTypeEnum";
 import { AchievementEntity } from "./AchievementEntity";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 
 @Entity({ name: "badges" })
 export class BadgeEntity {
@@ -18,7 +18,7 @@ export class BadgeEntity {
         type: "varchar",
         length: 50
     })
-    type!: BadgeTypeEnum;
+    type!: EcoCategoryEnum;
 
     @Column({ type: "boolean", name: "is_active" })
     isActive!: boolean;

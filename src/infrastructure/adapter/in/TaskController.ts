@@ -1,8 +1,8 @@
 import { CreateTaskDto } from "@/application/dto/challenge/task/CreateTaskDto";
 import { TaskUseCase } from "@/application/usecase/challenge/task/TaskUseCase";
-import { TaskTypeEnum } from "@/domain/challenge/task/TaskTypeEnum";
 import TaskId from "@/domain/challenge/task/value-objects/TaskId";
 import TaskType from "@/domain/challenge/task/value-objects/TaskType";
+import { EcoCategoryEnum } from "@/domain/EcoCategoryEnum";
 import { TaskRequest } from "@/infrastructure/dto/task/TaskRequest";
 import { HttpException } from "@/infrastructure/exception/HttpException";
 import { mapTaskDomainToResponse, mapTaskRequestToCreateDto, mapTaskRequestToUpdateDto } from "@/infrastructure/mapper/in/challenge/task-in-mapper";
@@ -54,10 +54,10 @@ export class TaskController {
         try {
             const type = req.query.value as string;
 
-            if (!Object.values(TaskTypeEnum).includes(type as TaskTypeEnum))
+            if (!Object.values(EcoCategoryEnum).includes(type as EcoCategoryEnum))
                 throw new HttpException(400, `Invalid task type: ${type}`);
 
-            const taskType = new TaskType(type as TaskTypeEnum);
+            const taskType = new TaskType(type as EcoCategoryEnum);
 
             const tasks = await this.useCase.findAllByType(taskType);
 
