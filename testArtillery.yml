@@ -1,0 +1,26 @@
+config:
+  target: "http://localhost:4200"
+  phases:
+    - duration: 60
+      arrivalRate: 50
+  defaults:
+    headers:
+      content-type: "application/json"
+  http:
+    timeout: 10000
+
+scenarios:
+  - name: Login y listar lecciones autenticado
+    flow:
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "danna@mail.com"
+            password: "danna123"
+          capture:
+            json: "$.token"
+            as: "authToken"
+      - get:
+          url: "/api/v1/lessons/list"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
