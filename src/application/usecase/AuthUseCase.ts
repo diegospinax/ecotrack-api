@@ -26,8 +26,11 @@ export class AuthUseCase {
       credentials.email
     );
 
-    if (!existingUser || !existingUser.person?.isActive.value)
-      throw new UseCaseException("User not found or is disabled.");
+    if (!existingUser)
+      throw new UseCaseException("User not found.");
+
+    if (!existingUser.person!.isActive.value)
+      throw new UseCaseException("User is disabled.");
 
     const passwordsMatch: boolean = await this.encrypter.validatePassword(
       credentials.password,
