@@ -26,7 +26,8 @@ export class AuthUseCase {
       credentials.email
     );
 
-    if (!existingUser) throw new UseCaseException("User not found.");
+    if (!existingUser || !existingUser.person?.isActive.value)
+      throw new UseCaseException("User not found or is disabled.");
 
     const passwordsMatch: boolean = await this.encrypter.validatePassword(
       credentials.password,
@@ -34,12 +35,12 @@ export class AuthUseCase {
     );
 
     if (!passwordsMatch) throw new UseCaseException("Invalid credentials provided.");
-    
+
     return AuthUseCase.tokenService.generateToken({
-        id: existingUser.id!.value!,
-        personId: existingUser.person!.id.value,
-        email: existingUser.email.value,
-        role: existingUser.role.value
+      id: existingUser.id!.value!,
+      personId: existingUser.person!.id.value,
+      email: existingUser.email.value,
+      role: existingUser.role.value
     });
   }
 
