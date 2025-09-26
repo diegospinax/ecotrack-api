@@ -34,23 +34,6 @@ EcoTrack contribuye directamente a dos Objetivos de Desarrollo Sostenible (ODS) 
 
 ---
 
-## Pruebas de rendimiento
-
-Este proyecto incluye un archivo de pruebas de rendimiento utilizando **Artillery**. Estas pruebas permiten:
-
-- Medir la capacidad de respuesta del servidor ante múltiples solicitudes.
-- Detectar cuellos de botella bajo carga.
-- Validar la escalabilidad del sistema.
-
-Para ejecutar las pruebas, asegúrate de tener `artillery` instalado:
-
-```bash
-npm install -g artillery
-
-luego : artillery run testArtillery.yml
-
----
-
 ## Instalación
 
 -Clona este repositorio: 
@@ -67,6 +50,25 @@ npm install
 
 -Inicia el servidor en desarrollo:
 npm run dev
+
+---
+
+## Pruebas de rendimiento
+
+Este proyecto incluye un archivo de pruebas de rendimiento utilizando **Artillery**. Estas pruebas permiten:
+
+- Medir la capacidad de respuesta del servidor ante múltiples solicitudes.
+- Detectar cuellos de botella bajo carga.
+- Validar la escalabilidad del sistema.
+
+Para ejecutar las pruebas, asegúrate de tener `artillery` instalado:
+
+```bash
+npm install -g artillery
+
+luego : artillery run testArtillery.yml
+
+
 
 
 
