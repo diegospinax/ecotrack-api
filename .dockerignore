@@ -1,14 +1,13 @@
-# Dependencias y artefactos de compilación
-node_modules
+.git
+db_scripts
 dist
-coverage
-
-# Archivos de configuración local y logs
+node_modules
 .env
-*.log
-nodemon.json
+.env.example
+.gitignore
+.docker-compose.yml
+.nodemon.json
+README.md
+testArtillery.yml
+vitest.config.ts
 
-# Archivos del IDE y del sistema operativo
-.vscode
-.DS_Store
-.idea

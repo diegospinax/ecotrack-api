@@ -1,6 +1,6 @@
 import { postgresConnection } from "./infrastructure/config/database.postgres";
 import { ServerBootstrap } from "./infrastructure/config/server.bootstrap";
-import app from './infrastructure/config/App';
+import app from "./infrastructure/config/App";
 
 const server = new ServerBootstrap(app);
 
